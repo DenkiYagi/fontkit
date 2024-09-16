@@ -1,3 +1,9 @@
+**A modified version of [fontkit](https://github.com/foliojs/fontkit) for [yagisan-reports](https://denkiyagi.jp/yagisan-reports/).**
+
+See also: [MODIFICATIONS.md](MODIFICATIONS.md)
+
+----
+
 # fontkit
 
 Fontkit is an advanced font engine for Node and the browser, used by [PDFKit](https://github.com/devongovett/pdfkit). It supports many font formats, advanced glyph substitution and layout features, glyph path extraction, color emoji glyphs, font subsetting, and more.
@@ -22,7 +28,7 @@ Fontkit is an advanced font engine for Node and the browser, used by [PDFKit](ht
 ## Example
 
 ```javascript
-var fontkit = require('fontkit');
+var fontkit = require('@denkiyagi/fontkit');
 
 // open a font synchronously
 var font = fontkit.openSync('font.ttf');

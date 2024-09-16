@@ -1,4 +1,4 @@
-import * as fontkit from 'fontkit';
+import * as fontkit from '@denkiyagi/fontkit';
 import assert from 'assert';
 
 describe('glyphs', function () {

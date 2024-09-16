@@ -1,7 +1,7 @@
 {
-  "name": "fontkit",
-  "version": "2.0.4",
-  "description": "An advanced font engine for Node and the browser",
+  "name": "@denkiyagi/fontkit",
+  "version": "2.0.4-mod",
+  "description": "A modified version of fontkit. An advanced font engine for Node and the browser",
   "keywords": [
     "opentype",
     "font",
@@ -69,11 +69,11 @@
     "src",
     "dist"
   ],
-  "author": "Devon Govett <devongovett@gmail.com>",
+  "author": "DenkiYagi Inc. (modified version author), Devon Govett <devongovett@gmail.com> (orignal version author)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/foliojs/fontkit.git"
+    "url": "git://github.com/DenkiYagi/fontkit.git"
   },
   "dependencies": {
     "@swc/helpers": "^0.5.12",
