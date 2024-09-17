@@ -41,4 +41,22 @@ describe('metadata', function () {
       assert.equal(typeof font[table], 'object');
     }
   });
+
+  it("exposes vertOriginYMetrics in VORG table", function () {
+    assert.strictEqual(font.getVertOriginYMap(), null);
+
+    const vertOriginYMap = fontCJK.getVertOriginYMap();
+    const sampleEntries = [
+      // first three entries in VORG metrics
+      { glyphId: 730, expectedVertOriginY: 867 },
+      { glyphId: 746, expectedVertOriginY: 868 },
+      { glyphId: 747, expectedVertOriginY: 875 },
+    ];
+    for (const entry of sampleEntries) {
+      assert.strictEqual(
+        vertOriginYMap.get(entry.glyphId),
+        entry.expectedVertOriginY
+      );
+    }
+  });
 });

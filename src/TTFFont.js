@@ -567,4 +567,24 @@ export default class TTFFont {
 
     return VORG != null ? VORG.defaultVertOriginY : null;
   }
+
+  /**
+   * Returns a mapping from glyph IDs to the origin Y coordinate for each glyph in the vertical writing mode.
+   * 
+   * Returns `null` if `VORG` table does not exist.
+   * 
+   * @returns {Map<number, number> | null}
+   */
+  getVertOriginYMap() {
+    if (this._vertOriginYMap !== undefined) return this._vertOriginYMap;
+
+    if (this.VORG?.metrics == null) return this._vertOriginYMap = null;
+
+    const map = new Map();
+    for (const entry of this.VORG.metrics) {
+      map.set(entry.glyphIndex, entry.vertOriginY);
+    }
+
+    return this._vertOriginYMap = map;
+  }
 }

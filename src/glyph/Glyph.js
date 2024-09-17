@@ -168,20 +168,9 @@ export default class Glyph {
     let value = this._vertOriginY;
     if (value !== undefined) return value;
 
-    const { VORG } = this._font;
-    if (VORG != null) {
-      const { metrics } = VORG;
-      if (metrics != null) {
-        const { id } = this;
-        for (const entry of metrics) {
-          if (entry.glyphIndex === id) {
-            value = entry.vertOriginY;
-            break;
-          }
-        }
-      }
-    }
-      
+    const map = this._font.getVertOriginYMap();
+    if (map != null) value = map.get(this.id);
+
     return this._vertOriginY = value ?? null;
   }
 
