@@ -563,9 +563,7 @@ export default class TTFFont {
    * @see VORG https://learn.microsoft.com/en-us/typography/opentype/spec/vorg
    */
   get defaultVertOriginY() {
-    const { VORG } = this;
-
-    return VORG != null ? VORG.defaultVertOriginY : null;
+    return this.VORG?.defaultVertOriginY ?? null;
   }
 
   /**
