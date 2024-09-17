@@ -551,4 +551,16 @@ export default class TTFFont {
   getFont(name) {
     return this.getVariation(name);
   }
+
+  /**
+   * The default origin Y coordinate of the glyphs in this font.
+   * 
+   * See also `Glyph#vertOriginY` for a value specific to a particular glyph.
+   *
+   * @type {number | undefined}
+   * @see VORG https://learn.microsoft.com/en-us/typography/opentype/spec/vorg
+   */
+  get defaultVertOriginY() {
+    return this.VORG?.defaultVertOriginY;
+  }
 }

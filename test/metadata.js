@@ -3,6 +3,7 @@ import assert from 'assert';
 
 describe('metadata', function () {
   let font = fontkit.openSync(new URL('data/NotoSans/NotoSans.ttc', import.meta.url), 'NotoSans');
+  let fontCJK = fontkit.openSync(new URL('data/NotoSansCJK/NotoSansCJKkr-Regular.otf', import.meta.url));
 
   it('has metadata properties', function () {
     assert.equal(font.fullName, 'Noto Sans');
@@ -28,6 +29,9 @@ describe('metadata', function () {
     assert.equal(font.bbox.minY, -600);
     assert.equal(font.bbox.maxX, 2952);
     assert.equal(font.bbox.maxY, 2189);
+
+    assert.equal(font.defaultVertOriginY, undefined);
+    assert.equal(fontCJK.defaultVertOriginY, 880);
   });
 
   it('exposes tables directly', function () {

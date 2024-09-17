@@ -155,6 +155,31 @@ export default class Glyph {
     return this._getMetrics().advanceHeight;
   }
 
+  /**
+   * The glyph's origin Y coordinate.
+   *
+   * `undefined` if no specific value is registered for this glyph.
+   * See also `TTFFont#defaultVertOriginY` in that case.
+   * 
+   * @type {number | undefined}
+   * @see VORG https://learn.microsoft.com/en-us/typography/opentype/spec/vorg
+   */
+  get vertOriginY() {
+    if (this._vertOriginY) { return this._vertOriginY; }
+
+    const { VORG } = this._font;
+    if (!VORG) return undefined;
+    const { metrics } = VORG;
+    if (!metrics) return undefined;
+
+    const { id } = this;
+    for (const entry of metrics) {
+      if (entry.glyphIndex === id) return this._vertOriginY = entry.vertOriginY;
+    }
+
+    return undefined;
+  }
+
   get ligatureCaretPositions() {}
 
   _getName() {
