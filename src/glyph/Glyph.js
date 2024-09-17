@@ -165,13 +165,13 @@ export default class Glyph {
    * @see VORG https://learn.microsoft.com/en-us/typography/opentype/spec/vorg
    */
   get vertOriginY() {
-    let value = this._vertOriginY;
-    if (value !== undefined) return value;
-
+    // No cache needed here since getVertOriginYMap() has cache mechanism
     const map = this._font.getVertOriginYMap();
-    if (map != null) value = map.get(this.id);
-
-    return this._vertOriginY = value ?? null;
+    if (map != null) {
+      return map.get(this.id) ?? null;
+    } else {
+      return null;
+    }
   }
 
   get ligatureCaretPositions() {}
