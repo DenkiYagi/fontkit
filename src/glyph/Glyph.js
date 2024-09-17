@@ -156,7 +156,7 @@ export default class Glyph {
   }
 
   /**
-   * The glyph's origin Y coordinate.
+   * The glyph's origin Y coordinate in the vertical writing mode.
    *
    * `undefined` if no specific value is registered for this glyph.
    * See also `TTFFont#defaultVertOriginY` in that case.

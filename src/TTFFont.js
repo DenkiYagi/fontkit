@@ -553,8 +553,10 @@ export default class TTFFont {
   }
 
   /**
-   * The default origin Y coordinate of the glyphs in this font.
-   * 
+   * The default origin Y coordinate of the glyphs in the vertical writing mode.
+   *
+   * `undefined` if `VORG` table does not exist.
+   *
    * See also `Glyph#vertOriginY` for a value specific to a particular glyph.
    *
    * @type {number | undefined}
