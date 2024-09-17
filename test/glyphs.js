@@ -89,8 +89,8 @@ describe('glyphs', function () {
     });
 
     it('should get the vertical origin Y if a specific value exists', function () {
-      assert.equal(fontCJK.getGlyph(34).vertOriginY, undefined); // glyph 'A'
-      assert.equal(fontCJK.getGlyph(730).vertOriginY, 867); // glyph '‰', first glyph in VORG.metrics
+      assert.strictEqual(fontCJK.getGlyph(34).vertOriginY, null); // glyph 'A'
+      assert.strictEqual(fontCJK.getGlyph(730).vertOriginY, 867); // glyph '‰', first glyph in VORG.metrics
     });
   });
 

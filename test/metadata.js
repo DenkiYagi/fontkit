@@ -30,8 +30,8 @@ describe('metadata', function () {
     assert.equal(font.bbox.maxX, 2952);
     assert.equal(font.bbox.maxY, 2189);
 
-    assert.equal(font.defaultVertOriginY, undefined);
-    assert.equal(fontCJK.defaultVertOriginY, 880);
+    assert.strictEqual(font.defaultVertOriginY, null);
+    assert.strictEqual(fontCJK.defaultVertOriginY, 880);
   });
 
   it('exposes tables directly', function () {
