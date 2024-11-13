@@ -59,4 +59,35 @@ describe('metadata', function () {
       );
     }
   });
+
+  describe("ascent, descent and lineGap", function () {
+    const font = fontkit.openSync(
+      new URL("data/NotoSans/NotoSans.ttc", import.meta.url),
+      "NotoSans"
+    );
+    const hhea = font.hhea;
+    const os2 = font["OS/2"];
+
+    // temporary values for testing
+    hhea.ascent = 111;
+    hhea.descent = 222;
+    hhea.lineGap = 333;
+    os2.typoAscender = 777;
+    os2.typoDescender = 888;
+    os2.typoLineGap = 999;
+
+    it("expose values from OS/2 table if the USE_TYPO_METRICS flag is ON", function () {
+      os2.fsSelection.useTypoMetrics = true;
+      assert.strictEqual(font.ascent, 777);
+      assert.strictEqual(font.descent, 888);
+      assert.strictEqual(font.lineGap, 999);
+    });
+
+    it("expose values from hhea table if the USE_TYPO_METRICS flag is OFF", function () {
+      os2.fsSelection.useTypoMetrics = false;
+      assert.strictEqual(font.ascent, 111);
+      assert.strictEqual(font.descent, 222);
+      assert.strictEqual(font.lineGap, 333);
+    });
+  });
 });
