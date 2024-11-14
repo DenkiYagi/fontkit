@@ -3,6 +3,7 @@ import assert from 'assert';
 
 describe('metadata', function () {
   let font = fontkit.openSync(new URL('data/NotoSans/NotoSans.ttc', import.meta.url), 'NotoSans');
+  let fontCJK = fontkit.openSync(new URL('data/NotoSansCJK/NotoSansCJKkr-Regular.otf', import.meta.url));
 
   it('has metadata properties', function () {
     assert.equal(font.fullName, 'Noto Sans');
@@ -28,6 +29,9 @@ describe('metadata', function () {
     assert.equal(font.bbox.minY, -600);
     assert.equal(font.bbox.maxX, 2952);
     assert.equal(font.bbox.maxY, 2189);
+
+    assert.strictEqual(font.defaultVertOriginY, null);
+    assert.strictEqual(fontCJK.defaultVertOriginY, 880);
   });
 
   it('exposes tables directly', function () {
@@ -35,6 +39,24 @@ describe('metadata', function () {
     for (let i = 0; i < iterable.length; i++) {
       let table = iterable[i];
       assert.equal(typeof font[table], 'object');
+    }
+  });
+
+  it("exposes vertOriginYMetrics in VORG table", function () {
+    assert.strictEqual(font.getVertOriginYMap(), null);
+
+    const vertOriginYMap = fontCJK.getVertOriginYMap();
+    const sampleEntries = [
+      // first three entries in VORG metrics
+      { glyphId: 730, expectedVertOriginY: 867 },
+      { glyphId: 746, expectedVertOriginY: 868 },
+      { glyphId: 747, expectedVertOriginY: 875 },
+    ];
+    for (const entry of sampleEntries) {
+      assert.strictEqual(
+        vertOriginYMap.get(entry.glyphId),
+        entry.expectedVertOriginY
+      );
     }
   });
 });

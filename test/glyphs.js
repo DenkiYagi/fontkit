@@ -5,6 +5,7 @@ describe('glyphs', function () {
   describe('truetype glyphs', function () {
     let font = fontkit.openSync(new URL('data/OpenSans/OpenSans-Regular.ttf', import.meta.url));
     let mada = fontkit.openSync(new URL('data/Mada/Mada-VF.ttf', import.meta.url));
+    let fontCJK = fontkit.openSync(new URL('data/NotoSansCJK/NotoSansCJKkr-Regular.otf', import.meta.url));
 
     it('should get a TTFGlyph', function () {
       let glyph = font.getGlyph(39); // D
@@ -85,6 +86,11 @@ describe('glyphs', function () {
     it('should get the glyph name', function () {
       let glyph = font.getGlyph(171);
       return assert.equal(glyph.name, 'eacute');
+    });
+
+    it('should get the vertical origin Y if a specific value exists', function () {
+      assert.strictEqual(fontCJK.getGlyph(34).vertOriginY, null); // glyph 'A'
+      assert.strictEqual(fontCJK.getGlyph(730).vertOriginY, 867); // glyph '‰', first glyph in VORG.metrics
     });
   });
 

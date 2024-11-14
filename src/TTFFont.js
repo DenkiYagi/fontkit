@@ -551,4 +551,38 @@ export default class TTFFont {
   getFont(name) {
     return this.getVariation(name);
   }
+
+  /**
+   * The default origin Y coordinate of the glyphs in the vertical writing mode.
+   *
+   * `null` if `VORG` table does not exist.
+   *
+   * See also `Glyph#vertOriginY` for a value specific to a particular glyph.
+   *
+   * @type {number | null}
+   * @see VORG https://learn.microsoft.com/en-us/typography/opentype/spec/vorg
+   */
+  get defaultVertOriginY() {
+    return this.VORG?.defaultVertOriginY ?? null;
+  }
+
+  /**
+   * Returns a mapping from glyph IDs to the origin Y coordinate for each glyph in the vertical writing mode.
+   * 
+   * Returns `null` if `VORG` table does not exist.
+   * 
+   * @returns {Map<number, number> | null}
+   */
+  getVertOriginYMap() {
+    if (this._vertOriginYMap !== undefined) return this._vertOriginYMap;
+
+    if (this.VORG?.metrics == null) return this._vertOriginYMap = null;
+
+    const map = new Map();
+    for (const entry of this.VORG.metrics) {
+      map.set(entry.glyphIndex, entry.vertOriginY);
+    }
+
+    return this._vertOriginYMap = map;
+  }
 }

@@ -155,6 +155,25 @@ export default class Glyph {
     return this._getMetrics().advanceHeight;
   }
 
+  /**
+   * The glyph's origin Y coordinate in the vertical writing mode.
+   *
+   * `null` if no specific value is registered for this glyph.
+   * See also `TTFFont#defaultVertOriginY` in that case.
+   * 
+   * @type {number | null}
+   * @see VORG https://learn.microsoft.com/en-us/typography/opentype/spec/vorg
+   */
+  get vertOriginY() {
+    // No cache needed here since getVertOriginYMap() has cache mechanism
+    const map = this._font.getVertOriginYMap();
+    if (map != null) {
+      return map.get(this.id) ?? null;
+    } else {
+      return null;
+    }
+  }
+
   get ligatureCaretPositions() {}
 
   _getName() {
