@@ -3,10 +3,10 @@
 import * as Script from '../layout/Script';
 
 /**
- * @typedef {import("../TTFFont.js").default} TTFFont
- * @typedef {import("../types.js").OTFeatures} OTFeatures
- * @typedef {import("../types.js").HorizontalTextDirection} HorizontalTextDirection
- * @typedef {import("./GlyphInfo.js").default} GlyphInfo
+ * @typedef {import("../TTFFont").default} TTFFont
+ * @typedef {import("../types").OTFeatures} OTFeatures
+ * @typedef {import("../types").HorizontalTextDirection} HorizontalTextDirection
+ * @typedef {import("./GlyphInfo").default} GlyphInfo
  * @typedef {import("./OTProcessor").default} OTProcessor
  */
 

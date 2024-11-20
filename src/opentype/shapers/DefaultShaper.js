@@ -3,9 +3,9 @@
 import {isDigit} from 'unicode-properties';
 
 /**
- * @typedef {import("../../types.js").OTFeatures} OTFeatures
- * @typedef {import("../ShapingPlan.js").default} ShapingPlan
- * @typedef {import("../GlyphInfo.js").default} GlyphInfo
+ * @typedef {import("../../types").OTFeatures} OTFeatures
+ * @typedef {import("../ShapingPlan").default} ShapingPlan
+ * @typedef {import("../GlyphInfo").default} GlyphInfo
  */
 
 const VARIATION_FEATURES = ['rvrn'];
