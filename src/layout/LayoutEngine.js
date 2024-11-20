@@ -1,3 +1,5 @@
+// @ts-check
+
 import KernProcessor from './KernProcessor';
 import UnicodeLayoutEngine from './UnicodeLayoutEngine';
 import GlyphRun from './GlyphRun';
@@ -7,8 +9,15 @@ import AATLayoutEngine from '../aat/AATLayoutEngine';
 import OTLayoutEngine from '../opentype/OTLayoutEngine';
 
 export default class LayoutEngine {
+  /**
+   * @param {import("../types").TTFFont} font 
+   */
   constructor(font) {
+    /**
+     * @type {import("../types").TTFFont}
+     */
     this.font = font;
+
     this.unicodeLayoutEngine = null;
     this.kernProcessor = null;
 
@@ -22,6 +31,14 @@ export default class LayoutEngine {
     }
   }
 
+  /**
+   * @param {string | import("../glyph/Glyph").default[]} string 
+   * @param {string[] | Record<string, boolean>} [features] 
+   * @param {string} [script] 
+   * @param {string} [language]
+   * @param {'ltr' | 'rtl'} [direction] 
+   * @returns {GlyphRun}
+   */
   layout(string, features, script, language, direction) {
     // Map string to glyphs if needed
     if (typeof string === 'string') {
@@ -54,7 +71,7 @@ export default class LayoutEngine {
     }
 
     // Setup the advanced layout engine
-    if (this.engine && this.engine.setup) {
+    if (this.engine instanceof OTLayoutEngine) {
       this.engine.setup(glyphRun);
     }
 
@@ -65,13 +82,16 @@ export default class LayoutEngine {
     this.hideDefaultIgnorables(glyphRun.glyphs, glyphRun.positions);
 
     // Let the layout engine clean up any state it might have
-    if (this.engine && this.engine.cleanup) {
+    if (this.engine instanceof OTLayoutEngine) {
       this.engine.cleanup();
     }
 
     return glyphRun;
   }
 
+  /**
+   * @param {GlyphRun} glyphRun 
+   */
   substitute(glyphRun) {
     // Call the advanced layout engine to make substitutions
     if (this.engine && this.engine.substitute) {
@@ -79,13 +99,16 @@ export default class LayoutEngine {
     }
   }
 
+  /**
+   * @param {GlyphRun} glyphRun 
+   */
   position(glyphRun) {
     // Get initial glyph positions
     glyphRun.positions = glyphRun.glyphs.map(glyph => new GlyphPosition(glyph.advanceWidth));
     let positioned = null;
 
     // Call the advanced layout engine. Returns the features applied.
-    if (this.engine && this.engine.position) {
+    if (this.engine instanceof OTLayoutEngine) {
       positioned = this.engine.position(glyphRun);
     }
 
@@ -148,6 +171,11 @@ export default class LayoutEngine {
     }
   }
 
+  /**
+   * @param {string} script 
+   * @param {string} language 
+   * @returns {string[]}
+   */
   getAvailableFeatures(script, language) {
     let features = [];
 
@@ -162,6 +190,10 @@ export default class LayoutEngine {
     return features;
   }
 
+  /**
+   * @param {number} gid 
+   * @returns {string[]}
+   */
   stringsForGlyph(gid) {
     let result = new Set;
 
@@ -170,7 +202,7 @@ export default class LayoutEngine {
       result.add(String.fromCodePoint(codePoint));
     }
 
-    if (this.engine && this.engine.stringsForGlyph) {
+    if (this.engine instanceof AATLayoutEngine) {
       for (let string of this.engine.stringsForGlyph(gid)) {
         result.add(string);
       }

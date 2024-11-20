@@ -25,7 +25,11 @@ const stateMachine = new StateMachine(indicMachine);
  * Based on code from Harfbuzz: https://github.com/behdad/harfbuzz/blob/master/src/hb-ot-shape-complex-indic.cc
  */
 export default class IndicShaper extends DefaultShaper {
+  /**
+   * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
+   */
   static zeroMarkWidths = 'NONE';
+
   static planFeatures(plan) {
     plan.addStage(setupSyllables);
 
@@ -61,6 +65,10 @@ export default class IndicShaper extends DefaultShaper {
     // TODO: turn off kern (Khmer) and liga features.
   }
 
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../GlyphInfo').default[]} glyphs
+   */
   static assignFeatures(plan, glyphs) {
     // Decompose split matras
     // TODO: do this in a more general unicode normalizer

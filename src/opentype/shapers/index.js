@@ -1,3 +1,5 @@
+// @ts-check
+
 import DefaultShaper from './DefaultShaper';
 import ArabicShaper from './ArabicShaper';
 import HangulShaper from './HangulShaper';
@@ -86,6 +88,10 @@ const SHAPERS = {
   DFLT: DefaultShaper    // Default
 };
 
+/**
+ * @param {string | string[]} script 
+ * @returns {import("../../types").Shaper}
+ */
 export function choose(script) {
   if (!Array.isArray(script)) {
     script = [script];

@@ -2,12 +2,6 @@
 
 import {isDigit} from 'unicode-properties';
 
-/**
- * @typedef {import("../../types").OTFeatures} OTFeatures
- * @typedef {import("../ShapingPlan").default} ShapingPlan
- * @typedef {import("../GlyphInfo").default} GlyphInfo
- */
-
 const VARIATION_FEATURES = ['rvrn'];
 const COMMON_FEATURES = ['ccmp', 'locl', 'rlig', 'mark', 'mkmk'];
 const FRACTIONAL_FEATURES = ['frac', 'numr', 'dnom'];
@@ -19,12 +13,15 @@ const DIRECTIONAL_FEATURES = {
 };
 
 export default class DefaultShaper {
+  /**
+   * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
+   */
   static zeroMarkWidths = 'AFTER_GPOS';
 
   /**
-   * @param {ShapingPlan} plan
-   * @param {GlyphInfo[]} glyphs
-   * @param {OTFeatures} features
+   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../GlyphInfo').default[]} glyphs
+   * @param {string[] | Record<string, boolean>} features
    */
   static plan(plan, glyphs, features) {
     // Plan the features we want to apply
@@ -40,7 +37,7 @@ export default class DefaultShaper {
   }
 
   /**
-   * @param {ShapingPlan} plan
+   * @param {import('../ShapingPlan').default} plan
    */
   static planPreprocessing(plan) {
     plan.add({
@@ -50,15 +47,15 @@ export default class DefaultShaper {
   }
 
   /**
-   * @param {ShapingPlan} plan
+   * @param {import('../ShapingPlan').default} plan
    */
   static planFeatures(plan) {
     // Do nothing by default. Let subclasses override this.
   }
 
   /**
-   * @param {ShapingPlan} plan
-   * @param {OTFeatures} userFeatures
+   * @param {import('../ShapingPlan').default} plan
+   * @param {string[] | Record<string, boolean>} userFeatures
    */
   static planPostprocessing(plan, userFeatures) {
     plan.add([...COMMON_FEATURES, ...HORIZONTAL_FEATURES]);
@@ -66,8 +63,8 @@ export default class DefaultShaper {
   }
 
   /**
-   * @param {ShapingPlan} plan
-   * @param {GlyphInfo[]} glyphs
+   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../GlyphInfo').default[]} glyphs
    */
   static assignFeatures(plan, glyphs) {
     // Enable contextual fractions

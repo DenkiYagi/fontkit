@@ -3,11 +3,6 @@
 // @ts-ignore
 import {DecodeStream} from 'restructure';
 
-/**
- * @typedef {import("./types.js").Font} Font
- * @typedef {import("./types.js").FontCollection} FontCollection
- */
-
 export let logErrors = false;
 
 let formats = [];
@@ -18,7 +13,7 @@ export function registerFormat(format) {
 /**
  * @param {ArrayBufferView} buffer
  * @param {string} [postscriptName]
- * @return {Font | FontCollection} 
+ * @return {import("./types").Font | import("./types").FontCollection} 
  */
 export function create(buffer, postscriptName) {
   for (let i = 0; i < formats.length; i++) {

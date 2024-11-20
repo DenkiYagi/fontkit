@@ -70,6 +70,10 @@ export default class ArabicShaper extends DefaultShaper {
     plan.addStage('mset');
   }
 
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../GlyphInfo').default[]} glyphs
+   */
   static assignFeatures(plan, glyphs) {
     super.assignFeatures(plan, glyphs);
 

@@ -1,3 +1,5 @@
+// @ts-check
+
 import BBox from '../glyph/BBox';
 import * as Script from '../layout/Script';
 
@@ -6,16 +8,23 @@ import * as Script from '../layout/Script';
  * Returned by the font layout method.
  */
 export default class GlyphRun {
+  /**
+   * @param {import("../glyph/Glyph").default[]} glyphs 
+   * @param {string[] | Record<string, boolean> | null | undefined} features
+   * @param {string} script 
+   * @param {string} [language] 
+   * @param {'ltr' | 'rtl'} [direction] 
+   */
   constructor(glyphs, features, script, language, direction) {
     /**
      * An array of Glyph objects in the run
-     * @type {Glyph[]}
+     * @type {import("../glyph/Glyph").default[]}
      */
     this.glyphs = glyphs;
 
     /**
      * An array of GlyphPosition objects for each glyph in the run
-     * @type {GlyphPosition[]}
+     * @type {import("./GlyphPosition").default[]}
      */
     this.positions = null;
 
@@ -35,7 +44,7 @@ export default class GlyphRun {
     /**
      * The direction requested for shaping, as passed in (either ltr or rtl).
      * If `null`, the default direction of the script is used.
-     * @type {string}
+     * @type {'ltr' | 'rtl'}
      */
     this.direction = direction || Script.direction(script);
 

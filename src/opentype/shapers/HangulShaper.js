@@ -24,7 +24,11 @@ import GlyphInfo from '../GlyphInfo';
  *   - http://ktug.org/~nomos/harfbuzz-hangul/hangulshaper.pdf
  */
 export default class HangulShaper extends DefaultShaper {
+  /**
+   * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
+   */
   static zeroMarkWidths = 'NONE';
+
   static planFeatures(plan) {
     plan.add(['ljmo', 'vjmo', 'tjmo'], false);
   }

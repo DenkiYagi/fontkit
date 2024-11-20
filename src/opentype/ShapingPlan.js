@@ -3,14 +3,6 @@
 import * as Script from '../layout/Script';
 
 /**
- * @typedef {import("../TTFFont").default} TTFFont
- * @typedef {import("../types").OTFeatures} OTFeatures
- * @typedef {import("../types").HorizontalTextDirection} HorizontalTextDirection
- * @typedef {import("./GlyphInfo").default} GlyphInfo
- * @typedef {import("./OTProcessor").default} OTProcessor
- */
-
-/**
  * ShapingPlans are used by the OpenType shapers to store which
  * features should by applied, and in what order to apply them.
  * The features are applied in groups called stages. A feature
@@ -21,15 +13,20 @@ import * as Script from '../layout/Script';
  */
 export default class ShapingPlan {
   /**
-   * @param {TTFFont} font 
+   * @param {import("../types").TTFFont} font 
    * @param {string} script 
-   * @param {HorizontalTextDirection} direction 
+   * @param {'ltr' | 'rtl'} direction 
    */
   constructor(font, script, direction) {
     this.font = font;
     this.script = script;
     this.direction = direction;
+
+    /**
+     * @type {import("../types").ShapingPlanStage[]}
+     */
     this.stages = [];
+
     this.globalFeatures = {};
     this.allFeatures = {};
   }
@@ -44,15 +41,19 @@ export default class ShapingPlan {
   _addFeatures(features, global) {
     let stageIndex = this.stages.length - 1;
     let stage = this.stages[stageIndex];
-    for (let feature of features) {
-      if (this.allFeatures[feature] == null) {
-        stage.push(feature);
-        this.allFeatures[feature] = stageIndex;
-
-        if (global) {
-          this.globalFeatures[feature] = true;
+    if (Array.isArray(stage)) {
+      for (let feature of features) {
+        if (this.allFeatures[feature] == null) {
+          stage.push(feature);
+          this.allFeatures[feature] = stageIndex;
+  
+          if (global) {
+            this.globalFeatures[feature] = true;
+          }
         }
       }
+    } else {
+      throw new Error("Invalid data type of stage in ShapingPlan#stages");
     }
   }
 
@@ -84,7 +85,7 @@ export default class ShapingPlan {
   /**
    * Add a new stage
    * 
-   * @param {Function | string | string[] | {global?: string[], local?: string[]}} arg
+   * @param {import("../types").ShapingPlanStageFunction | string | string[] | {global?: string[], local?: string[]}} arg
    * @param {boolean} [global]
    */
   addStage(arg, global) {
@@ -97,7 +98,7 @@ export default class ShapingPlan {
   }
 
   /**
-   * @param {OTFeatures} features 
+   * @param {string[] | Record<string, boolean>} features 
    */
   setFeatureOverrides(features) {
     if (Array.isArray(features)) {
@@ -108,9 +109,13 @@ export default class ShapingPlan {
           this.add(tag);
         } else if (this.allFeatures[tag] != null) {
           let stage = this.stages[this.allFeatures[tag]];
-          stage.splice(stage.indexOf(tag), 1);
-          delete this.allFeatures[tag];
-          delete this.globalFeatures[tag];
+          if (Array.isArray(stage)) {
+            stage.splice(stage.indexOf(tag), 1);
+            delete this.allFeatures[tag];
+            delete this.globalFeatures[tag];
+          } else {
+            throw new Error("Invalid data type of stage in ShapingPlan#stages");
+          }
         }
       }
     }
@@ -119,7 +124,7 @@ export default class ShapingPlan {
   /**
    * Assigns the global features to the given glyphs
    * 
-   * @param {GlyphInfo[]} glyphs
+   * @param {import("./GlyphInfo").default[]} glyphs
    */
   assignGlobalFeatures(glyphs) {
     for (let glyph of glyphs) {
@@ -132,8 +137,8 @@ export default class ShapingPlan {
   /**
    * Executes the planned stages using the given OTProcessor
    * 
-   * @param {OTProcessor} processor
-   * @param {GlyphInfo[]} glyphs
+   * @param {import("./OTProcessor").default} processor
+   * @param {import("./GlyphInfo").default[]} glyphs
    * @param {*} [positions]
    */
   process(processor, glyphs, positions) {
