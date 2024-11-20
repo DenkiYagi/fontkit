@@ -1,4 +1,14 @@
+// @ts-check
+
 import * as Script from '../layout/Script';
+
+/**
+ * @typedef {import("../TTFFont.js").default} TTFFont
+ * @typedef {import("../types.js").OTFeatures} OTFeatures
+ * @typedef {import("../types.js").HorizontalTextDirection} HorizontalTextDirection
+ * @typedef {import("./GlyphInfo.js").default} GlyphInfo
+ * @typedef {import("./OTProcessor").default} OTProcessor
+ */
 
 /**
  * ShapingPlans are used by the OpenType shapers to store which
@@ -10,6 +20,11 @@ import * as Script from '../layout/Script';
  * @private
  */
 export default class ShapingPlan {
+  /**
+   * @param {TTFFont} font 
+   * @param {string} script 
+   * @param {HorizontalTextDirection} direction 
+   */
   constructor(font, script, direction) {
     this.font = font;
     this.script = script;
@@ -22,6 +37,9 @@ export default class ShapingPlan {
   /**
    * Adds the given features to the last stage.
    * Ignores features that have already been applied.
+   * 
+   * @param {string[]} features
+   * @param {boolean} global
    */
   _addFeatures(features, global) {
     let stageIndex = this.stages.length - 1;
@@ -40,6 +58,9 @@ export default class ShapingPlan {
 
   /**
    * Add features to the last stage
+   * 
+   * @param {string | string[] | {global?: string[], local?: string[]}} arg
+   * @param {boolean} [global]
    */
   add(arg, global = true) {
     if (this.stages.length === 0) {
@@ -62,6 +83,9 @@ export default class ShapingPlan {
 
   /**
    * Add a new stage
+   * 
+   * @param {Function | string | string[] | {global?: string[], local?: string[]}} arg
+   * @param {boolean} [global]
    */
   addStage(arg, global) {
     if (typeof arg === 'function') {
@@ -72,6 +96,9 @@ export default class ShapingPlan {
     }
   }
 
+  /**
+   * @param {OTFeatures} features 
+   */
   setFeatureOverrides(features) {
     if (Array.isArray(features)) {
       this.add(features);
@@ -91,6 +118,8 @@ export default class ShapingPlan {
 
   /**
    * Assigns the global features to the given glyphs
+   * 
+   * @param {GlyphInfo[]} glyphs
    */
   assignGlobalFeatures(glyphs) {
     for (let glyph of glyphs) {
@@ -102,6 +131,10 @@ export default class ShapingPlan {
 
   /**
    * Executes the planned stages using the given OTProcessor
+   * 
+   * @param {OTProcessor} processor
+   * @param {GlyphInfo[]} glyphs
+   * @param {*} [positions]
    */
   process(processor, glyphs, positions) {
     for (let stage of this.stages) {

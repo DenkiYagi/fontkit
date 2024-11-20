@@ -1,4 +1,12 @@
+// @ts-check
+
 import {isDigit} from 'unicode-properties';
+
+/**
+ * @typedef {import("../../types.js").OTFeatures} OTFeatures
+ * @typedef {import("../ShapingPlan.js").default} ShapingPlan
+ * @typedef {import("../GlyphInfo.js").default} GlyphInfo
+ */
 
 const VARIATION_FEATURES = ['rvrn'];
 const COMMON_FEATURES = ['ccmp', 'locl', 'rlig', 'mark', 'mkmk'];
@@ -12,6 +20,12 @@ const DIRECTIONAL_FEATURES = {
 
 export default class DefaultShaper {
   static zeroMarkWidths = 'AFTER_GPOS';
+
+  /**
+   * @param {ShapingPlan} plan
+   * @param {GlyphInfo[]} glyphs
+   * @param {OTFeatures} features
+   */
   static plan(plan, glyphs, features) {
     // Plan the features we want to apply
     this.planPreprocessing(plan);
@@ -25,6 +39,9 @@ export default class DefaultShaper {
     this.assignFeatures(plan, glyphs);
   }
 
+  /**
+   * @param {ShapingPlan} plan
+   */
   static planPreprocessing(plan) {
     plan.add({
       global: [...VARIATION_FEATURES, ...DIRECTIONAL_FEATURES[plan.direction]],
@@ -32,15 +49,26 @@ export default class DefaultShaper {
     });
   }
 
+  /**
+   * @param {ShapingPlan} plan
+   */
   static planFeatures(plan) {
     // Do nothing by default. Let subclasses override this.
   }
 
+  /**
+   * @param {ShapingPlan} plan
+   * @param {OTFeatures} userFeatures
+   */
   static planPostprocessing(plan, userFeatures) {
     plan.add([...COMMON_FEATURES, ...HORIZONTAL_FEATURES]);
     plan.setFeatureOverrides(userFeatures);
   }
 
+  /**
+   * @param {ShapingPlan} plan
+   * @param {GlyphInfo[]} glyphs
+   */
   static assignFeatures(plan, glyphs) {
     // Enable contextual fractions
     for (let i = 0; i < glyphs.length; i++) {
