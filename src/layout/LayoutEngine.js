@@ -23,14 +23,6 @@ export default class LayoutEngine {
   }
 
   layout(string, features, script, language, direction) {
-    // Make the features parameter optional
-    if (typeof features === 'string') {
-      direction = language;
-      language = script;
-      script = features;
-      features = [];
-    }
-
     // Map string to glyphs if needed
     if (typeof string === 'string') {
       // Attempt to detect the script from the string if not provided.
