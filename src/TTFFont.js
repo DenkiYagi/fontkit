@@ -166,7 +166,12 @@ export default class TTFFont {
    * @type {number}
    */
   get ascent() {
-    return this.hhea.ascent;
+    const os2 = this['OS/2'];
+    if (os2?.fsSelection?.useTypoMetrics) {
+      return os2.typoAscender;
+    } else {
+      return this.hhea.ascent;
+    }
   }
 
   /**
@@ -174,7 +179,12 @@ export default class TTFFont {
    * @type {number}
    */
   get descent() {
-    return this.hhea.descent;
+    const os2 = this['OS/2'];
+    if (os2?.fsSelection?.useTypoMetrics) {
+      return os2.typoDescender;
+    } else {
+      return this.hhea.descent;
+    }
   }
 
   /**
@@ -182,7 +192,12 @@ export default class TTFFont {
    * @type {number}
    */
   get lineGap() {
-    return this.hhea.lineGap;
+    const os2 = this['OS/2'];
+    if (os2?.fsSelection?.useTypoMetrics) {
+      return os2.typoLineGap;
+    } else {
+      return this.hhea.lineGap;
+    }
   }
 
   /**
