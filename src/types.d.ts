@@ -11,6 +11,26 @@ export type TTFFont = _TTFFont & Record<string, object>;
 export type Font = TTFFont | WOFFFont | WOFF2Font;
 export type FontCollection = TrueTypeCollection | DFont;
 
+/**
+ * Advanced parameters for `TTFFont#layout` and `LayoutEngine#layout`.
+ */
+export type LayoutAdvancedParams = {
+  /**
+   * If not provided, `fontkit` attempts to detect the script from the string.
+   */
+  script?: string;
+
+  /**
+   * If not provided, `fontkit` uses the default language of the script.
+   */
+  language?: string;
+
+  /**
+   * If not provided, `fontkit` uses the default direction of the script.
+   */
+  direction?: "ltr" | "rtl";
+};
+
 export interface Shaper {
   zeroMarkWidths?: "NONE" | "BEFORE_GPOS" | "AFTER_GPOS";
 

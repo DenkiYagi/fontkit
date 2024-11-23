@@ -34,12 +34,12 @@ export default class LayoutEngine {
   /**
    * @param {string | import("../glyph/Glyph").default[]} string 
    * @param {string[] | Record<string, boolean>} [features] 
-   * @param {string} [script] 
-   * @param {string} [language]
-   * @param {'ltr' | 'rtl'} [direction] 
+   * @param {import("../types").LayoutAdvancedParams} [advancedParams]
    * @returns {GlyphRun}
    */
-  layout(string, features, script, language, direction) {
+  layout(string, features, advancedParams = {}) {
+    let {script, language, direction} = advancedParams;
+
     // Map string to glyphs if needed
     if (typeof string === 'string') {
       // Attempt to detect the script from the string if not provided.

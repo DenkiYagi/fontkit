@@ -366,13 +366,11 @@ export default class TTFFont {
    *
    * @param {string} string
    * @param {string[] | Record<string, boolean>} [userFeatures]
-   * @param {string} [script]
-   * @param {string} [language]
-   * @param {'ltr' | 'rtl'} [direction]
+   * @param {import("./types").LayoutAdvancedParams} [advancedParams]
    * @return {import("./layout/GlyphRun").default}
    */
-  layout(string, userFeatures, script, language, direction) {
-    return this._layoutEngine.layout(string, userFeatures, script, language, direction);
+  layout(string, userFeatures, advancedParams) {
+    return this._layoutEngine.layout(string, userFeatures, advancedParams);
   }
 
   /**

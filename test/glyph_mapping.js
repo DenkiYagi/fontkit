@@ -99,7 +99,7 @@ describe('character to glyph mapping', function () {
     });
 
     it('should handle rtl direction', function () {
-      let { glyphs } = font.layout('ffi', [], null, null, "rtl");
+      let { glyphs } = font.layout('ffi', [], {direction: 'rtl'});
       assert.equal(glyphs.length, 3);
       assert.deepEqual(glyphs.map(g => g.id), [76, 73, 73]);
       return assert.deepEqual(glyphs.map(g => g.codePoints), [[105], [102], [102]]);
