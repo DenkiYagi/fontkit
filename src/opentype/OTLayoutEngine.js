@@ -1,10 +1,15 @@
+// @ts-check
+
 import ShapingPlan from './ShapingPlan';
-import * as Shapers from './shapers';
+import * as Shapers from './shapers/index';
 import GlyphInfo from './GlyphInfo';
 import GSUBProcessor from './GSUBProcessor';
 import GPOSProcessor from './GPOSProcessor';
 
 export default class OTLayoutEngine {
+  /**
+   * @param {import('../types').TTFFont} font 
+   */
   constructor(font) {
     this.font = font;
     this.glyphInfos = null;
@@ -22,6 +27,9 @@ export default class OTLayoutEngine {
     }
   }
 
+  /**
+   * @param {import("../layout/GlyphRun").default} glyphRun 
+   */
   setup(glyphRun) {
     // Map glyphs to GlyphInfo objects so data can be passed between
     // GSUB and GPOS without mutating the real (shared) Glyph objects.
@@ -49,7 +57,14 @@ export default class OTLayoutEngine {
     }
   }
 
+  /**
+   * @param {import("../layout/GlyphRun").default} glyphRun 
+   */
   substitute(glyphRun) {
+    if (this.glyphInfos == null || this.plan == null) {
+      throw new Error("setup() must be called before substitute()");
+    }
+
     if (this.GSUBProcessor) {
       this.plan.process(this.GSUBProcessor, this.glyphInfos);
 
@@ -58,7 +73,15 @@ export default class OTLayoutEngine {
     }
   }
 
+  /**
+   * @param {import("../layout/GlyphRun").default} glyphRun 
+   * @returns {*}
+   */
   position(glyphRun) {
+    if (this.glyphInfos == null || this.plan == null || this.shaper == null) {
+      throw new Error("setup() must be called before position()");
+    }
+
     if (this.shaper.zeroMarkWidths === 'BEFORE_GPOS') {
       this.zeroMarkAdvances(glyphRun.positions);
     }
@@ -80,7 +103,15 @@ export default class OTLayoutEngine {
     return this.GPOSProcessor && this.GPOSProcessor.features;
   }
 
+  /**
+   * 
+   * @param {import("../layout/GlyphPosition").default[]} positions 
+   */
   zeroMarkAdvances(positions) {
+    if (this.glyphInfos == null) {
+      throw new Error("setup() must be called before zeroMarkAdvances()");
+    }
+
     for (let i = 0; i < this.glyphInfos.length; i++) {
       if (this.glyphInfos[i].isMark) {
         positions[i].xAdvance = 0;
@@ -95,6 +126,11 @@ export default class OTLayoutEngine {
     this.shaper = null;
   }
 
+  /**
+   * @param {string} script 
+   * @param {string} language 
+   * @returns {string[]}
+   */
   getAvailableFeatures(script, language) {
     let features = [];
 
