@@ -29,8 +29,9 @@ export default class OTLayoutEngine {
 
   /**
    * @param {import("../layout/GlyphRun").default} glyphRun 
+   * @param {import('../types').Shaper} [shaper]
    */
-  setup(glyphRun) {
+  setup(glyphRun, shaper) {
     // Map glyphs to GlyphInfo objects so data can be passed between
     // GSUB and GPOS without mutating the real (shared) Glyph objects.
     this.glyphInfos = glyphRun.glyphs.map(glyph => new GlyphInfo(this.font, glyph.id, [...glyph.codePoints]));
@@ -45,9 +46,9 @@ export default class OTLayoutEngine {
       script = this.GSUBProcessor.selectScript(glyphRun.script, glyphRun.language, glyphRun.direction);
     }
 
-    // Choose a shaper based on the script, and setup a shaping plan.
+    // Choose a shaper based on the script (if not provided), and setup a shaping plan.
     // This determines which features to apply to which glyphs.
-    this.shaper = Shapers.choose(script);
+    this.shaper = shaper ?? Shapers.choose(script);
     this.plan = new ShapingPlan(this.font, script, glyphRun.direction);
     this.shaper.plan(this.plan, this.glyphInfos, glyphRun.features);
 

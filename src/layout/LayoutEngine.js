@@ -38,7 +38,7 @@ export default class LayoutEngine {
    * @returns {GlyphRun}
    */
   layout(string, features, advancedParams = {}) {
-    let {script, language, direction} = advancedParams;
+    let {script, language, direction, shaper} = advancedParams;
 
     // Map string to glyphs if needed
     if (typeof string === 'string') {
@@ -71,7 +71,7 @@ export default class LayoutEngine {
 
     // Setup the advanced layout engine
     if (this.engine instanceof OTLayoutEngine) {
-      this.engine.setup(glyphRun);
+      this.engine.setup(glyphRun, shaper);
     }
 
     // Substitute and position the glyphs

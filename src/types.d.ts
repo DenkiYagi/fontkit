@@ -29,6 +29,11 @@ export type LayoutAdvancedParams = {
    * If not provided, `fontkit` uses the default direction of the script.
    */
   direction?: "ltr" | "rtl";
+
+  /**
+   * If not provided, `fontkit` chooses its own prepared `Shaper` based on the script.
+   */
+  shaper?: Shaper;
 };
 
 export interface Shaper {
