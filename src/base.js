@@ -35,3 +35,5 @@ export let defaultLanguage = 'en';
 export function setDefaultLanguage(lang = 'en') {
   defaultLanguage = lang;
 };
+
+export { default as DefaultShaper} from './opentype/shapers/DefaultShaper';

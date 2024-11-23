@@ -14,4 +14,6 @@ registerFormat(TrueTypeCollection);
 registerFormat(DFont);
 
 export * from './base';
+export { DefaultShaper } from './base'; // Explicit export for preventing tree-shaking
+
 export * from './fs';
