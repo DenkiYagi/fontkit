@@ -28,9 +28,9 @@ export default class IndicShaper extends DefaultShaper {
   /**
    * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
    */
-  static zeroMarkWidths = 'NONE';
+  zeroMarkWidths = 'NONE';
 
-  static planFeatures(plan) {
+  planFeatures(plan) {
     plan.addStage(setupSyllables);
 
     plan.addStage(['locl', 'ccmp']);
@@ -69,7 +69,7 @@ export default class IndicShaper extends DefaultShaper {
    * @param {import('../ShapingPlan').default} plan
    * @param {import('../GlyphInfo').default[]} glyphs
    */
-  static assignFeatures(plan, glyphs) {
+  assignFeatures(plan, glyphs) {
     // Decompose split matras
     // TODO: do this in a more general unicode normalizer
     for (let i = glyphs.length - 1; i >= 0; i--) {

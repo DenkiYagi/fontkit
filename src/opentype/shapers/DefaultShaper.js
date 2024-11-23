@@ -16,14 +16,14 @@ export default class DefaultShaper {
   /**
    * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
    */
-  static zeroMarkWidths = 'AFTER_GPOS';
+  zeroMarkWidths = 'AFTER_GPOS';
 
   /**
    * @param {import('../ShapingPlan').default} plan
    * @param {import('../GlyphInfo').default[]} glyphs
    * @param {string[] | Record<string, boolean>} features
    */
-  static plan(plan, glyphs, features) {
+  plan(plan, glyphs, features) {
     // Plan the features we want to apply
     this.planPreprocessing(plan);
     this.planFeatures(plan);
@@ -39,7 +39,7 @@ export default class DefaultShaper {
   /**
    * @param {import('../ShapingPlan').default} plan
    */
-  static planPreprocessing(plan) {
+  planPreprocessing(plan) {
     plan.add({
       global: [...VARIATION_FEATURES, ...DIRECTIONAL_FEATURES[plan.direction]],
       local: FRACTIONAL_FEATURES
@@ -49,7 +49,7 @@ export default class DefaultShaper {
   /**
    * @param {import('../ShapingPlan').default} plan
    */
-  static planFeatures(plan) {
+  planFeatures(plan) {
     // Do nothing by default. Let subclasses override this.
   }
 
@@ -57,7 +57,7 @@ export default class DefaultShaper {
    * @param {import('../ShapingPlan').default} plan
    * @param {string[] | Record<string, boolean>} userFeatures
    */
-  static planPostprocessing(plan, userFeatures) {
+  planPostprocessing(plan, userFeatures) {
     plan.add([...COMMON_FEATURES, ...HORIZONTAL_FEATURES]);
     plan.setFeatureOverrides(userFeatures);
   }
@@ -66,7 +66,7 @@ export default class DefaultShaper {
    * @param {import('../ShapingPlan').default} plan
    * @param {import('../GlyphInfo').default[]} glyphs
    */
-  static assignFeatures(plan, glyphs) {
+  assignFeatures(plan, glyphs) {
     // Enable contextual fractions
     for (let i = 0; i < glyphs.length; i++) {
       let glyph = glyphs[i];

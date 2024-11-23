@@ -27,13 +27,13 @@ export default class HangulShaper extends DefaultShaper {
   /**
    * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
    */
-  static zeroMarkWidths = 'NONE';
+  zeroMarkWidths = 'NONE';
 
-  static planFeatures(plan) {
+  planFeatures(plan) {
     plan.add(['ljmo', 'vjmo', 'tjmo'], false);
   }
 
-  static assignFeatures(plan, glyphs) {
+  assignFeatures(plan, glyphs) {
     let state = 0;
     let i = 0;
     while (i < glyphs.length) {

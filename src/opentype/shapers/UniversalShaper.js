@@ -18,9 +18,9 @@ export default class UniversalShaper extends DefaultShaper {
   /**
    * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
    */
-  static zeroMarkWidths = 'BEFORE_GPOS';
+  zeroMarkWidths = 'BEFORE_GPOS';
 
-  static planFeatures(plan) {
+  planFeatures(plan) {
     plan.addStage(setupSyllables);
 
     // Default glyph pre-processing group
@@ -50,7 +50,7 @@ export default class UniversalShaper extends DefaultShaper {
    * @param {import('../ShapingPlan').default} plan
    * @param {import('../GlyphInfo').default[]} glyphs
    */
-  static assignFeatures(plan, glyphs) {
+  assignFeatures(plan, glyphs) {
     // Decompose split vowels
     // TODO: do this in a more general unicode normalizer
     for (let i = glyphs.length - 1; i >= 0; i--) {
