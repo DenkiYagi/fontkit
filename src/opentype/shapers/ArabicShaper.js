@@ -5,6 +5,10 @@ import { decodeBase64 } from '../../utils';
 
 const trie = new UnicodeTrie(decodeBase64(require('fs').readFileSync(__dirname + '/data.trie', 'base64')));
 const FEATURES = ['isol', 'fina', 'fin2', 'fin3', 'medi', 'med2', 'init'];
+const DIRECTIONAL_FEATURES = {
+  ltr: ['ltra', 'ltrm'],
+  rtl: ['rtla', 'rtlm']
+};
 
 const ShapingClasses = {
   Non_Joining: 0,
@@ -60,6 +64,17 @@ const STATE_TABLE = [
  * https://github.com/behdad/harfbuzz/blob/master/src/hb-ot-shape-complex-arabic.cc
  */
 export default class ArabicShaper extends DefaultShaper {
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   */
+  planPreprocessing(plan) {
+    super.planPreprocessing(plan);
+    plan.add(DIRECTIONAL_FEATURES[plan.direction]);
+  }
+
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   */
   planFeatures(plan) {
     plan.add(['ccmp', 'locl']);
     for (let i = 0; i < FEATURES.length; i++) {

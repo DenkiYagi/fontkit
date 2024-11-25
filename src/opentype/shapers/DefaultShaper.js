@@ -3,11 +3,6 @@
 const VARIATION_FEATURES = ['rvrn'];
 const COMMON_FEATURES = ['ccmp', 'locl', 'rlig', 'mark', 'mkmk'];
 const HORIZONTAL_FEATURES = ['calt', 'clig', 'liga', 'rclt', 'curs', 'kern'];
-const VERTICAL_FEATURES = ['vert'];
-const DIRECTIONAL_FEATURES = {
-  ltr: ['ltra', 'ltrm'],
-  rtl: ['rtla', 'rtlm']
-};
 
 export default class DefaultShaper {
   /**
@@ -37,7 +32,7 @@ export default class DefaultShaper {
    * @param {import('../ShapingPlan').default} plan
    */
   planPreprocessing(plan) {
-    plan.add([...VARIATION_FEATURES, ...DIRECTIONAL_FEATURES[plan.direction]]);
+    plan.add(VARIATION_FEATURES);
   }
 
   /**
