@@ -2,7 +2,6 @@
 
 import BBox from '../glyph/BBox';
 import * as Script from '../layout/Script';
-import GlyphPosition from './GlyphPosition';
 
 /**
  * Represents a run of Glyph and GlyphPosition objects.
@@ -24,10 +23,11 @@ export default class GlyphRun {
     this.glyphs = glyphs;
 
     /**
-     * An array of GlyphPosition objects for each glyph in the run
-     * @type {import("./GlyphPosition").default[]}
+     * An array of GlyphPosition objects for each glyph in the run.
+     * Initially `null` and may be assigned in the glyph positioning process.
+     * @type {(import("./GlyphPosition").default[] | null)}
      */
-    this.positions = glyphs.map(glyph => new GlyphPosition(glyph.advanceWidth)); // initial positions
+    this.positions = null;
 
     /**
      * The script that was requested for shaping. This was either passed in or detected automatically.
@@ -67,10 +67,12 @@ export default class GlyphRun {
   }
 
   /**
-   * The total advance width of the run.
-   * @type {number}
+   * The total advance width of the run. `null` if `positions` are not calculated.
+   * @type {(number | null)}
    */
   get advanceWidth() {
+    if (this.positions == null) return null;
+
     let width = 0;
     for (let position of this.positions) {
       width += position.xAdvance;
@@ -80,10 +82,12 @@ export default class GlyphRun {
   }
 
  /**
-  * The total advance height of the run.
-  * @type {number}
+  * The total advance height of the run. `null` if `positions` are not calculated.
+   * @type {(number | null)}
   */
   get advanceHeight() {
+    if (this.positions == null) return null;
+
     let height = 0;
     for (let position of this.positions) {
       height += position.yAdvance;
@@ -93,10 +97,12 @@ export default class GlyphRun {
   }
 
  /**
-  * The bounding box containing all glyphs in the run.
-  * @type {BBox}
+  * The bounding box containing all glyphs in the run. `null` if `positions` are not calculated.
+  * @type {(BBox | null)}
   */
   get bbox() {
+    if (this.positions == null) return null;
+
     let bbox = new BBox;
 
     let x = 0;

@@ -3,10 +3,10 @@
 import KernProcessor from './KernProcessor';
 import UnicodeLayoutEngine from './UnicodeLayoutEngine';
 import GlyphRun from './GlyphRun';
-import GlyphPosition from './GlyphPosition';
 import * as Script from './Script';
 import AATLayoutEngine from '../aat/AATLayoutEngine';
 import OTLayoutEngine from '../opentype/OTLayoutEngine';
+import GlyphPosition from './GlyphPosition';
 
 export default class LayoutEngine {
   /**
@@ -38,7 +38,7 @@ export default class LayoutEngine {
    * @returns {GlyphRun}
    */
   layout(string, features, advancedParams = {}) {
-    let {script, language, direction, shaper} = advancedParams;
+    let {script, language, direction, shaper, skipPerGlyphPositioning} = advancedParams;
 
     // Map string to glyphs if needed
     if (typeof string === 'string') {
@@ -76,9 +76,13 @@ export default class LayoutEngine {
 
     // Substitute and position the glyphs
     this.substitute(glyphRun);
+    if (!skipPerGlyphPositioning) {
+      // Assign initial glyph positions (FIXME: support vertical writing mode)
+      glyphRun.positions = glyphRun.glyphs.map(glyph => new GlyphPosition(glyph.advanceWidth));
+    }
     this.position(glyphRun);
 
-    this.hideDefaultIgnorables(glyphRun.glyphs, glyphRun.positions);
+    this.hideDefaultIgnorables(glyphRun);
 
     // Let the layout engine clean up any state it might have
     if (this.engine instanceof OTLayoutEngine) {
@@ -99,17 +103,22 @@ export default class LayoutEngine {
   }
 
   /**
-   * @param {GlyphRun} glyphRun 
+   * Includes:
+   * - Arrangement of the entire glyph array
+   * - Position adjustment per glyph (skipped if the flag `skipPerGlyphPositioning` is set)
+   *
+   * @param {GlyphRun} glyphRun
    */
   position(glyphRun) {
-    // Get initial glyph positions
-    glyphRun.positions = glyphRun.glyphs.map(glyph => new GlyphPosition(glyph.advanceWidth));
     let positioned = null;
 
     // Call the advanced layout engine. Returns the features applied.
     if (this.engine instanceof OTLayoutEngine) {
       positioned = this.engine.position(glyphRun);
     }
+
+    // The following process only takes effect if `glyphRun.positions` is not null.
+    if (glyphRun.positions == null) return;
 
     // if there is no GPOS table, use unicode properties to position marks.
     if (!positioned && (!this.engine || this.engine.fallbackPosition)) {
@@ -131,17 +140,28 @@ export default class LayoutEngine {
     }
   }
 
-  hideDefaultIgnorables(glyphs, positions) {
+  /**
+   * @param {GlyphRun} glyphRun
+   */
+  hideDefaultIgnorables(glyphRun) {
+    const { glyphs, positions } = glyphRun;
+
     let space = this.font.glyphForCodePoint(0x20);
     for (let i = 0; i < glyphs.length; i++) {
       if (this.isDefaultIgnorable(glyphs[i].codePoints[0])) {
         glyphs[i] = space;
-        positions[i].xAdvance = 0;
-        positions[i].yAdvance = 0;
+        if (positions != null) {
+          positions[i].xAdvance = 0;
+          positions[i].yAdvance = 0;
+        }
       }
     }
   }
 
+  /**
+   * @param {number} ch 
+   * @returns {boolean}
+   */
   isDefaultIgnorable(ch) {
     // From DerivedCoreProperties.txt in the Unicode database,
     // minus U+115F, U+1160, U+3164 and U+FFA0, which is what

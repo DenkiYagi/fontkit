@@ -75,33 +75,39 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {import("../layout/GlyphRun").default} glyphRun 
-   * @returns {*}
+   * @param {import("../layout/GlyphRun").default} glyphRun
+   * @returns {(Record<string, any> | null)} GPOSProcessor#features
    */
   position(glyphRun) {
     if (this.glyphInfos == null || this.plan == null || this.shaper == null) {
       throw new Error("setup() must be called before position()");
     }
 
-    if (this.shaper.zeroMarkWidths === 'BEFORE_GPOS') {
-      this.zeroMarkAdvances(glyphRun.positions);
-    }
+    let appliedFeatures = null;
+  
+    if (glyphRun.positions != null) {
+      if (this.shaper.zeroMarkWidths === 'BEFORE_GPOS') {
+        this.zeroMarkAdvances(glyphRun.positions);
+      }
+  
+      if (this.GPOSProcessor) {
+        this.plan.process(this.GPOSProcessor, this.glyphInfos, glyphRun.positions);
+      }
+  
+      if (this.shaper.zeroMarkWidths === 'AFTER_GPOS') {
+        this.zeroMarkAdvances(glyphRun.positions);
+      }
 
-    if (this.GPOSProcessor) {
-      this.plan.process(this.GPOSProcessor, this.glyphInfos, glyphRun.positions);
-    }
-
-    if (this.shaper.zeroMarkWidths === 'AFTER_GPOS') {
-      this.zeroMarkAdvances(glyphRun.positions);
+      appliedFeatures = this.GPOSProcessor && this.GPOSProcessor.features;
     }
 
     // Reverse the glyphs and positions if the script is right-to-left
     if (glyphRun.direction === 'rtl') {
       glyphRun.glyphs.reverse();
-      glyphRun.positions.reverse();
+      if (glyphRun.positions != null) glyphRun.positions.reverse();
     }
 
-    return this.GPOSProcessor && this.GPOSProcessor.features;
+    return appliedFeatures;
   }
 
   /**

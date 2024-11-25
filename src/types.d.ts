@@ -34,6 +34,12 @@ export type LayoutAdvancedParams = {
    * If not provided, `fontkit` chooses its own prepared `Shaper` based on the script.
    */
   shaper?: Shaper;
+
+  /**
+   * Set to `true` to skip position adjustment for each individual glyph.
+   * This results in `GlyphRun#positions` being `null`.
+   */
+  skipPerGlyphPositioning?: boolean;
 };
 
 export interface Shaper {

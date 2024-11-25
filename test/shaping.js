@@ -7,6 +7,7 @@ describe('shaping', function () {
     it(description, function () {
       let f = fontCache[font] || (fontCache[font] = fontkit.openSync(new URL('data/' + font, import.meta.url)));
       let { glyphs, positions } = f.layout(text);
+      if (positions == null) assert.fail('Failed to get glyph positions');
 
       // Generate a compact string representation of the results
       // in the same format as Harfbuzz, for comparison.

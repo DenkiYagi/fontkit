@@ -118,6 +118,7 @@ describe('variations', function () {
     it('should support adjusting GPOS mark anchor points for variations', function () {
       let font = fontkit.openSync(new URL('data/Mada/Mada-VF.ttf', import.meta.url), { wght: 900 });
       let run = font.layout('ف');
+      if (run.positions == null) assert.fail('Failed to get glyph positions');
       assert.equal(Math.floor(run.positions[0].xOffset), 639);
       assert.equal(Math.floor(run.positions[0].yOffset), 542);
     });

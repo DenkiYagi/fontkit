@@ -13,12 +13,19 @@ describe('glyph positioning', function () {
 
     it('should apply opentype GPOS features', function () {
       let { positions } = font.layout('Twitter');
+      if (positions == null) assert.fail('Failed to get glyph positions');
       return assert.deepEqual(positions.map(p => p.xAdvance), [502, 718, 246, 318, 324, 496, 347]);
     });
 
     it('should ignore duplicate features', function () {
       let { positions } = font.layout('Twitter', ['kern', 'kern']);
+      if (positions == null) assert.fail('Failed to get glyph positions');
       return assert.deepEqual(positions.map(p => p.xAdvance), [502, 718, 246, 318, 324, 496, 347]);
+    });
+
+    it('should skip per-glyph positioning according to the given flag', function () {
+      let { positions } = font.layout('Twitter', undefined, { skipPerGlyphPositioning: true });
+      return assert.strictEqual(positions, null);
     });
   });
 
@@ -27,7 +34,13 @@ describe('glyph positioning', function () {
 
     it('should apply kerning by default', function () {
       let { positions } = font.layout('Twitter');
+      if (positions == null) assert.fail('Failed to get glyph positions');
       return assert.deepEqual(positions.map(p => p.xAdvance), [535, 792, 246, 372, 402, 535, 351]);
+    });
+
+    it('should skip per-glyph positioning according to the given flag', function () {
+      let { positions } = font.layout('Twitter', undefined, { skipPerGlyphPositioning: true });
+      return assert.strictEqual(positions, null);
     });
   });
 });
