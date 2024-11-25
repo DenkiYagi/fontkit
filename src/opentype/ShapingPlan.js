@@ -139,7 +139,7 @@ export default class ShapingPlan {
    * 
    * @param {import("./OTProcessor").default} processor
    * @param {import("./GlyphInfo").default[]} glyphs
-   * @param {*} [positions]
+   * @param {import("../layout/GlyphPosition").default[]} [positions]
    */
   process(processor, glyphs, positions) {
     for (let stage of this.stages) {
