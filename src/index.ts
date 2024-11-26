@@ -15,6 +15,12 @@ registerFormat(DFont);
 export * from './base';
 export { DefaultShaper } from './base'; // Explicit export for preventing tree-shaking
 
-export * from './re-exports';
+export type * from './re-exports';
 
-export * from './fs';
+export type {
+  TTFFont,
+  Font,
+  FontCollection,
+  LayoutAdvancedParams,
+  Shaper,
+} from './types';

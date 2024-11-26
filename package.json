@@ -29,7 +29,7 @@
   "node-module": "dist/module.mjs",
   "browser": "dist/browser.cjs",
   "module": "dist/browser-module.mjs",
-  "source": "src/index.js",
+  "source": "src/index.ts",
   "types": "types/index.d.ts",
   "exports": {
     "node": {
@@ -43,14 +43,14 @@
   },
   "targets": {
     "main": {
-      "source": "src/node.js",
+      "source": "src/node.ts",
       "context": "browser",
       "engines": {
         "browsers": "chrome >= 70"
       }
     },
     "node-module": {
-      "source": "src/node.js",
+      "source": "src/node.ts",
       "isLibrary": true,
       "includeNodeModules": false,
       "engines": {
@@ -58,13 +58,13 @@
       }
     },
     "module": {
-      "source": "src/index.js",
+      "source": "src/index.ts",
       "engines": {
         "browsers": "chrome >= 70"
       }
     },
     "browser": {
-      "source": "src/index.js",
+      "source": "src/index.ts",
       "engines": {
         "browsers": "chrome >= 70"
       }

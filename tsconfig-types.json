@@ -8,7 +8,7 @@
     "outDir": "types",
   },
   "include": [
-    "src/index.js",
-    "src/node.js",
+    "src/index.ts",
+    "src/node.ts",
   ]
 }
