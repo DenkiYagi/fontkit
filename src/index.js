@@ -1,4 +1,4 @@
-import { registerFormat, create, defaultLanguage, setDefaultLanguage } from './base';
+import { registerFormat } from './base';
 import TTFFont from './TTFFont';
 import WOFFFont from './WOFFFont';
 import WOFF2Font from './WOFF2Font';
@@ -14,3 +14,5 @@ registerFormat(DFont);
 
 export * from './base';
 export { DefaultShaper } from './base'; // Explicit export for preventing tree-shaking
+
+export * from './re-exports';
