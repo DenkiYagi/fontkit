@@ -16,3 +16,5 @@
     - Use named parameters
     - Add parameter `shaper` to override shaping process
     - Add parameter `skipPerGlyphPositioning` to skip calculating `GlyphRun#positions`
+- Fix fields `logErrors` and `defaultLanguage` in the top-level API
+    - Change to getter functions: `isLoggingErrors()`, `getDefaultLanguage()`
