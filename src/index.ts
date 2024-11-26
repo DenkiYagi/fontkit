@@ -15,12 +15,15 @@ registerFormat(DFont);
 export * from './base';
 export { DefaultShaper } from './base'; // Explicit export for preventing tree-shaking
 
-export type * from './re-exports';
+export type { Glyph, BBox, Path, GlyphPosition, GlyphRun } from './re-exports';
 
 export type {
   TTFFont,
   Font,
   FontCollection,
+  GlyphInfo,
+  ShapingPlan,
+  Subset,
   LayoutAdvancedParams,
   Shaper,
 } from './types';

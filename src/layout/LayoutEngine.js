@@ -10,12 +10,13 @@ import GlyphPosition from './GlyphPosition';
 
 export default class LayoutEngine {
   /**
-   * @param {import("../types").TTFFont} font 
+   * @param {import('../TTFFont').default} font 
    */
   constructor(font) {
     /**
      * @type {import("../types").TTFFont}
      */
+    // @ts-ignore
     this.font = font;
 
     this.unicodeLayoutEngine = null;
@@ -191,8 +192,8 @@ export default class LayoutEngine {
   }
 
   /**
-   * @param {string} script 
-   * @param {string} language 
+   * @param {string} [script] 
+   * @param {string} [language] 
    * @returns {string[]}
    */
   getAvailableFeatures(script, language) {

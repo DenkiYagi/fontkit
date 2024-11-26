@@ -19,6 +19,9 @@ let TTCHeader = new r.VersionedStruct(r.uint32, {
 });
 
 export default class TrueTypeCollection {
+  /**
+   * @type {'TTC'}
+   */
   type = 'TTC';
 
   static probe(buffer) {

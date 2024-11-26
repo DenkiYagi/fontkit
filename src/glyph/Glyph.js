@@ -99,7 +99,7 @@ export default class Glyph {
    * See [here](http://www.freetype.org/freetype2/docs/glyphs/glyphs-6.html#section-2)
    * for a more detailed description.
    *
-   * @type {BBox}
+   * @type {import("./BBox").default}
    */
   @cache
   get cbox() {
@@ -109,7 +109,7 @@ export default class Glyph {
   /**
    * The glyph’s bounding box, i.e. the rectangle that encloses the
    * glyph outline as tightly as possible.
-   * @type {BBox}
+   * @type {import("./BBox").default}
    */
   @cache
   get bbox() {
@@ -213,7 +213,7 @@ export default class Glyph {
 
   /**
    * Renders the glyph to the given graphics context, at the specified font size.
-   * @param {CanvasRenderingContext2d} ctx
+   * @param {CanvasRenderingContext2D} ctx
    * @param {number} size
    */
   render(ctx, size) {

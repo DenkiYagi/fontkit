@@ -2,7 +2,7 @@ import * as r from 'restructure';
 import { cache } from './decorators';
 import { isLoggingErrors, getDefaultLanguage as getGlobalDefaultLanguage } from './base';
 import Directory from './tables/directory';
-import tables from './tables';
+import tables from './tables/index';
 import CmapProcessor from './CmapProcessor';
 import LayoutEngine from './layout/LayoutEngine';
 import TTFGlyph from './glyph/TTFGlyph';
@@ -18,6 +18,8 @@ import { asciiDecoder } from './utils';
 /**
  * This is the base class for all SFNT-based font formats in fontkit.
  * It supports TrueType, and PostScript glyphs, and several color glyph formats.
+ * 
+ * @type {Record<string, object>}
  */
 export default class TTFFont {
   type = 'TTF';
@@ -393,6 +395,10 @@ export default class TTFFont {
     return this._layoutEngine.getAvailableFeatures();
   }
 
+  /**
+   * @param {string} script
+   * @param {string} language
+   */
   getAvailableFeatures(script, language) {
     return this._layoutEngine.getAvailableFeatures(script, language);
   }
@@ -437,7 +443,7 @@ export default class TTFFont {
 
   /**
    * Returns a Subset for this font.
-   * @return {Subset}
+   * @return {(CFFSubset | TTFSubset)}
    */
   createSubset() {
     if (this.directory.tables['CFF ']) {

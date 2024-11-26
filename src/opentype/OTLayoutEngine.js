@@ -134,8 +134,8 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {string} script 
-   * @param {string} language 
+   * @param {string} [script] 
+   * @param {string} [language] 
    * @returns {string[]}
    */
   getAvailableFeatures(script, language) {

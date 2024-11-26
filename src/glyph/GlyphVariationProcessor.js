@@ -181,6 +181,9 @@ export default class GlyphVariationProcessor {
     }
   }
 
+  /**
+   * @returns {Uint16Array}
+   */
   decodePoints() {
     let stream = this.font.stream;
     let count = stream.readUInt8();
@@ -206,6 +209,10 @@ export default class GlyphVariationProcessor {
     return points;
   }
 
+  /**
+   * @param {number} count 
+   * @returns {Int16Array}
+   */
   decodeDeltas(count) {
     let stream = this.font.stream;
     let i = 0;
