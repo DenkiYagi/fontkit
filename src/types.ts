@@ -6,7 +6,13 @@ import type DFont from "./DFont.js";
 import type GlyphInfo from "./opentype/GlyphInfo.js";
 import type ShapingPlan from "./opentype/ShapingPlan.js";
 
-export type TTFFont = _TTFFont & Record<string, object>;
+export type TTFFont = _TTFFont &
+  Record<string, object> & {
+    cff: any;
+    "OS/2": { sFamilyClass: number };
+    head: { macStyle: { italic: boolean } };
+    post: { isFixedPitch: boolean };
+  };
 export type Font = TTFFont | WOFFFont | WOFF2Font;
 export type FontCollection = TrueTypeCollection | DFont;
 
