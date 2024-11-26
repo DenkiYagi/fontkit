@@ -27,7 +27,7 @@ let ScriptRecord = new r.Struct({
   script: new r.Pointer(r.uint16, Script, { type: 'parent' })
 });
 
-export let ScriptList = new r.Array(ScriptRecord, r.uint16);
+export const ScriptList = new r.Array(ScriptRecord, r.uint16);
 
 //#######################
 // Features and Lookups #
@@ -38,7 +38,7 @@ let FeatureParams = new r.Struct({
   nameID:     r.uint16, //OT spec: UI Name ID or uiLabelNameId
 });
 
-export let Feature = new r.Struct({
+export const Feature = new r.Struct({
   featureParams:      new r.Pointer(r.uint16, FeatureParams),
   lookupCount:        r.uint16,
   lookupListIndexes:  new r.Array(r.uint16, 'lookupCount')
@@ -49,7 +49,7 @@ let FeatureRecord = new r.Struct({
   feature:  new r.Pointer(r.uint16, Feature, { type: 'parent' })
 });
 
-export let FeatureList = new r.Array(FeatureRecord, r.uint16);
+export const FeatureList = new r.Array(FeatureRecord, r.uint16);
 
 let LookupFlags = new r.Struct({
   markAttachmentType: r.uint8,
@@ -81,7 +81,7 @@ let RangeRecord = new r.Struct({
   startCoverageIndex: r.uint16
 });
 
-export let Coverage = new r.VersionedStruct(r.uint16, {
+export const Coverage = new r.VersionedStruct(r.uint16, {
   1: {
     glyphCount:   r.uint16,
     glyphs:       new r.Array(r.uint16, 'glyphCount')
@@ -102,7 +102,7 @@ let ClassRangeRecord = new r.Struct({
   class:  r.uint16
 });
 
-export let ClassDef = new r.VersionedStruct(r.uint16, {
+export const ClassDef = new r.VersionedStruct(r.uint16, {
   1: { // Class array
     startGlyph:       r.uint16,
     glyphCount:       r.uint16,
@@ -118,7 +118,7 @@ export let ClassDef = new r.VersionedStruct(r.uint16, {
 // Device Table #
 //###############
 
-export let Device = new r.Struct({
+export const Device = new r.Struct({
   a: r.uint16, // startSize for hinting Device, outerIndex for VariationIndex
   b: r.uint16, // endSize for Device, innerIndex for VariationIndex
   deltaFormat: r.uint16
@@ -151,7 +151,7 @@ let ClassRule = new r.Struct({
 
 let ClassSet = new r.Array(new r.Pointer(r.uint16, ClassRule), r.uint16);
 
-export let Context = new r.VersionedStruct(r.uint16, {
+export const Context = new r.VersionedStruct(r.uint16, {
   1: { // Simple context
     coverage:      new r.Pointer(r.uint16, Coverage),
     ruleSetCount:  r.uint16,
@@ -188,7 +188,7 @@ let ChainRule = new r.Struct({
 
 let ChainRuleSet = new r.Array(new r.Pointer(r.uint16, ChainRule), r.uint16);
 
-export let ChainingContext = new r.VersionedStruct(r.uint16, {
+export const ChainingContext = new r.VersionedStruct(r.uint16, {
   1: { // Simple context glyph substitution
     coverage:           new r.Pointer(r.uint16, Coverage),
     chainCount:         r.uint16,

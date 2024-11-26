@@ -1,6 +1,6 @@
 import * as r from 'restructure';
 
-export let BigMetrics = new r.Struct({
+export const BigMetrics = new r.Struct({
   height: r.uint8,
   width: r.uint8,
   horiBearingX: r.int8,
@@ -11,7 +11,7 @@ export let BigMetrics = new r.Struct({
   vertAdvance: r.uint8
 });
 
-export let SmallMetrics = new r.Struct({
+export const SmallMetrics = new r.Struct({
   height: r.uint8,
   width: r.uint8,
   bearingX: r.int8,
@@ -29,7 +29,7 @@ class ByteAligned {}
 
 class BitAligned {}
 
-export let glyph = new r.VersionedStruct('version', {
+export const glyph = new r.VersionedStruct('version', {
   1: {
     metrics: SmallMetrics,
     data: ByteAligned
