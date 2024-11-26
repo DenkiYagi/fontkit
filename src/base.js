@@ -5,7 +5,18 @@ import { DecodeStream } from 'restructure';
 
 // -----------------------------------------------------------------------------
 
-export let logErrors = false;
+let loggingErrors = false;
+
+export function isLoggingErrors() {
+  return loggingErrors;
+}
+
+/**
+ * @param {boolean} flag
+ */
+export function logErrors(flag) {
+  loggingErrors = flag;
+}
 
 // -----------------------------------------------------------------------------
 
@@ -39,7 +50,10 @@ export function create(buffer, postscriptName) {
 
 // -----------------------------------------------------------------------------
 
-export let defaultLanguage = 'en';
+let defaultLanguage = 'en';
+export function getDefaultLanguage() {
+  return defaultLanguage;
+}
 export function setDefaultLanguage(lang = 'en') {
   defaultLanguage = lang;
 }
