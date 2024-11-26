@@ -3,9 +3,8 @@ import type WOFFFont from "./WOFFFont.js";
 import type WOFF2Font from "./WOFF2Font.js";
 import type TrueTypeCollection from "./TrueTypeCollection.js";
 import type DFont from "./DFont.js";
-import GlyphInfo from "./opentype/GlyphInfo.js";
-import ShapingPlan from "./opentype/ShapingPlan.js";
-import Glyph from "./glyph/Glyph.js";
+import type GlyphInfo from "./opentype/GlyphInfo.js";
+import type ShapingPlan from "./opentype/ShapingPlan.js";
 
 export type TTFFont = _TTFFont & Record<string, object>;
 export type Font = TTFFont | WOFFFont | WOFF2Font;
@@ -49,9 +48,9 @@ export interface Shaper {
     plan: ShapingPlan,
     glyphs: GlyphInfo[],
     userFeatures: string[] | Record<string, boolean>
-  );
+  ): void;
 
-  assignFeatures(plan: ShapingPlan, glyphs: GlyphInfo[]);
+  assignFeatures(plan: ShapingPlan, glyphs: GlyphInfo[]): void;
 }
 
 /**
