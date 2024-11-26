@@ -14,12 +14,14 @@
   "scripts": {
     "test": "run-s build mocha",
     "mocha": "mocha",
-    "build": "parcel build",
+    "build": "run-s build:*",
+    "build:js": "parcel build",
+    "build:types": "tsc --project tsconfig-types.json",
     "prepublish": "run-s clean trie:** build",
     "trie:data": "node src/opentype/shapers/generate-data.js",
     "trie:use": "node src/opentype/shapers/gen-use.js",
     "trie:indic": "node src/opentype/shapers/gen-indic.js",
-    "clean": "shx rm -rf src/opentype/shapers/data.trie src/opentype/shapers/use.trie src/opentype/shapers/use.json src/opentype/shapers/indic.trie src/opentype/shapers/indic.json dist",
+    "clean": "shx rm -rf src/opentype/shapers/data.trie src/opentype/shapers/use.trie src/opentype/shapers/use.json src/opentype/shapers/indic.trie src/opentype/shapers/indic.json dist types",
     "coverage": "c8 mocha"
   },
   "type": "module",
@@ -28,13 +30,16 @@
   "browser": "dist/browser.cjs",
   "module": "dist/browser-module.mjs",
   "source": "src/index.js",
+  "types": "types/index.d.ts",
   "exports": {
     "node": {
       "import": "./dist/module.mjs",
-      "require": "./dist/main.cjs"
+      "require": "./dist/main.cjs",
+      "types": "./types/node.d.ts"
     },
     "import": "./dist/browser-module.mjs",
-    "require": "./dist/browser.cjs"
+    "require": "./dist/browser.cjs",
+    "types": "./types/index.d.ts"
   },
   "targets": {
     "main": {
@@ -67,7 +72,8 @@
   },
   "files": [
     "src",
-    "dist"
+    "dist",
+    "types"
   ],
   "author": "DenkiYagi Inc. (modified version author), Devon Govett <devongovett@gmail.com> (orignal version author)",
   "license": "MIT",
