@@ -1,3 +1,5 @@
+// @ts-check
+
 import * as Script from '../layout/Script';
 
 /**
@@ -10,11 +12,21 @@ import * as Script from '../layout/Script';
  * @private
  */
 export default class ShapingPlan {
+  /**
+   * @param {import("../types").TTFFont} font 
+   * @param {string} script 
+   * @param {'ltr' | 'rtl'} direction 
+   */
   constructor(font, script, direction) {
     this.font = font;
     this.script = script;
     this.direction = direction;
+
+    /**
+     * @type {import("../types").ShapingPlanStage[]}
+     */
     this.stages = [];
+
     this.globalFeatures = {};
     this.allFeatures = {};
   }
@@ -22,24 +34,34 @@ export default class ShapingPlan {
   /**
    * Adds the given features to the last stage.
    * Ignores features that have already been applied.
+   * 
+   * @param {string[]} features
+   * @param {boolean} global
    */
   _addFeatures(features, global) {
     let stageIndex = this.stages.length - 1;
     let stage = this.stages[stageIndex];
-    for (let feature of features) {
-      if (this.allFeatures[feature] == null) {
-        stage.push(feature);
-        this.allFeatures[feature] = stageIndex;
-
-        if (global) {
-          this.globalFeatures[feature] = true;
+    if (Array.isArray(stage)) {
+      for (let feature of features) {
+        if (this.allFeatures[feature] == null) {
+          stage.push(feature);
+          this.allFeatures[feature] = stageIndex;
+  
+          if (global) {
+            this.globalFeatures[feature] = true;
+          }
         }
       }
+    } else {
+      throw new Error("Invalid data type of stage in ShapingPlan#stages");
     }
   }
 
   /**
    * Add features to the last stage
+   * 
+   * @param {string | string[] | {global?: string[], local?: string[]}} arg
+   * @param {boolean} [global]
    */
   add(arg, global = true) {
     if (this.stages.length === 0) {
@@ -62,6 +84,9 @@ export default class ShapingPlan {
 
   /**
    * Add a new stage
+   * 
+   * @param {import("../types").ShapingPlanStageFunction | string | string[] | {global?: string[], local?: string[]}} arg
+   * @param {boolean} [global]
    */
   addStage(arg, global) {
     if (typeof arg === 'function') {
@@ -72,6 +97,9 @@ export default class ShapingPlan {
     }
   }
 
+  /**
+   * @param {string[] | Record<string, boolean>} features 
+   */
   setFeatureOverrides(features) {
     if (Array.isArray(features)) {
       this.add(features);
@@ -81,9 +109,13 @@ export default class ShapingPlan {
           this.add(tag);
         } else if (this.allFeatures[tag] != null) {
           let stage = this.stages[this.allFeatures[tag]];
-          stage.splice(stage.indexOf(tag), 1);
-          delete this.allFeatures[tag];
-          delete this.globalFeatures[tag];
+          if (Array.isArray(stage)) {
+            stage.splice(stage.indexOf(tag), 1);
+            delete this.allFeatures[tag];
+            delete this.globalFeatures[tag];
+          } else {
+            throw new Error("Invalid data type of stage in ShapingPlan#stages");
+          }
         }
       }
     }
@@ -91,6 +123,8 @@ export default class ShapingPlan {
 
   /**
    * Assigns the global features to the given glyphs
+   * 
+   * @param {import("./GlyphInfo").default[]} glyphs
    */
   assignGlobalFeatures(glyphs) {
     for (let glyph of glyphs) {
@@ -102,6 +136,10 @@ export default class ShapingPlan {
 
   /**
    * Executes the planned stages using the given OTProcessor
+   * 
+   * @param {import("./OTProcessor").default} processor
+   * @param {import("./GlyphInfo").default[]} glyphs
+   * @param {import("../layout/GlyphPosition").default[]} [positions]
    */
   process(processor, glyphs, positions) {
     for (let stage of this.stages) {

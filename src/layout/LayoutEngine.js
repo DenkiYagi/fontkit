@@ -1,14 +1,23 @@
+// @ts-check
+
 import KernProcessor from './KernProcessor';
 import UnicodeLayoutEngine from './UnicodeLayoutEngine';
 import GlyphRun from './GlyphRun';
-import GlyphPosition from './GlyphPosition';
 import * as Script from './Script';
 import AATLayoutEngine from '../aat/AATLayoutEngine';
 import OTLayoutEngine from '../opentype/OTLayoutEngine';
+import GlyphPosition from './GlyphPosition';
 
 export default class LayoutEngine {
+  /**
+   * @param {import("../types").TTFFont} font 
+   */
   constructor(font) {
+    /**
+     * @type {import("../types").TTFFont}
+     */
     this.font = font;
+
     this.unicodeLayoutEngine = null;
     this.kernProcessor = null;
 
@@ -22,14 +31,14 @@ export default class LayoutEngine {
     }
   }
 
-  layout(string, features, script, language, direction) {
-    // Make the features parameter optional
-    if (typeof features === 'string') {
-      direction = language;
-      language = script;
-      script = features;
-      features = [];
-    }
+  /**
+   * @param {string | import("../glyph/Glyph").default[]} string 
+   * @param {string[] | Record<string, boolean>} [features] 
+   * @param {import("../types").LayoutAdvancedParams} [advancedParams]
+   * @returns {GlyphRun}
+   */
+  layout(string, features, advancedParams = {}) {
+    let {script, language, direction, shaper, skipPerGlyphPositioning} = advancedParams;
 
     // Map string to glyphs if needed
     if (typeof string === 'string') {
@@ -57,29 +66,35 @@ export default class LayoutEngine {
 
     // Return early if there are no glyphs
     if (glyphs.length === 0) {
-      glyphRun.positions = [];
       return glyphRun;
     }
 
     // Setup the advanced layout engine
-    if (this.engine && this.engine.setup) {
-      this.engine.setup(glyphRun);
+    if (this.engine instanceof OTLayoutEngine) {
+      this.engine.setup(glyphRun, shaper);
     }
 
     // Substitute and position the glyphs
     this.substitute(glyphRun);
+    if (!skipPerGlyphPositioning) {
+      // Assign initial glyph positions (FIXME: support vertical writing mode)
+      glyphRun.positions = glyphRun.glyphs.map(glyph => new GlyphPosition(glyph.advanceWidth));
+    }
     this.position(glyphRun);
 
-    this.hideDefaultIgnorables(glyphRun.glyphs, glyphRun.positions);
+    this.hideDefaultIgnorables(glyphRun);
 
     // Let the layout engine clean up any state it might have
-    if (this.engine && this.engine.cleanup) {
+    if (this.engine instanceof OTLayoutEngine) {
       this.engine.cleanup();
     }
 
     return glyphRun;
   }
 
+  /**
+   * @param {GlyphRun} glyphRun 
+   */
   substitute(glyphRun) {
     // Call the advanced layout engine to make substitutions
     if (this.engine && this.engine.substitute) {
@@ -87,15 +102,23 @@ export default class LayoutEngine {
     }
   }
 
+  /**
+   * Includes:
+   * - Arrangement of the entire glyph array
+   * - Position adjustment per glyph (skipped if the flag `skipPerGlyphPositioning` is set)
+   *
+   * @param {GlyphRun} glyphRun
+   */
   position(glyphRun) {
-    // Get initial glyph positions
-    glyphRun.positions = glyphRun.glyphs.map(glyph => new GlyphPosition(glyph.advanceWidth));
     let positioned = null;
 
     // Call the advanced layout engine. Returns the features applied.
-    if (this.engine && this.engine.position) {
+    if (this.engine instanceof OTLayoutEngine) {
       positioned = this.engine.position(glyphRun);
     }
+
+    // The following process only takes effect if `glyphRun.positions` is not null.
+    if (glyphRun.positions == null) return;
 
     // if there is no GPOS table, use unicode properties to position marks.
     if (!positioned && (!this.engine || this.engine.fallbackPosition)) {
@@ -117,17 +140,28 @@ export default class LayoutEngine {
     }
   }
 
-  hideDefaultIgnorables(glyphs, positions) {
+  /**
+   * @param {GlyphRun} glyphRun
+   */
+  hideDefaultIgnorables(glyphRun) {
+    const { glyphs, positions } = glyphRun;
+
     let space = this.font.glyphForCodePoint(0x20);
     for (let i = 0; i < glyphs.length; i++) {
       if (this.isDefaultIgnorable(glyphs[i].codePoints[0])) {
         glyphs[i] = space;
-        positions[i].xAdvance = 0;
-        positions[i].yAdvance = 0;
+        if (positions != null) {
+          positions[i].xAdvance = 0;
+          positions[i].yAdvance = 0;
+        }
       }
     }
   }
 
+  /**
+   * @param {number} ch 
+   * @returns {boolean}
+   */
   isDefaultIgnorable(ch) {
     // From DerivedCoreProperties.txt in the Unicode database,
     // minus U+115F, U+1160, U+3164 and U+FFA0, which is what
@@ -156,6 +190,11 @@ export default class LayoutEngine {
     }
   }
 
+  /**
+   * @param {string} script 
+   * @param {string} language 
+   * @returns {string[]}
+   */
   getAvailableFeatures(script, language) {
     let features = [];
 
@@ -170,6 +209,10 @@ export default class LayoutEngine {
     return features;
   }
 
+  /**
+   * @param {number} gid 
+   * @returns {string[]}
+   */
   stringsForGlyph(gid) {
     let result = new Set;
 
@@ -178,7 +221,7 @@ export default class LayoutEngine {
       result.add(String.fromCodePoint(codePoint));
     }
 
-    if (this.engine && this.engine.stringsForGlyph) {
+    if (this.engine instanceof AATLayoutEngine) {
       for (let string of this.engine.stringsForGlyph(gid)) {
         result.add(string);
       }

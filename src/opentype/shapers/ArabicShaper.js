@@ -5,6 +5,10 @@ import { decodeBase64 } from '../../utils';
 
 const trie = new UnicodeTrie(decodeBase64(require('fs').readFileSync(__dirname + '/data.trie', 'base64')));
 const FEATURES = ['isol', 'fina', 'fin2', 'fin3', 'medi', 'med2', 'init'];
+const DIRECTIONAL_FEATURES = {
+  ltr: ['ltra', 'ltrm'],
+  rtl: ['rtla', 'rtlm']
+};
 
 const ShapingClasses = {
   Non_Joining: 0,
@@ -60,7 +64,18 @@ const STATE_TABLE = [
  * https://github.com/behdad/harfbuzz/blob/master/src/hb-ot-shape-complex-arabic.cc
  */
 export default class ArabicShaper extends DefaultShaper {
-  static planFeatures(plan) {
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   */
+  planPreprocessing(plan) {
+    super.planPreprocessing(plan);
+    plan.add(DIRECTIONAL_FEATURES[plan.direction]);
+  }
+
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   */
+  planFeatures(plan) {
     plan.add(['ccmp', 'locl']);
     for (let i = 0; i < FEATURES.length; i++) {
       let feature = FEATURES[i];
@@ -70,7 +85,11 @@ export default class ArabicShaper extends DefaultShaper {
     plan.addStage('mset');
   }
 
-  static assignFeatures(plan, glyphs) {
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../GlyphInfo').default[]} glyphs
+   */
+  assignFeatures(plan, glyphs) {
     super.assignFeatures(plan, glyphs);
 
     let prev = -1;

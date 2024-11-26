@@ -1,10 +1,23 @@
+// @ts-check
+
 import {binarySearch} from '../utils';
 
 export default class KernProcessor {
+  /**
+   * @param {import("../types").TTFFont} font
+   */
   constructor(font) {
+    /**
+     * @type {{tables: any[]}}
+     */
+    // @ts-ignore
     this.kern = font.kern;
   }
 
+  /**
+   * @param {import("../glyph/Glyph").default[]} glyphs 
+   * @param {import("./GlyphPosition").default[]} positions 
+   */
   process(glyphs, positions) {
     for (let glyphIndex = 0; glyphIndex < glyphs.length - 1; glyphIndex++) {
       let left = glyphs[glyphIndex].id;
@@ -13,6 +26,10 @@ export default class KernProcessor {
     }
   }
 
+  /**
+   * @param {number} left
+   * @param {number} right
+   */
   getKerning(left, right) {
     let res = 0;
 

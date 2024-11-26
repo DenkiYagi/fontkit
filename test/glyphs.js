@@ -71,11 +71,12 @@ describe('glyphs', function () {
     });
 
     it('should get correct bbox for runs containing blanks', function () {
-      let r = font.layout('abc ef');
-      assert.equal(r.bbox.minX, 94);
-      assert.equal(r.bbox.minY, -20);
-      assert.equal(r.bbox.maxX, 5832);
-      assert.equal(r.bbox.maxY, 1567);
+      let { bbox } = font.layout('abc ef');
+      if (bbox == null) assert.fail('Failed to get bbox');
+      assert.equal(bbox.minX, 94);
+      assert.equal(bbox.minY, -20);
+      assert.equal(bbox.maxX, 5832);
+      assert.equal(bbox.maxY, 1567);
     });
 
     it('should get the advance width', function () {

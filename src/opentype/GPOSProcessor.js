@@ -1,4 +1,10 @@
+import GlyphPosition from '../layout/GlyphPosition';
 import OTProcessor from './OTProcessor';
+
+/**
+ * Null object for `GlyphPosition`.
+ */
+const positionNull = new GlyphPosition();
 
 export default class GPOSProcessor extends OTProcessor {
   applyPositionValue(sequenceIndex, value) {
@@ -123,8 +129,12 @@ export default class GPOSProcessor extends OTProcessor {
         let entry = this.getAnchor(nextRecord.entryAnchor);
         let exit = this.getAnchor(curRecord.exitAnchor);
 
-        let cur = this.positions[this.glyphIterator.index];
-        let next = this.positions[nextIndex];
+        let cur = positionNull;
+        let next = positionNull;
+        if (this.positions != null) {
+          cur = this.positions[this.glyphIterator.index];
+          next = this.positions[nextIndex];
+        }
         let d;
 
         switch (this.direction) {
@@ -276,8 +286,10 @@ export default class GPOSProcessor extends OTProcessor {
     let baseCoords = this.getAnchor(baseAnchor);
     let markCoords = this.getAnchor(markRecord.markAnchor);
 
-    let basePos = this.positions[baseGlyphIndex];
-    let markPos = this.positions[this.glyphIterator.index];
+    let markPos = positionNull;
+    if (this.positions != null) {
+      markPos = this.positions[this.glyphIterator.index];
+    }
 
     markPos.xOffset = baseCoords.x - markCoords.x;
     markPos.yOffset = baseCoords.y - markCoords.y;
@@ -305,8 +317,15 @@ export default class GPOSProcessor extends OTProcessor {
     return { x, y };
   }
 
+  /**
+   * @param {string[]} userFeatures
+   * @param {import("./GlyphInfo").default[]} glyphs
+   * @param {import("../layout/GlyphPosition").default[]} [advances]
+   */
   applyFeatures(userFeatures, glyphs, advances) {
     super.applyFeatures(userFeatures, glyphs, advances);
+
+    if (this.positions == null) return;
 
     for (var i = 0; i < this.glyphs.length; i++) {
       this.fixCursiveAttachment(i);

@@ -15,8 +15,12 @@ const stateMachine = new StateMachine(useData);
  * See https://www.microsoft.com/typography/OpenTypeDev/USE/intro.htm.
  */
 export default class UniversalShaper extends DefaultShaper {
-  static zeroMarkWidths = 'BEFORE_GPOS';
-  static planFeatures(plan) {
+  /**
+   * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
+   */
+  zeroMarkWidths = 'BEFORE_GPOS';
+
+  planFeatures(plan) {
     plan.addStage(setupSyllables);
 
     // Default glyph pre-processing group
@@ -42,7 +46,11 @@ export default class UniversalShaper extends DefaultShaper {
     plan.addStage(['abvs', 'blws', 'pres', 'psts', 'dist', 'abvm', 'blwm']);
   }
 
-  static assignFeatures(plan, glyphs) {
+  /**
+   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../GlyphInfo').default[]} glyphs
+   */
+  assignFeatures(plan, glyphs) {
     // Decompose split vowels
     // TODO: do this in a more general unicode normalizer
     for (let i = glyphs.length - 1; i >= 0; i--) {

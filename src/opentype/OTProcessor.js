@@ -26,8 +26,10 @@ export default class OTProcessor {
     this.selectScript();
 
     // current context (set by applyFeatures)
+    /** @type {import("./GlyphInfo").default[]} */
     this.glyphs = [];
-    this.positions = []; // only used by GPOS
+    /** @type {(import("../layout/GlyphPosition").default[] | undefined)} */
+    this.positions = undefined; // only used by GPOS
     this.ligatureID = 1;
     this.currentFeature = null;
   }
@@ -179,6 +181,11 @@ export default class OTProcessor {
     });
   }
 
+  /**
+   * @param {string[]} userFeatures
+   * @param {import("./GlyphInfo").default[]} glyphs
+   * @param {import("../layout/GlyphPosition").default[]} [advances]
+   */
   applyFeatures(userFeatures, glyphs, advances) {
     let lookups = this.lookupsForFeatures(userFeatures);
     this.applyLookups(lookups, glyphs, advances);

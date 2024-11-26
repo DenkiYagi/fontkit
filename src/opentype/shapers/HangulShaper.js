@@ -24,12 +24,16 @@ import GlyphInfo from '../GlyphInfo';
  *   - http://ktug.org/~nomos/harfbuzz-hangul/hangulshaper.pdf
  */
 export default class HangulShaper extends DefaultShaper {
-  static zeroMarkWidths = 'NONE';
-  static planFeatures(plan) {
+  /**
+   * @type {'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS'}
+   */
+  zeroMarkWidths = 'NONE';
+
+  planFeatures(plan) {
     plan.add(['ljmo', 'vjmo', 'tjmo'], false);
   }
 
-  static assignFeatures(plan, glyphs) {
+  assignFeatures(plan, glyphs) {
     let state = 0;
     let i = 0;
     while (i < glyphs.length) {

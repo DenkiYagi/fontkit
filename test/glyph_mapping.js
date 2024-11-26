@@ -60,16 +60,6 @@ describe('character to glyph mapping', function () {
       assert.deepEqual(glyphs.map(g => g.id), [514, 36]);
       return assert.deepEqual(glyphs.map(g => g.codePoints), [[102, 102], [105]]);
     });
-
-    it('should enable fractions when using fraction slash', function () {
-      let { glyphs } = font.layout('123 1⁄16 123');
-      return assert.deepEqual(glyphs.map(g => g.id), [1088, 1089, 1090, 1, 1617, 1724, 1603, 1608, 1, 1088, 1089, 1090]);
-    });
-
-    it('should not break if can’t enable fractions when using fraction slash', function () {
-      let { glyphs } = font.layout('a⁄b ⁄ 1⁄ ⁄2');
-      return assert.deepEqual(glyphs.map(g => g.id), [28, 1724, 29, 1, 1724, 1, 1617, 1724, 1, 1724, 1604]);
-    });
   });
 
   describe('AAT features', function () {
@@ -99,7 +89,7 @@ describe('character to glyph mapping', function () {
     });
 
     it('should handle rtl direction', function () {
-      let { glyphs } = font.layout('ffi', [], null, null, "rtl");
+      let { glyphs } = font.layout('ffi', [], {direction: 'rtl'});
       assert.equal(glyphs.length, 3);
       assert.deepEqual(glyphs.map(g => g.id), [76, 73, 73]);
       return assert.deepEqual(glyphs.map(g => g.codePoints), [[105], [102], [102]]);

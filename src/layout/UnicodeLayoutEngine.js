@@ -1,3 +1,5 @@
+// @ts-check
+
 import {getCombiningClass} from 'unicode-properties';
 
 /**
@@ -9,10 +11,18 @@ import {getCombiningClass} from 'unicode-properties';
  * https://github.com/behdad/harfbuzz/blob/master/src/hb-ot-shape-fallback.cc
  */
 export default class UnicodeLayoutEngine {
+  /**
+   * @param {import("../types").TTFFont} font
+   */
   constructor(font) {
     this.font = font;
   }
 
+  /**
+   * @param {import("../glyph/Glyph").default[]} glyphs
+   * @param {import("./GlyphPosition").default[]} positions
+   * @returns {import("./GlyphPosition").default[]}
+   */
   positionGlyphs(glyphs, positions) {
     // find each base + mark cluster, and position the marks relative to the base
     let clusterStart = 0;
@@ -37,6 +47,12 @@ export default class UnicodeLayoutEngine {
     return positions;
   }
 
+  /**
+   * @param {import("../glyph/Glyph").default[]} glyphs
+   * @param {import("./GlyphPosition").default[]} positions
+   * @param {number} clusterStart
+   * @param {number} clusterEnd
+   */
   positionCluster(glyphs, positions, clusterStart, clusterEnd) {
     let base = glyphs[clusterStart];
     let baseBox = base.cbox.copy();
@@ -135,6 +151,9 @@ export default class UnicodeLayoutEngine {
     return;
   }
 
+  /**
+   * @param {number} codePoint
+   */
   getCombiningClass(codePoint) {
     let combiningClass = getCombiningClass(codePoint);
 

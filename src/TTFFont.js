@@ -298,7 +298,7 @@ export default class TTFFont {
    * Does not perform any advanced substitutions (there is no context to do so).
    *
    * @param {number} codePoint
-   * @return {Glyph}
+   * @return {import("./glyph/Glyph").default}
    */
   glyphForCodePoint(codePoint) {
     return this.getGlyph(this._cmapProcessor.lookup(codePoint), [codePoint]);
@@ -311,7 +311,7 @@ export default class TTFFont {
    * provides a much more advanced mapping supporting AAT and OpenType shaping.
    *
    * @param {string} string
-   * @return {Glyph[]}
+   * @return {import("./glyph/Glyph").default[]}
    */
   glyphsForString(string) {
     let glyphs = [];
@@ -365,14 +365,12 @@ export default class TTFFont {
    * Returns a GlyphRun object, which includes an array of Glyphs and GlyphPositions for the given string.
    *
    * @param {string} string
-   * @param {string[]} [userFeatures]
-   * @param {string} [script]
-   * @param {string} [language]
-   * @param {string} [direction]
-   * @return {GlyphRun}
+   * @param {string[] | Record<string, boolean>} [userFeatures]
+   * @param {import("./types").LayoutAdvancedParams} [advancedParams]
+   * @return {import("./layout/GlyphRun").default}
    */
-  layout(string, userFeatures, script, language, direction) {
-    return this._layoutEngine.layout(string, userFeatures, script, language, direction);
+  layout(string, userFeatures, advancedParams) {
+    return this._layoutEngine.layout(string, userFeatures, advancedParams);
   }
 
   /**
@@ -419,7 +417,7 @@ export default class TTFFont {
    *
    * @param {number} glyph
    * @param {number[]} characters
-   * @return {Glyph}
+   * @return {import("./glyph/Glyph").default}
    */
   getGlyph(glyph, characters = []) {
     if (!this._glyphs[glyph]) {
