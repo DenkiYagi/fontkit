@@ -15,3 +15,5 @@ indic.json
 dist
 .parcel-cache
 /types/
+
+.npmrc
