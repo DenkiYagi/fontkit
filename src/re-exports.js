@@ -1,3 +1,4 @@
+export { default as TTFFont } from './TTFFont';
 export { default as Glyph } from './glyph/Glyph';
 export { default as BBox } from './glyph/BBox';
 export { default as Path } from './glyph/Path';

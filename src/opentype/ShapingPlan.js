@@ -13,7 +13,7 @@ import * as Script from '../layout/Script';
  */
 export default class ShapingPlan {
   /**
-   * @param {import("../types").TTFFont} font 
+   * @param {import("../TTFFont").default} font 
    * @param {string} script 
    * @param {'ltr' | 'rtl'} direction 
    */

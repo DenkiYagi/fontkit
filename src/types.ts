@@ -1,21 +1,11 @@
-import type { default as _TTFFont } from './TTFFont.js';
-import type { default as _WOFFFont } from './WOFFFont.js';
-import type { default as _WOFF2Font } from './WOFF2Font.js';
+import type TTFFont from './TTFFont.js';
+import type WOFFFont from './WOFFFont.js';
+import type WOFF2Font from './WOFF2Font.js';
 import type TrueTypeCollection from './TrueTypeCollection.js';
 import type DFont from './DFont.js';
 import type GlyphInfo from './opentype/GlyphInfo.js';
 import type ShapingPlan from './opentype/ShapingPlan.js';
 
-type TTFFontExpansion = Record<string, object> & {
-  cff?: any;
-  'OS/2'?: { sFamilyClass: number };
-  head: { macStyle: { italic: boolean } };
-  post?: { isFixedPitch: boolean };
-};
-
-export type TTFFont = _TTFFont & TTFFontExpansion & { type: 'TTF' };
-export type WOFFFont = _WOFFFont & TTFFontExpansion & { type: 'WOFF' };
-export type WOFF2Font = _WOFF2Font & TTFFontExpansion & { type: 'WOFF2' };
 export type Font = TTFFont | WOFFFont | WOFF2Font;
 export type FontCollection = TrueTypeCollection | DFont;
 

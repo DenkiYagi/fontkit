@@ -14,7 +14,7 @@ export default class LayoutEngine {
    */
   constructor(font) {
     /**
-     * @type {import("../types").TTFFont}
+     * @type {import("../TTFFont").default}
      */
     // @ts-ignore
     this.font = font;

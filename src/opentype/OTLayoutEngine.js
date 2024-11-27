@@ -8,7 +8,7 @@ import GPOSProcessor from './GPOSProcessor';
 
 export default class OTLayoutEngine {
   /**
-   * @param {import('../types').TTFFont} font 
+   * @param {import('../TTFFont').default} font 
    */
   constructor(font) {
     this.font = font;

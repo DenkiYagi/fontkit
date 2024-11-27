@@ -4,7 +4,7 @@ import {binarySearch} from '../utils';
 
 export default class KernProcessor {
   /**
-   * @param {import("../types").TTFFont} font
+   * @param {import("../TTFFont").default} font
    */
   constructor(font) {
     /**

@@ -12,7 +12,7 @@ import {getCombiningClass} from 'unicode-properties';
  */
 export default class UnicodeLayoutEngine {
   /**
-   * @param {import("../types").TTFFont} font
+   * @param {import("../TTFFont").default} font
    */
   constructor(font) {
     this.font = font;

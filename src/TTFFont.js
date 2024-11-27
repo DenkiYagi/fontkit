@@ -18,16 +18,38 @@ import { asciiDecoder } from './utils';
 /**
  * This is the base class for all SFNT-based font formats in fontkit.
  * It supports TrueType, and PostScript glyphs, and several color glyph formats.
- * 
- * @type {Record<string, object>}
  */
 export default class TTFFont {
+  /**
+   * @type {'TTF' | 'WOFF' | 'WOFF2'}
+   */
   type = 'TTF';
 
   static probe(buffer) {
     let format = asciiDecoder.decode(buffer.slice(0, 4));
     return format === 'true' || format === 'OTTO' || format === String.fromCharCode(0, 1, 0, 0);
   }
+
+  // some tables that the font should/may have
+  /** @type {{}} */
+  name;
+  /** @type {{ macStyle: { italic: boolean } }} */
+  head;
+  /** @type {({ sFamilyClass: number } | undefined)} */
+  'OS/2';
+  /** @type {({ isFixedPitch: boolean } | undefined)} */
+  post;
+  /** @type {({} | undefined)} */
+  GSUB;
+  /** @type {({} | undefined)} */
+  GPOS;
+  /** @type {({} | undefined)} */
+  morx;
+  /** @type {({} | undefined)} */
+  kern;
+
+  /** @type {*} */
+  cff; // TODO: check if this is correct
 
   constructor(stream, variationCoords = null) {
     this.defaultLanguage = null;

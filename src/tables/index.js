@@ -1,4 +1,9 @@
-let tables = {};
+// @ts-check
+
+/**
+ * @type {Record<import('./types').TableTag, any>}
+ */
+const tables = {};
 export default tables;
 
 // Required Tables
