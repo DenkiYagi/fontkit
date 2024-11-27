@@ -1,6 +1,6 @@
 # Modifications
 
-## [Unreleased]
+## [2.0.4-mod.2024.1]
 
 - Add properties to get the glyph's origin Y coordinate in the vertical writing mode:
     - `TTFFont#defaultVertOriginY`
