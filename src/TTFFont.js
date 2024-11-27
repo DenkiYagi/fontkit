@@ -2,7 +2,7 @@ import * as r from 'restructure';
 import { cache } from './decorators';
 import { isLoggingErrors, getDefaultLanguage as getGlobalDefaultLanguage } from './base';
 import Directory from './tables/directory';
-import tables from './tables';
+import tables from './tables/index';
 import CmapProcessor from './CmapProcessor';
 import LayoutEngine from './layout/LayoutEngine';
 import TTFGlyph from './glyph/TTFGlyph';
@@ -20,12 +20,36 @@ import { asciiDecoder } from './utils';
  * It supports TrueType, and PostScript glyphs, and several color glyph formats.
  */
 export default class TTFFont {
+  /**
+   * @type {'TTF' | 'WOFF' | 'WOFF2'}
+   */
   type = 'TTF';
 
   static probe(buffer) {
     let format = asciiDecoder.decode(buffer.slice(0, 4));
     return format === 'true' || format === 'OTTO' || format === String.fromCharCode(0, 1, 0, 0);
   }
+
+  // some tables that the font should/may have
+  /** @type {{}} */
+  name;
+  /** @type {{ macStyle: { italic: boolean } }} */
+  head;
+  /** @type {({ sFamilyClass: number } | undefined)} */
+  'OS/2';
+  /** @type {({ isFixedPitch: boolean } | undefined)} */
+  post;
+  /** @type {({} | undefined)} */
+  GSUB;
+  /** @type {({} | undefined)} */
+  GPOS;
+  /** @type {({} | undefined)} */
+  morx;
+  /** @type {({} | undefined)} */
+  kern;
+
+  /** @type {*} */
+  cff; // TODO: check if this is correct
 
   constructor(stream, variationCoords = null) {
     this.defaultLanguage = null;
@@ -298,7 +322,7 @@ export default class TTFFont {
    * Does not perform any advanced substitutions (there is no context to do so).
    *
    * @param {number} codePoint
-   * @return {import("./glyph/Glyph").default}
+   * @return {import('./glyph/Glyph').default}
    */
   glyphForCodePoint(codePoint) {
     return this.getGlyph(this._cmapProcessor.lookup(codePoint), [codePoint]);
@@ -311,7 +335,7 @@ export default class TTFFont {
    * provides a much more advanced mapping supporting AAT and OpenType shaping.
    *
    * @param {string} string
-   * @return {import("./glyph/Glyph").default[]}
+   * @return {import('./glyph/Glyph').default[]}
    */
   glyphsForString(string) {
     let glyphs = [];
@@ -366,8 +390,8 @@ export default class TTFFont {
    *
    * @param {string} string
    * @param {string[] | Record<string, boolean>} [userFeatures]
-   * @param {import("./types").LayoutAdvancedParams} [advancedParams]
-   * @return {import("./layout/GlyphRun").default}
+   * @param {import('./types').LayoutAdvancedParams} [advancedParams]
+   * @return {import('./layout/GlyphRun').default}
    */
   layout(string, userFeatures, advancedParams) {
     return this._layoutEngine.layout(string, userFeatures, advancedParams);
@@ -393,6 +417,10 @@ export default class TTFFont {
     return this._layoutEngine.getAvailableFeatures();
   }
 
+  /**
+   * @param {string} script
+   * @param {string} language
+   */
   getAvailableFeatures(script, language) {
     return this._layoutEngine.getAvailableFeatures(script, language);
   }
@@ -417,7 +445,7 @@ export default class TTFFont {
    *
    * @param {number} glyph
    * @param {number[]} characters
-   * @return {import("./glyph/Glyph").default}
+   * @return {import('./glyph/Glyph').default}
    */
   getGlyph(glyph, characters = []) {
     if (!this._glyphs[glyph]) {
@@ -437,7 +465,7 @@ export default class TTFFont {
 
   /**
    * Returns a Subset for this font.
-   * @return {Subset}
+   * @return {(CFFSubset | TTFSubset)}
    */
   createSubset() {
     if (this.directory.tables['CFF ']) {

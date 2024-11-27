@@ -1,15 +1,15 @@
-import type { default as _TTFFont } from "./TTFFont.js";
-import type WOFFFont from "./WOFFFont.js";
-import type WOFF2Font from "./WOFF2Font.js";
-import type TrueTypeCollection from "./TrueTypeCollection.js";
-import type DFont from "./DFont.js";
-import GlyphInfo from "./opentype/GlyphInfo.js";
-import ShapingPlan from "./opentype/ShapingPlan.js";
-import Glyph from "./glyph/Glyph.js";
+import type TTFFont from './TTFFont.js';
+import type WOFFFont from './WOFFFont.js';
+import type WOFF2Font from './WOFF2Font.js';
+import type TrueTypeCollection from './TrueTypeCollection.js';
+import type DFont from './DFont.js';
+import type GlyphInfo from './opentype/GlyphInfo.js';
+import type ShapingPlan from './opentype/ShapingPlan.js';
 
-export type TTFFont = _TTFFont & Record<string, object>;
 export type Font = TTFFont | WOFFFont | WOFF2Font;
 export type FontCollection = TrueTypeCollection | DFont;
+
+export type { GlyphInfo, ShapingPlan };
 
 /**
  * Advanced parameters for `TTFFont#layout` and `LayoutEngine#layout`.
@@ -28,7 +28,7 @@ export type LayoutAdvancedParams = {
   /**
    * If not provided, `fontkit` uses the default direction of the script.
    */
-  direction?: "ltr" | "rtl";
+  direction?: 'ltr' | 'rtl';
 
   /**
    * If not provided, `fontkit` chooses its own prepared `Shaper` based on the script.
@@ -43,15 +43,15 @@ export type LayoutAdvancedParams = {
 };
 
 export interface Shaper {
-  zeroMarkWidths?: "NONE" | "BEFORE_GPOS" | "AFTER_GPOS";
+  zeroMarkWidths?: 'NONE' | 'BEFORE_GPOS' | 'AFTER_GPOS';
 
   plan(
     plan: ShapingPlan,
     glyphs: GlyphInfo[],
     userFeatures: string[] | Record<string, boolean>
-  );
+  ): void;
 
-  assignFeatures(plan: ShapingPlan, glyphs: GlyphInfo[]);
+  assignFeatures(plan: ShapingPlan, glyphs: GlyphInfo[]): void;
 }
 
 /**

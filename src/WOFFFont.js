@@ -6,6 +6,7 @@ import * as r from 'restructure';
 import { asciiDecoder } from './utils';
 
 export default class WOFFFont extends TTFFont {
+  /** @type {'WOFF'} */
   type = 'WOFF';
 
   static probe(buffer) {

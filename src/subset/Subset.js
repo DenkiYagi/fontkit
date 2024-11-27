@@ -1,17 +1,38 @@
-import * as r from 'restructure';
-
-const resolved = Promise.resolve();
+// @ts-check
 
 export default class Subset {
+  /**
+   * @type {('TTF' | 'CFF' | 'UNKNOWN')}
+   */
+  type = 'UNKNOWN';
+
+  /**
+   * @param {import('../TTFFont').default} font
+   */
   constructor(font) {
+    /**
+     * @type {import('../TTFFont').default}
+     */
     this.font = font;
+
+    /**
+     * @type {number[]}
+     */
     this.glyphs = [];
+
+    /**
+     * @type {Record<number, number>}
+     */
     this.mapping = {};
 
     // always include the missing glyph
     this.includeGlyph(0);
   }
 
+  /**
+   * @param {(number | import('../glyph/Glyph').default)} glyph
+   * @returns {number}
+   */
   includeGlyph(glyph) {
     if (typeof glyph === 'object') {
       glyph = glyph.id;
@@ -23,5 +44,12 @@ export default class Subset {
     }
 
     return this.mapping[glyph];
+  }
+
+  /**
+   * @returns {Uint8Array}
+   */
+  encode() {
+    throw new Error('Not implemented');
   }
 }

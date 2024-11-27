@@ -10,12 +10,13 @@ import GlyphPosition from './GlyphPosition';
 
 export default class LayoutEngine {
   /**
-   * @param {import("../types").TTFFont} font 
+   * @param {import('../TTFFont').default} font 
    */
   constructor(font) {
     /**
-     * @type {import("../types").TTFFont}
+     * @type {import('../TTFFont').default}
      */
+    // @ts-ignore
     this.font = font;
 
     this.unicodeLayoutEngine = null;
@@ -32,9 +33,9 @@ export default class LayoutEngine {
   }
 
   /**
-   * @param {string | import("../glyph/Glyph").default[]} string 
+   * @param {string | import('../glyph/Glyph').default[]} string 
    * @param {string[] | Record<string, boolean>} [features] 
-   * @param {import("../types").LayoutAdvancedParams} [advancedParams]
+   * @param {import('../types').LayoutAdvancedParams} [advancedParams]
    * @returns {GlyphRun}
    */
   layout(string, features, advancedParams = {}) {
@@ -191,8 +192,8 @@ export default class LayoutEngine {
   }
 
   /**
-   * @param {string} script 
-   * @param {string} language 
+   * @param {string} [script] 
+   * @param {string} [language] 
    * @returns {string[]}
    */
   getAvailableFeatures(script, language) {

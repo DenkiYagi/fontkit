@@ -40,6 +40,9 @@ let DFontHeader = new r.Struct({
 });
 
 export default class DFont {
+  /**
+   * @type {'DFont'}
+   */
   type = 'DFont';
 
   static probe(buffer) {

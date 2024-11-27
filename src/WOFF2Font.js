@@ -11,6 +11,7 @@ import { asciiDecoder } from './utils';
  * See spec here: http://www.w3.org/TR/WOFF2/
  */
 export default class WOFF2Font extends TTFFont {
+  /** @type {'WOFF2'} */
   type = 'WOFF2';
 
   static probe(buffer) {

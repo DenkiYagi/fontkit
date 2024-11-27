@@ -1,6 +1,6 @@
 # Modifications
 
-## [Unreleased]
+## [2.0.4-mod.2024.1]
 
 - Add properties to get the glyph's origin Y coordinate in the vertical writing mode:
     - `TTFFont#defaultVertOriginY`
@@ -18,3 +18,4 @@
     - Add parameter `skipPerGlyphPositioning` to skip calculating `GlyphRun#positions`
 - Fix fields `logErrors` and `defaultLanguage` in the top-level API
     - Change to getter functions: `isLoggingErrors()`, `getDefaultLanguage()`
+- Expose type definitions

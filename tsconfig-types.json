@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "target": "ESNext",
+    "outDir": "types",
+  },
+  "include": [
+    "src/index.ts",
+    "src/node.ts",
+  ]
+}

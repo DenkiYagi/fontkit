@@ -9,7 +9,7 @@ import * as Script from '../layout/Script';
  */
 export default class GlyphRun {
   /**
-   * @param {import("../glyph/Glyph").default[]} glyphs 
+   * @param {import('../glyph/Glyph').default[]} glyphs
    * @param {string[] | Record<string, boolean> | null | undefined} features
    * @param {string} [script]
    * @param {string} [language]
@@ -18,14 +18,14 @@ export default class GlyphRun {
   constructor(glyphs, features, script, language, direction) {
     /**
      * An array of Glyph objects in the run
-     * @type {import("../glyph/Glyph").default[]}
+     * @type {import('../glyph/Glyph').default[]}
      */
     this.glyphs = glyphs;
 
     /**
      * An array of GlyphPosition objects for each glyph in the run.
      * Initially `null` and may be assigned in the glyph positioning process.
-     * @type {(import("./GlyphPosition").default[] | null)}
+     * @type {(import('./GlyphPosition').default[] | null)}
      */
     this.positions = null;
 
@@ -81,10 +81,10 @@ export default class GlyphRun {
     return width;
   }
 
- /**
-  * The total advance height of the run. `null` if `positions` are not calculated.
+  /**
+   * The total advance height of the run. `null` if `positions` are not calculated.
    * @type {(number | null)}
-  */
+   */
   get advanceHeight() {
     if (this.positions == null) return null;
 
@@ -96,14 +96,14 @@ export default class GlyphRun {
     return height;
   }
 
- /**
-  * The bounding box containing all glyphs in the run. `null` if `positions` are not calculated.
-  * @type {(BBox | null)}
-  */
+  /**
+   * The bounding box containing all glyphs in the run. `null` if `positions` are not calculated.
+   * @type {(BBox | null)}
+   */
   get bbox() {
     if (this.positions == null) return null;
 
-    let bbox = new BBox;
+    let bbox = new BBox();
 
     let x = 0;
     let y = 0;

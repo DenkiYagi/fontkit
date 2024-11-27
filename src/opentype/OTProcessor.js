@@ -26,9 +26,9 @@ export default class OTProcessor {
     this.selectScript();
 
     // current context (set by applyFeatures)
-    /** @type {import("./GlyphInfo").default[]} */
+    /** @type {import('./GlyphInfo').default[]} */
     this.glyphs = [];
-    /** @type {(import("../layout/GlyphPosition").default[] | undefined)} */
+    /** @type {(import('../layout/GlyphPosition').default[] | undefined)} */
     this.positions = undefined; // only used by GPOS
     this.ligatureID = 1;
     this.currentFeature = null;
@@ -183,8 +183,8 @@ export default class OTProcessor {
 
   /**
    * @param {string[]} userFeatures
-   * @param {import("./GlyphInfo").default[]} glyphs
-   * @param {import("../layout/GlyphPosition").default[]} [advances]
+   * @param {import('./GlyphInfo').default[]} glyphs
+   * @param {import('../layout/GlyphPosition').default[]} [advances]
    */
   applyFeatures(userFeatures, glyphs, advances) {
     let lookups = this.lookupsForFeatures(userFeatures);
@@ -219,7 +219,7 @@ export default class OTProcessor {
   }
 
   applyLookup(lookup, table) {
-    throw new Error("applyLookup must be implemented by subclasses");
+    throw new Error('applyLookup must be implemented by subclasses');
   }
 
   applyLookupList(lookupRecords) {
