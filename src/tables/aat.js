@@ -35,7 +35,7 @@ export class UnboundedArray extends r.Array {
   }
 }
 
-export let LookupTable = function(ValueType = r.uint16) {
+export const LookupTable = function(ValueType = r.uint16) {
   // Helper class that makes internal structures invisible to pointers
   class Shadow {
     constructor(type) {

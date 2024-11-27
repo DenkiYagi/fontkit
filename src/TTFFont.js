@@ -1,6 +1,6 @@
 import * as r from 'restructure';
 import { cache } from './decorators';
-import * as fontkit from './base';
+import { isLoggingErrors, getDefaultLanguage as getGlobalDefaultLanguage } from './base';
 import Directory from './tables/directory';
 import tables from './tables';
 import CmapProcessor from './CmapProcessor';
@@ -57,7 +57,7 @@ export default class TTFFont {
       try {
         this._tables[table.tag] = this._decodeTable(table);
       } catch (e) {
-        if (fontkit.logErrors) {
+        if (isLoggingErrors()) {
           console.error(`Error decoding table ${table.tag}`);
           console.error(e.stack);
         }
@@ -96,14 +96,14 @@ export default class TTFFont {
    * `lang` is a BCP-47 language code.
    * @return {string}
    */
-  getName(key, lang = this.defaultLanguage || fontkit.defaultLanguage) {
+  getName(key, lang = this.defaultLanguage || getGlobalDefaultLanguage()) {
     let record = this.name && this.name.records[key];
     if (record) {
       // Attempt to retrieve the entry, depending on which translation is available:
       return (
           record[lang]
           || record[this.defaultLanguage]
-          || record[fontkit.defaultLanguage]
+          || record[getGlobalDefaultLanguage()]
           || record['en']
           || record[Object.keys(record)[0]] // Seriously, ANY language would be fine
           || null

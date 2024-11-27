@@ -32,7 +32,7 @@ let ItemVariationData = new r.Struct({
   deltaSets: new r.Array(DeltaSet, 'itemCount')
 });
 
-export let ItemVariationStore = new r.Struct({
+export const ItemVariationStore = new r.Struct({
   format: r.uint16,
   variationRegionList: new r.Pointer(r.uint32, VariationRegionList),
   variationDataCount: r.uint16,
@@ -73,7 +73,7 @@ let FeatureVariationRecord = new r.Struct({
   featureTableSubstitution: new r.Pointer(r.uint32, FeatureTableSubstitution, {type: 'parent'})
 });
 
-export let FeatureVariations = new r.Struct({
+export const FeatureVariations = new r.Struct({
   majorVersion: r.uint16,
   minorVersion: r.uint16,
   featureVariationRecordCount: r.uint32,
