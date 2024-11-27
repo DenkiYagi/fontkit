@@ -43,7 +43,3 @@ export type TableTag =
   | 'just'
   | 'morx'
   | 'opbd';
-
-export type TableMapObject = {
-    [key in TableTag]?: any;
-}
