@@ -30,7 +30,7 @@ export function registerFormat(format) {
 /**
  * @param {ArrayBufferView} buffer
  * @param {string} [postscriptName]
- * @return {import("./types").Font | import("./types").FontCollection}
+ * @return {(import('./types').Font | import('./types').FontCollection)}
  */
 export function create(buffer, postscriptName) {
   for (let i = 0; i < formats.length; i++) {

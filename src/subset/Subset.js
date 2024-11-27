@@ -7,11 +7,11 @@ export default class Subset {
   type = 'UNKNOWN';
 
   /**
-   * @param {import("../TTFFont").default} font
+   * @param {import('../TTFFont').default} font
    */
   constructor(font) {
     /**
-     * @type {import("../TTFFont").default}
+     * @type {import('../TTFFont').default}
      */
     this.font = font;
 

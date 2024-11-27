@@ -31,5 +31,5 @@ export type {
   LayoutAdvancedParams,
   Shaper,
 } from './types';
-  
+
 export * from './fs';

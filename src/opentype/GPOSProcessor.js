@@ -319,8 +319,8 @@ export default class GPOSProcessor extends OTProcessor {
 
   /**
    * @param {string[]} userFeatures
-   * @param {import("./GlyphInfo").default[]} glyphs
-   * @param {import("../layout/GlyphPosition").default[]} [advances]
+   * @param {import('./GlyphInfo').default[]} glyphs
+   * @param {import('../layout/GlyphPosition').default[]} [advances]
    */
   applyFeatures(userFeatures, glyphs, advances) {
     super.applyFeatures(userFeatures, glyphs, advances);

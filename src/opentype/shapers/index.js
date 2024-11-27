@@ -95,8 +95,8 @@ const SHAPERS = {
 };
 
 /**
- * @param {string | string[]} script 
- * @returns {import("../../types").Shaper}
+ * @param {string | string[]} script
+ * @returns {import('../../types').Shaper}
  */
 export function choose(script) {
   if (!Array.isArray(script)) {

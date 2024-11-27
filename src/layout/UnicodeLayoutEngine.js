@@ -1,6 +1,6 @@
 // @ts-check
 
-import {getCombiningClass} from 'unicode-properties';
+import { getCombiningClass } from 'unicode-properties';
 
 /**
  * This class is used when GPOS does not define 'mark' or 'mkmk' features
@@ -12,16 +12,16 @@ import {getCombiningClass} from 'unicode-properties';
  */
 export default class UnicodeLayoutEngine {
   /**
-   * @param {import("../TTFFont").default} font
+   * @param {import('../TTFFont').default} font
    */
   constructor(font) {
     this.font = font;
   }
 
   /**
-   * @param {import("../glyph/Glyph").default[]} glyphs
-   * @param {import("./GlyphPosition").default[]} positions
-   * @returns {import("./GlyphPosition").default[]}
+   * @param {import('../glyph/Glyph').default[]} glyphs
+   * @param {import('./GlyphPosition').default[]} positions
+   * @returns {import('./GlyphPosition').default[]}
    */
   positionGlyphs(glyphs, positions) {
     // find each base + mark cluster, and position the marks relative to the base
@@ -48,8 +48,8 @@ export default class UnicodeLayoutEngine {
   }
 
   /**
-   * @param {import("../glyph/Glyph").default[]} glyphs
-   * @param {import("./GlyphPosition").default[]} positions
+   * @param {import('../glyph/Glyph').default[]} glyphs
+   * @param {import('./GlyphPosition').default[]} positions
    * @param {number} clusterStart
    * @param {number} clusterEnd
    */

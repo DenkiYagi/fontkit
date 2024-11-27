@@ -1,7 +1,5 @@
 // @ts-check
 
-import * as Script from '../layout/Script';
-
 /**
  * ShapingPlans are used by the OpenType shapers to store which
  * features should by applied, and in what order to apply them.
@@ -13,7 +11,7 @@ import * as Script from '../layout/Script';
  */
 export default class ShapingPlan {
   /**
-   * @param {import("../TTFFont").default} font 
+   * @param {import('../TTFFont').default} font 
    * @param {string} script 
    * @param {'ltr' | 'rtl'} direction 
    */
@@ -23,7 +21,7 @@ export default class ShapingPlan {
     this.direction = direction;
 
     /**
-     * @type {import("../types").ShapingPlanStage[]}
+     * @type {import('../types').ShapingPlanStage[]}
      */
     this.stages = [];
 
@@ -53,7 +51,7 @@ export default class ShapingPlan {
         }
       }
     } else {
-      throw new Error("Invalid data type of stage in ShapingPlan#stages");
+      throw new Error('Invalid data type of stage in ShapingPlan#stages');
     }
   }
 
@@ -78,14 +76,14 @@ export default class ShapingPlan {
       this._addFeatures(arg.global || [], true);
       this._addFeatures(arg.local || [], false);
     } else {
-      throw new Error("Unsupported argument to ShapingPlan#add");
+      throw new Error('Unsupported argument to ShapingPlan#add');
     }
   }
 
   /**
    * Add a new stage
    * 
-   * @param {import("../types").ShapingPlanStageFunction | string | string[] | {global?: string[], local?: string[]}} arg
+   * @param {import('../types').ShapingPlanStageFunction | string | string[] | {global?: string[], local?: string[]}} arg
    * @param {boolean} [global]
    */
   addStage(arg, global) {
@@ -114,7 +112,7 @@ export default class ShapingPlan {
             delete this.allFeatures[tag];
             delete this.globalFeatures[tag];
           } else {
-            throw new Error("Invalid data type of stage in ShapingPlan#stages");
+            throw new Error('Invalid data type of stage in ShapingPlan#stages');
           }
         }
       }
@@ -124,7 +122,7 @@ export default class ShapingPlan {
   /**
    * Assigns the global features to the given glyphs
    * 
-   * @param {import("./GlyphInfo").default[]} glyphs
+   * @param {import('./GlyphInfo').default[]} glyphs
    */
   assignGlobalFeatures(glyphs) {
     for (let glyph of glyphs) {
@@ -137,9 +135,9 @@ export default class ShapingPlan {
   /**
    * Executes the planned stages using the given OTProcessor
    * 
-   * @param {import("./OTProcessor").default} processor
-   * @param {import("./GlyphInfo").default[]} glyphs
-   * @param {import("../layout/GlyphPosition").default[]} [positions]
+   * @param {import('./OTProcessor').default} processor
+   * @param {import('./GlyphInfo').default[]} glyphs
+   * @param {import('../layout/GlyphPosition').default[]} [positions]
    */
   process(processor, glyphs, positions) {
     for (let stage of this.stages) {

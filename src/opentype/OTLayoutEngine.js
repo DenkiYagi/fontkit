@@ -28,7 +28,7 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {import("../layout/GlyphRun").default} glyphRun 
+   * @param {import('../layout/GlyphRun').default} glyphRun 
    * @param {import('../types').Shaper} [shaper]
    */
   setup(glyphRun, shaper) {
@@ -59,11 +59,11 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {import("../layout/GlyphRun").default} glyphRun 
+   * @param {import('../layout/GlyphRun').default} glyphRun 
    */
   substitute(glyphRun) {
     if (this.glyphInfos == null || this.plan == null) {
-      throw new Error("setup() must be called before substitute()");
+      throw new Error('setup() must be called before substitute()');
     }
 
     if (this.GSUBProcessor) {
@@ -75,12 +75,12 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {import("../layout/GlyphRun").default} glyphRun
+   * @param {import('../layout/GlyphRun').default} glyphRun
    * @returns {(Record<string, any> | null)} GPOSProcessor#features
    */
   position(glyphRun) {
     if (this.glyphInfos == null || this.plan == null || this.shaper == null) {
-      throw new Error("setup() must be called before position()");
+      throw new Error('setup() must be called before position()');
     }
 
     let appliedFeatures = null;
@@ -112,11 +112,11 @@ export default class OTLayoutEngine {
 
   /**
    * 
-   * @param {import("../layout/GlyphPosition").default[]} positions 
+   * @param {import('../layout/GlyphPosition').default[]} positions 
    */
   zeroMarkAdvances(positions) {
     if (this.glyphInfos == null) {
-      throw new Error("setup() must be called before zeroMarkAdvances()");
+      throw new Error('setup() must be called before zeroMarkAdvances()');
     }
 
     for (let i = 0; i < this.glyphInfos.length; i++) {

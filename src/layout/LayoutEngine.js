@@ -14,7 +14,7 @@ export default class LayoutEngine {
    */
   constructor(font) {
     /**
-     * @type {import("../TTFFont").default}
+     * @type {import('../TTFFont').default}
      */
     // @ts-ignore
     this.font = font;
@@ -33,9 +33,9 @@ export default class LayoutEngine {
   }
 
   /**
-   * @param {string | import("../glyph/Glyph").default[]} string 
+   * @param {string | import('../glyph/Glyph').default[]} string 
    * @param {string[] | Record<string, boolean>} [features] 
-   * @param {import("../types").LayoutAdvancedParams} [advancedParams]
+   * @param {import('../types').LayoutAdvancedParams} [advancedParams]
    * @returns {GlyphRun}
    */
   layout(string, features, advancedParams = {}) {
