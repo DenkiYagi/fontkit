@@ -4,6 +4,11 @@ import CFFPrivateDict from '../cff/CFFPrivateDict';
 import standardStrings from '../cff/CFFStandardStrings';
 
 export default class CFFSubset extends Subset {
+  /**
+   * @type {'CFF'}
+   */
+  type = 'CFF';
+
   constructor(font) {
     super(font);
 

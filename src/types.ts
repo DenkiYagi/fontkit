@@ -5,8 +5,6 @@ import type TrueTypeCollection from './TrueTypeCollection.js';
 import type DFont from './DFont.js';
 import type GlyphInfo from './opentype/GlyphInfo.js';
 import type ShapingPlan from './opentype/ShapingPlan.js';
-import type { default as TTFSubset } from './subset/TTFSubset';
-import type { default as CFFSubset } from './subset/CFFSubset';
 
 type TTFFontExpansion = Record<string, object> & {
   cff?: any;
@@ -22,8 +20,6 @@ export type Font = TTFFont | WOFFFont | WOFF2Font;
 export type FontCollection = TrueTypeCollection | DFont;
 
 export type { GlyphInfo, ShapingPlan };
- 
-export type Subset = TTFSubset | CFFSubset;
 
 /**
  * Advanced parameters for `TTFFont#layout` and `LayoutEngine#layout`.

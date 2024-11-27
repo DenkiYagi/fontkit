@@ -5,6 +5,11 @@ import Tables from '../tables';
 import TTFGlyphEncoder from '../glyph/TTFGlyphEncoder';
 
 export default class TTFSubset extends Subset {
+  /**
+   * @type {'TTF'}
+   */
+  type = 'TTF';
+
   constructor(font) {
     super(font);
     this.glyphEncoder = new TTFGlyphEncoder;
