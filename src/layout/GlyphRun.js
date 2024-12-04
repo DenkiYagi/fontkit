@@ -57,12 +57,14 @@ export default class GlyphRun {
     this.features = {};
 
     // Convert features to an object
-    if (Array.isArray(features)) {
-      for (let tag of features) {
-        this.features[tag] = true;
+    if (features != null) {
+      if (Array.isArray(features)) {
+        for (let tag of features) {
+          this.features[tag] = true;
+        }
+      } else if (typeof features === 'object') {
+        this.features = features;
       }
-    } else if (typeof features === 'object') {
-      this.features = features;
     }
   }
 
