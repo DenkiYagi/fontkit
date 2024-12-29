@@ -1,7 +1,10 @@
 {
-  "name": "@denkiyagi/fontkit",
+  "name": "@denkiyagi-gh/fontkit",
   "version": "2.0.4-mod.2024.1",
   "description": "A modified version of fontkit. An advanced font engine for Node and the browser",
+  "publishConfig": {
+    "@denkiyagi-gh:registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "opentype",
     "font",
