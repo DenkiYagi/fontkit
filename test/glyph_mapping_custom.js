@@ -1,5 +1,5 @@
-import * as fontkit from '@denkiyagi-gh/fontkit';
-import { DefaultShaper } from '@denkiyagi-gh/fontkit';
+import * as fontkit from '@denkiyagi/fontkit';
+import { DefaultShaper } from '@denkiyagi/fontkit';
 import assert from 'assert';
 import { isDigit } from 'unicode-properties';
 

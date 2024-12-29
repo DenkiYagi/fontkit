@@ -1,4 +1,4 @@
-import * as fontkit from "@denkiyagi-gh/fontkit";
+import * as fontkit from "@denkiyagi/fontkit";
 import assert from "assert";
 
 describe("tables", function () {

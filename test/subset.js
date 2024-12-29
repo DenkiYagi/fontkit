@@ -1,4 +1,4 @@
-import * as fontkit from '@denkiyagi-gh/fontkit';
+import * as fontkit from '@denkiyagi/fontkit';
 import assert from 'assert';
 import concat from 'concat-stream';
 import * as r from 'restructure';
