@@ -1,6 +1,6 @@
 {
   "name": "@denkiyagi/fontkit",
-  "version": "2.0.4-mod.2024.1",
+  "version": "2.0.4-mod.2024.2",
   "description": "A modified version of fontkit. An advanced font engine for Node and the browser",
   "keywords": [
     "opentype",
@@ -17,7 +17,7 @@
     "build": "run-s build:*",
     "build:js": "parcel build",
     "build:types": "tsc --project tsconfig-types.json",
-    "prepare": "run-s trie:** build",
+    "trie": "run-s trie:**",
     "trie:data": "node src/opentype/shapers/generate-data.js",
     "trie:use": "node src/opentype/shapers/gen-use.js",
     "trie:indic": "node src/opentype/shapers/gen-indic.js",

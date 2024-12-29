@@ -1,6 +1,6 @@
 # Modifications
 
-## [2.0.4-mod.2024.1]
+## [2.0.4-mod.2024.2]
 
 - Add properties to get the glyph's origin Y coordinate in the vertical writing mode:
     - `TTFFont#defaultVertOriginY`
@@ -19,3 +19,8 @@
 - Fix fields `logErrors` and `defaultLanguage` in the top-level API
     - Change to getter functions: `isLoggingErrors()`, `getDefaultLanguage()`
 - Expose type definitions
+
+
+## [2.0.4-mod.2024.1]
+
+- Removed
