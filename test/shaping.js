@@ -1,4 +1,4 @@
-import * as fontkit from '@denkiyagi/fontkit';
+import * as fontkit from '@denkiyagi-gh/fontkit';
 import assert from 'assert';
 
 describe('shaping', function () {
