@@ -17,7 +17,7 @@
     "build": "run-s build:*",
     "build:js": "parcel build",
     "build:types": "tsc --project tsconfig-types.json",
-    "prepack": "run-s trie:** build",
+    "prepare": "run-s trie:** build",
     "trie:data": "node src/opentype/shapers/generate-data.js",
     "trie:use": "node src/opentype/shapers/gen-use.js",
     "trie:indic": "node src/opentype/shapers/gen-indic.js",
