@@ -367,7 +367,15 @@ export default class TTFFont {
 
       if (state === 0 && nextState === 1) {
         // Variation selector following normal codepoint.
-        glyphs.push(this.getGlyph(this._cmapProcessor.lookup(last, code), [last, code]));
+        let gid = this._cmapProcessor.lookup(last, code);
+        // For fonts with both regular cmap and format 14, prefer format 14 result
+        if (this._cmapProcessor.uvs) {
+          const vsGid = this._cmapProcessor.getVariationSelector(last, code);
+          if (vsGid) {
+            gid = vsGid;
+          }
+        }
+        glyphs.push(this.getGlyph(gid, [last, code]));
       } else if (state === 0 && nextState === 0) {
         // Normal codepoint following normal codepoint.
         glyphs.push(this.glyphForCodePoint(last));

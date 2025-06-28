@@ -42,6 +42,61 @@ describe('character to glyph mapping', function () {
     });
   });
 
+  describe('cmap format 14 handling', function () {
+    let font = fontkit.openSync(new URL('data/fonttest/TestCMAP14.otf', import.meta.url));
+
+    it('should detect format 14 support', function () {
+      assert(font._cmapProcessor);
+      assert(font._cmapProcessor.uvs);
+    });
+
+    it('should handle VS17 (U+E0100) with layout', function () {
+      const run = font.layout('\u82A6\uDB40\uDD00'); // 芦 + VS17
+      assert.equal(run.glyphs.length, 1);
+      assert.equal(run.glyphs[0].id, 1);
+    });
+
+    it('should handle VS18 (U+E0101) with layout', function () {
+      const run = font.layout('\u82A6\uDB40\uDD01'); // 芦 + VS18
+      assert.equal(run.glyphs.length, 1);
+      assert(run.glyphs[0].id > 0);
+    });
+
+    it('should preserve codePoints in glyphs with variation selectors', function () {
+      const glyphs = font.glyphsForString('\u82A6\uDB40\uDD01');
+      assert.equal(glyphs.length, 1);
+      assert(glyphs[0].codePoints);
+      assert(glyphs[0].codePoints.length >= 1);
+      assert.equal(glyphs[0].codePoints[0], 0x82A6);
+    });
+
+    it('should handle format 14 as primary cmap table', function () {
+      const processor = font._cmapProcessor;
+      
+      // Base character without VS should return 0 if format 14 is primary
+      const baseGlyph = processor.lookup(0x82A6);
+      if (processor.cmap.version === 14) {
+        assert.equal(baseGlyph, 0);
+      }
+      
+      // With VS should return the correct glyph
+      const vsGlyph = processor.lookup(0x82A6, 0xE0100);
+      assert(vsGlyph > 0);
+    });
+
+    it('should handle getVariationSelector correctly', function () {
+      const processor = font._cmapProcessor;
+      
+      // Test explicit variation
+      const glyph1 = processor.getVariationSelector(0x82A6, 0xE0100);
+      assert.equal(glyph1, 1);
+      
+      // Test default variation
+      const glyph2 = processor.getVariationSelector(0x82A6, 0xE0101);
+      assert.equal(glyph2, 2);
+    });
+  });
+
   describe('opentype features', function () {
     let font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.otf', import.meta.url));
 
