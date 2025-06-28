@@ -66,25 +66,25 @@ describe('Japanese IVS glyphs', () => {
     
     it('should handle multiple VS in the same string correctly', function() {
       // String with different VS on different characters
-      const mixedRun = font.layout('\u9022\uDB40\uDD00\u82A6\uDB40\uDD01'); // 逢+VS17, 芦+VS18
+      const mixedRun = font.layout('あ\u9022\uDB40\uDD00\u82A6\uDB40\uDD01'); // 逢+VS17, 芦+VS18
       
-      assert.equal(mixedRun.glyphs.length, 2);
-      assert.equal(mixedRun.glyphs[0].id, 16541); // jp83 variant for 逢
-      assert.equal(mixedRun.glyphs[1].id, 16214); // jp90 variant for 芦
+      assert.equal(mixedRun.glyphs.length, 3);
+      assert.equal(mixedRun.glyphs[0].id, 1203);
+      assert.equal(mixedRun.glyphs[1].id, 16541); // jp83 variant for 逢
+      assert.equal(mixedRun.glyphs[2].id, 16214); // jp90 variant for 芦
     });
   });
 
   describe('JP IVS with format 14 cmap', () => {
     const testFont = fontkit.openSync(new URL('data/fonttest/TestCMAP14.otf', import.meta.url));
+    const hanaFont = fontkit.openSync(new URL('data/Hanazono/HanaMinA.ttf', import.meta.url));
     
     it('should have format 14 cmap support', function() {
       assert(testFont._cmapProcessor.uvs != null, 'TestCMAP14 should have format 14 cmap');
+      assert(hanaFont._cmapProcessor.uvs != null, 'HanaMinA should have format 14 cmap');
     });
     
     it('should NOT apply JP fallback when format 14 is present', function() {
-      // Even if the font theoretically had jp83/jp90 features, 
-      // they should not be used when format 14 cmap is available
-      
       // Test with ASCII character (which shouldn't have VS variants)
       const baseRun = testFont.layout('A');
       const vs17Run = testFont.layout('A\uDB40\uDD00'); // A + VS17
@@ -102,7 +102,6 @@ describe('Japanese IVS glyphs', () => {
     it('should use format 14 cmap for variation selector handling', function() {
       // Test with a character that might have actual VS mappings
       // Using a common punctuation that might have variants
-      const baseRun = testFont.layout('.');
       const vs1Run = testFont.layout('.\uFE00'); // . + VS1
       const vs17Run = testFont.layout('.\uDB40\uDD00'); // . + VS17
       
@@ -112,6 +111,23 @@ describe('Japanese IVS glyphs', () => {
             'No JP features should be applied with VS1');
       assert(!vs17Run.features.jp83 && !vs17Run.features.jp90, 
             'No JP features should be applied with VS17');
+    });
+
+    it('should handle 小小󠄀小󠄁小󠄂', function() {
+      const run1 = hanaFont.layout('\u5C0F');             // 小
+      const run2 = hanaFont.layout('\u5C0F\uDB40\uDD00'); // 小󠄀
+      const run3 = hanaFont.layout('\u5C0F\uDB40\uDD01'); // 小󠄁
+      const run4 = hanaFont.layout('\u5C0F\uDB40\uDD02'); // 小󠄂
+      
+      assert.equal(run1.glyphs.length, 1);
+      assert.equal(run2.glyphs.length, 1);
+      assert.equal(run3.glyphs.length, 1);
+      assert.equal(run3.glyphs.length, 1);
+
+      assert.equal(run2.glyphs[0].id, run1.glyphs[0].id);
+      assert.notEqual(run3.glyphs[0].id, run1.glyphs[0].id);
+      assert.notEqual(run4.glyphs[0].id, run1.glyphs[0].id);
+      assert.notEqual(run4.glyphs[0].id, run3.glyphs[0].id);
     });
   });
 });
