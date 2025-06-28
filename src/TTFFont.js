@@ -337,6 +337,7 @@ export default class TTFFont {
    * @param {string} string
    * @return {import('./glyph/Glyph').default[]}
    */
+
   glyphsForString(string) {
     let glyphs = [];
     let len = string.length;
@@ -373,6 +374,18 @@ export default class TTFFont {
           const vsGid = this._cmapProcessor.getVariationSelector(last, code);
           if (vsGid) {
             gid = vsGid;
+          }
+        } else {
+          // IVS to JP feature fallback when format 14 is not available
+          // This follows the common practice in Japanese font industry where:
+          // - VS17 (U+E0100) is mapped to jp83 feature
+          // - VS18 (U+E0101) is mapped to jp90 feature
+          // While not strictly Adobe-Japan1 IVS compliant, this is widely used
+          // in Japanese fonts as a practical alternative to format 14 cmap.
+          if (code === 0xE0100) {
+            gid = this._layoutEngine.getSubstitutedGlyph(gid, 'jp83');
+          } else if (code === 0xE0101) {
+            gid = this._layoutEngine.getSubstitutedGlyph(gid, 'jp90');
           }
         }
         glyphs.push(this.getGlyph(gid, [last, code]));

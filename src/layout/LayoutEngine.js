@@ -49,9 +49,6 @@ export default class LayoutEngine {
       }
 
       var glyphs = this.font.glyphsForString(string);
-      
-      // Check for IVS to JP feature mapping fallback
-      features = this._applyIVSFallback(string, features);
     } else {
       // Attempt to detect the script from the glyph code points if not provided.
       if (script == null) {
@@ -214,72 +211,39 @@ export default class LayoutEngine {
   }
 
   /**
-   * Apply IVS to JP feature mapping as a fallback when format 14 is not available
-   * @private
-   * @param {string} string 
-   * @param {string[] | Record<string, boolean>} [features] 
-   * @returns {string[] | Record<string, boolean>}
+   * Apply a single OpenType feature to get a substituted glyph ID
+   * @param {number} glyphId - The glyph ID to substitute
+   * @param {string} feature - The OpenType feature tag (e.g. 'jp83', 'jp90')
+   * @returns {number} The substituted glyph ID, or the original if no substitution
    */
-  _applyIVSFallback(string, features) {
-    // Only apply if font doesn't have format 14 support
-    if (this.font._cmapProcessor && this.font._cmapProcessor.uvs) {
-      return features || {};
+  getSubstitutedGlyph(glyphId, feature) {
+    // Only works with OpenType fonts with GSUB table
+    if (!this.font.GSUB || !this.engine || !(this.engine instanceof OTLayoutEngine)) {
+      return glyphId;
     }
     
-    // Check if font has JP features
-    const availableFeatures = this.getAvailableFeatures();
-    if (!availableFeatures.some(f => ['jp78', 'jp83', 'jp90'].includes(f))) {
-      return features || {};
-    }
-
-    // IVS to JP feature mapping
-    const ivsToFeatureMap = {
-      0xE0100: 'jp83',  // VS17 -> JIS83
-      0xE0101: 'jp90',  // VS18 -> JIS90
-    };
-
-    // Check if string contains variation selector
-    let hasIVS = false;
-    let mappedFeature = null;
+    // Create a temporary glyph with dummy codepoints for the run
+    const glyph = this.font.getGlyph(glyphId, [0]);
     
-    // Parse string to find variation selectors
-    for (let i = 0; i < string.length; i++) {
-      let code = string.charCodeAt(i);
-      
-      // Check for surrogate pair
-      if (0xd800 <= code && code <= 0xdbff && i + 1 < string.length) {
-        const low = string.charCodeAt(i + 1);
-        if (0xdc00 <= low && low <= 0xdfff) {
-          code = ((code & 0x3ff) << 10) + (low & 0x3ff) + 0x10000;
-          i++; // Skip the low surrogate
-        }
-      }
-      
-      // Check if this is a variation selector
-      if (ivsToFeatureMap[code]) {
-        hasIVS = true;
-        mappedFeature = ivsToFeatureMap[code];
-        break;
-      }
-    }
-
-    if (!hasIVS || !mappedFeature) {
-      return features || {};
-    }
-
-    // Apply the mapped feature
-    if (Array.isArray(features)) {
-      if (!features.includes(mappedFeature)) {
-        features = [...features, mappedFeature];
-      }
-    } else if (typeof features === 'object' && features !== null) {
-      features = { ...features, [mappedFeature]: true };
-    } else {
-      features = { [mappedFeature]: true };
+    // Create a minimal GlyphRun with the requested feature
+    // Use a simple script that is likely to be supported
+    const glyphRun = new GlyphRun([glyph], [feature], 'DFLT', undefined, 'ltr');
+    
+    // Setup the engine
+    this.engine.setup(glyphRun);
+    
+    // Apply substitution
+    this.substitute(glyphRun);
+    
+    // Clean up
+    this.engine.cleanup();
+    
+    // Return the substituted glyph ID
+    if (glyphRun.glyphs.length > 0) {
+      return glyphRun.glyphs[0].id;
     }
     
-
-    return features;
+    return glyphId;
   }
 
   /**
