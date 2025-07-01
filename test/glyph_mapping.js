@@ -29,12 +29,6 @@ describe('character to glyph mapping', function () {
       return assert.deepEqual(glyphs.map(g => g.codePoints), [[104], [101], [108], [108], [111]]);
     });
 
-    it('should support unicode variation selectors', function () {
-      let font = fontkit.openSync(new URL('data/fonttest/TestCMAP14.otf', import.meta.url));
-      let glyphs = font.glyphsForString('\u{82a6}\u{82a6}\u{E0100}\u{82a6}\u{E0101}');
-      assert.deepEqual(glyphs.map(g => g.id), [1, 1, 2]);
-    });
-
     it('should support legacy encodings when no unicode cmap is found', function () {
       let font = fontkit.openSync(new URL('data/fonttest/TestCMAPMacTurkish.ttf', import.meta.url));
       let glyphs = font.glyphsForString("“ABÇĞIİÖŞÜ”");
@@ -50,54 +44,39 @@ describe('character to glyph mapping', function () {
       assert(font._cmapProcessor.uvs);
     });
 
-    it('should handle VS17 (U+E0100) with layout', function () {
-      const run = font.layout('\u82A6\uDB40\uDD00'); // 芦 + VS17
-      assert.equal(run.glyphs.length, 1);
-      assert.equal(run.glyphs[0].id, 1);
+    it('should handle default UVS', function () {
+      const baseGlyphs = font.glyphsForString('\u{82a6}'); // 芦
+      const ivsGlyphs = font.glyphsForString('\u{82a6}\u{E0100}'); // 芦 + VS17
+
+      // Should be the same as base glyph IDs
+      assert.deepEqual(ivsGlyphs.map((g) => g.id), baseGlyphs.map((g) => g.id));
     });
 
-    it('should handle VS18 (U+E0101) with layout', function () {
-      const run = font.layout('\u82A6\uDB40\uDD01'); // 芦 + VS18
-      assert.equal(run.glyphs.length, 1);
-      assert(run.glyphs[0].id > 0);
+    it('should handle non-default UVS', function () {
+      const svsGlyphs = font.glyphsForString('\u{2269}\u{FE00}'); // ≩ + VS1
+      assert.deepEqual(svsGlyphs.map((g) => g.id), [3]);
+
+      const ivsGlyphs = font.glyphsForString('\u{82a6}\u{E0101}'); // 芦 + VS18
+      assert.deepEqual(ivsGlyphs.map((g) => g.id), [2]);
+    });
+
+    it('should ignore non-registered UVS', function () {
+      const baseGlyphs = font.glyphsForString('\u{82a6}'); // 芦
+      const ivsGlyphs = font.glyphsForString('\u{82a6}\u{E01EF}'); // 芦 + VS256
+
+      // Should be the same as base glyph IDs
+      assert.deepEqual(ivsGlyphs.map((g) => g.id), baseGlyphs.map((g) => g.id));
+    });
+
+    it('should handle mixed UVSes in the same string correctly', function () {
+      const glyphs = font.glyphsForString('\u{82a6}\u{82a6}\u{E0100}\u{82a6}\u{E0101}\u{82a6}\u{E01EF}');
+      assert.deepEqual(glyphs.map(g => g.id), [1, 1, 2, 1]);
     });
 
     it('should preserve codePoints in glyphs with variation selectors', function () {
-      const glyphs = font.glyphsForString('\u82A6\uDB40\uDD01');
+      const glyphs = font.glyphsForString('\u{82a6}\u{E0101}'); // 芦 + VS18
       assert.equal(glyphs.length, 1);
-      assert(glyphs[0].codePoints);
-      assert(glyphs[0].codePoints.length >= 1);
-      assert.equal(glyphs[0].codePoints[0], 0x82A6);
-    });
-
-    it('should handle format 14 as primary cmap table', function () {
-      const processor = font._cmapProcessor;
-      
-      // Base character without VS should return 0 if format 14 is primary
-      const baseGlyph = processor.lookup(0x82A6);
-      if (processor.cmap.version === 14) {
-        assert.equal(baseGlyph, 0);
-      }
-      
-      // With VS should return the correct glyph
-      const vsGlyph = processor.lookup(0x82A6, 0xE0100);
-      assert(vsGlyph > 0);
-    });
-
-    it('should handle lookupNonDefaultVariation correctly', function () {
-      const processor = font._cmapProcessor;
-
-      // Test default variation
-      const glyph1 = processor.lookupNonDefaultVariation(0x82A6, 0xE0100);
-      assert.equal(glyph1, 0); // Not found returns 0
-
-      // Test non-default variation
-      const glyph2 = processor.lookupNonDefaultVariation(0x82A6, 0xE0101);
-      assert.equal(glyph2, 2); // Variation glyph ID should be 2 according to CMAP format 14
-
-      // Test non-registered variation
-      const glyph3 = processor.lookupNonDefaultVariation(0x2269, 0xE01EF);
-      assert.equal(glyph3, 0); // Not found returns 0
+      assert.deepEqual(glyphs[0].codePoints, [0x82A6, 0xE0101]);
     });
   });
 
