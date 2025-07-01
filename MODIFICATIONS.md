@@ -1,5 +1,11 @@
 # Modifications
 
+## [2.0.4-mod.2025.1]
+
+- Fix glyph mapping using the cmap format 14 subtable, improving support for UVS in methods like `TTFFont#glyphsForString`
+- Add `TTFFont#nonDefaultUVSSet`
+
+
 ## [2.0.4-mod.2024.2]
 
 - Add properties to get the glyph's origin Y coordinate in the vertical writing mode:
