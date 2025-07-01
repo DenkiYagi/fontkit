@@ -25,11 +25,6 @@ export default class TTFFont {
    */
   type = 'TTF';
 
-  /**
-   * @type {{ jp83: boolean, jp90: boolean } | null}
-   */
-  _japaneseFeaturesCache = null;
-
   static probe(buffer) {
     let format = asciiDecoder.decode(buffer.slice(0, 4));
     return format === 'true' || format === 'OTTO' || format === String.fromCharCode(0, 1, 0, 0);
@@ -75,29 +70,6 @@ export default class TTFFont {
         });
       }
     }
-  }
-
-  /**
-   * @type {{ jp83: boolean, jp90: boolean }}
-   */
-  get _japaneseFeatures() {
-    if (this._japaneseFeaturesCache) {
-      return this._japaneseFeaturesCache;
-    }
-
-    try {
-      const features = this.getAvailableFeatures();
-      this._japaneseFeaturesCache = { 
-        jp83: features.includes('jp83'),
-        jp90: features.includes('jp90')
-      };
-    } catch (e) {
-      this._japaneseFeaturesCache = {
-        jp83: false,
-        jp90: false
-      };
-    }
-    return this._japaneseFeaturesCache;
   }
 
   setDefaultLanguage(lang = null) {
@@ -365,7 +337,6 @@ export default class TTFFont {
    * @param {string} string
    * @return {import('./glyph/Glyph').default[]}
    */
-
   glyphsForString(string) {
     let glyphs = [];
     let len = string.length;
@@ -396,26 +367,7 @@ export default class TTFFont {
 
       if (state === 0 && nextState === 1) {
         // Variation selector following normal codepoint.
-        let gid = this._cmapProcessor.lookup(last, code);
-        
-        // IVS to JP feature fallback when format 14 is not available
-        // This follows the common practice in Japanese font industry where:
-        // - VS17 (U+E0100) is mapped to jp83 feature
-        // - VS18 (U+E0101) is mapped to jp90 feature
-        // While not strictly Adobe-Japan1 IVS compliant, this is widely used
-        // in Japanese fonts as a practical alternative to format 14 cmap.
-        const { jp83, jp90 } = this._japaneseFeatures;
-        if (jp83 && code === 0xE0100) {
-            gid = this._layoutEngine.getSubstitutedGlyph(gid, 'jp83');
-        } else if (jp90 && code === 0xE0101) {
-            gid = this._layoutEngine.getSubstitutedGlyph(gid, 'jp90');
-        } else if (this._cmapProcessor.uvs) {
-          const vsGid = this._cmapProcessor.getVariationSelector(last, code);
-          if (vsGid) {
-            gid = vsGid;
-          }
-        }
-        glyphs.push(this.getGlyph(gid, [last, code]));
+        glyphs.push(this.getGlyph(this._cmapProcessor.lookup(last, code), [last, code]));
       } else if (state === 0 && nextState === 0) {
         // Normal codepoint following normal codepoint.
         glyphs.push(this.glyphForCodePoint(last));
@@ -598,7 +550,7 @@ export default class TTFFont {
     }
 
     // normalize the coordinates
-    let coords = this.fvar.axis.map(axis => {
+    let coords = this.fvar.axis.map((axis, i) => {
       let axisTag = axis.axisTag.trim();
       if (axisTag in settings) {
         return Math.max(axis.minValue, Math.min(axis.maxValue, settings[axisTag]));
@@ -625,7 +577,7 @@ export default class TTFFont {
     let variationCoords = this.variationCoords;
 
     // Ignore if no variation coords and not CFF2
-    if (!variationCoords && !this.directory.tables.CFF2) {
+    if (!variationCoords && !this.CFF2) {
       return null;
     }
 

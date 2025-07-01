@@ -60,6 +60,13 @@ export default class CmapProcessor {
     // the codepoint in the encoding that the cmap supports.
     if (this.encoding) {
       codepoint = this.encoding.get(codepoint) || codepoint;
+
+      // Otherwise, try to get a Unicode variation selector for this codepoint if one is provided.
+    } else if (variationSelector) {
+      let gid = this.getVariationSelector(codepoint, variationSelector);
+      if (gid) {
+        return gid;
+      }
     }
 
     let cmap = this.cmap;
@@ -94,6 +101,7 @@ export default class CmapProcessor {
             return gid & 0xffff;
           }
         }
+
         return 0;
       }
 
@@ -124,15 +132,13 @@ export default class CmapProcessor {
             }
           }
         }
+
         return 0;
       }
 
       case 14:
-        if (variationSelector && this.uvs) {
-          return this.getVariationSelector(codepoint, variationSelector);
-        } else {
-          return 0;
-        }
+        // Format 14 is handled separately via the uvs property
+        throw new Error('Unexpected cmap format 14');
 
       default:
         throw new Error(`Unknown cmap format ${cmap.version}`);
@@ -221,7 +227,7 @@ export default class CmapProcessor {
 
       case 14:
         // Format 14 is handled separately via the uvs property
-        return [];
+        throw new Error('Unexpected cmap format 14');
 
       default:
         throw new Error(`Unknown cmap format ${cmap.version}`);

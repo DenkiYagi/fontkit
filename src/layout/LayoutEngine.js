@@ -211,42 +211,6 @@ export default class LayoutEngine {
   }
 
   /**
-   * Apply a single OpenType feature to get a substituted glyph ID
-   * @param {number} glyphId - The glyph ID to substitute
-   * @param {string} feature - The OpenType feature tag (e.g. 'jp83', 'jp90')
-   * @returns {number} The substituted glyph ID, or the original if no substitution
-   */
-  getSubstitutedGlyph(glyphId, feature) {
-    // Only works with OpenType fonts with GSUB table
-    if (!this.font.GSUB || !this.engine || !(this.engine instanceof OTLayoutEngine)) {
-      return glyphId;
-    }
-    
-    // Create a temporary glyph with dummy codepoints for the run
-    const glyph = this.font.getGlyph(glyphId, [0]);
-    
-    // Create a minimal GlyphRun with the requested feature
-    // Use a simple script that is likely to be supported
-    const glyphRun = new GlyphRun([glyph], [feature], 'DFLT', undefined, 'ltr');
-    
-    // Setup the engine
-    this.engine.setup(glyphRun);
-    
-    // Apply substitution
-    this.substitute(glyphRun);
-    
-    // Clean up
-    this.engine.cleanup();
-    
-    // Return the substituted glyph ID
-    if (glyphRun.glyphs.length > 0) {
-      return glyphRun.glyphs[0].id;
-    }
-    
-    return glyphId;
-  }
-
-  /**
    * @param {number} gid 
    * @returns {string[]}
    */
