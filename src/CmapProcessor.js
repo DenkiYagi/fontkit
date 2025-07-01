@@ -63,7 +63,7 @@ export default class CmapProcessor {
 
       // Otherwise, try to get a Unicode variation selector for this codepoint if one is provided.
     } else if (variationSelector) {
-      let gid = this.lookupNonDefaultVariation(codepoint, variationSelector);
+      let gid = this.lookupNonDefaultUVS(codepoint, variationSelector);
       if (gid) {
         return gid;
       }
@@ -152,7 +152,7 @@ export default class CmapProcessor {
    * @param {number} variationSelector Codepoint for the variation selector.
    * @returns {number} The glyph ID for the non-default variation, or 0 if not found.
    */
-  lookupNonDefaultVariation(codepoint, variationSelector) {
+  lookupNonDefaultUVS(codepoint, variationSelector) {
     if (!this.uvs) {
       return 0;
     }
