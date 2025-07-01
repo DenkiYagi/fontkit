@@ -221,6 +221,33 @@ export default class CmapProcessor {
     }
   }
 
+  /**
+   * @returns {{ baseCharacter: number, variationSelector: number, glyphID: number }[]}
+   */
+  @cache
+  getNonDefaultUVSSet() {
+    const uvs = this.uvs;
+    if (!uvs) {
+      return [];
+    }
+
+    const variations = [];
+    for (const sel of uvs.varSelectors.toArray()) {
+      if (sel.nonDefaultUVS) {
+        const { varSelector } = sel;
+        for (const uvsMapping of sel.nonDefaultUVS) {
+          variations.push({
+            baseCharacter: uvsMapping.unicodeValue,
+            variationSelector: varSelector,
+            glyphID: uvsMapping.glyphID,
+          });
+        }
+      }
+    }
+
+    return variations;
+  }
+
   @cache
   codePointsForGlyph(gid) {
     let cmap = this.cmap;

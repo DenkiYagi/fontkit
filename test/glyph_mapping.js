@@ -44,6 +44,13 @@ describe('character to glyph mapping', function () {
       assert(font._cmapProcessor.uvs);
     });
 
+    it('should get nonDefaultUVSSet', function () {
+      assert.deepEqual(font.nonDefaultUVSSet, [
+        { baseCharacter: 0x2269, variationSelector: 0xFE00, glyphID: 3 }, // ≩ + VS1
+        { baseCharacter: 0x82A6, variationSelector: 0xE0101, glyphID: 2 },  // 芦 + VS18
+      ]);
+    });
+
     it('should handle default UVS', function () {
       const baseGlyphs = font.glyphsForString('\u{82a6}'); // 芦
       const ivsGlyphs = font.glyphsForString('\u{82a6}\u{E0100}'); // 芦 + VS17
