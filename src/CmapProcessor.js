@@ -63,7 +63,7 @@ export default class CmapProcessor {
 
       // Otherwise, try to get a Unicode variation selector for this codepoint if one is provided.
     } else if (variationSelector) {
-      let gid = this.getVariationSelector(codepoint, variationSelector);
+      let gid = this.lookupNonDefaultVariation(codepoint, variationSelector);
       if (gid) {
         return gid;
       }
@@ -145,7 +145,14 @@ export default class CmapProcessor {
     }
   }
 
-  getVariationSelector(codepoint, variationSelector) {
+  /**
+   * Find the glyph ID for a non-default variation of a character.
+   *
+   * @param {number} codepoint Codepoint for the base character.
+   * @param {number} variationSelector Codepoint for the variation selector.
+   * @returns {number} The glyph ID for the non-default variation, or 0 if not found.
+   */
+  lookupNonDefaultVariation(codepoint, variationSelector) {
     if (!this.uvs) {
       return 0;
     }
@@ -159,30 +166,10 @@ export default class CmapProcessor {
     
     let sel = selectors[selectorIndex];
 
-    // Check non-default UVS first
     if (sel.nonDefaultUVS) {
       let nonDefaultIndex = binarySearch(sel.nonDefaultUVS, x => codepoint - x.unicodeValue);
       if (nonDefaultIndex !== -1) {
         return sel.nonDefaultUVS[nonDefaultIndex].glyphID;
-      }
-    }
-
-    // Check default UVS ranges
-    if (sel.defaultUVS) {
-      let defaultIndex = binarySearch(sel.defaultUVS, x => {
-        if (codepoint < x.startUnicodeValue) {
-          return -1;
-        } else if (codepoint > x.startUnicodeValue + x.additionalCount) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-      
-      if (defaultIndex !== -1) {
-        // Found in default UVS range, return the base character's glyph ID
-        // The caller should have already determined this base glyph ID
-        return this.lookup(codepoint);
       }
     }
 

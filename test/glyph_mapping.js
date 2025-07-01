@@ -84,16 +84,20 @@ describe('character to glyph mapping', function () {
       assert(vsGlyph > 0);
     });
 
-    it('should handle getVariationSelector correctly', function () {
+    it('should handle lookupNonDefaultVariation correctly', function () {
       const processor = font._cmapProcessor;
-      
-      // Test explicit variation
-      const glyph1 = processor.getVariationSelector(0x82A6, 0xE0100);
-      assert.equal(glyph1, 1);
-      
+
       // Test default variation
-      const glyph2 = processor.getVariationSelector(0x82A6, 0xE0101);
-      assert.equal(glyph2, 2);
+      const glyph1 = processor.lookupNonDefaultVariation(0x82A6, 0xE0100);
+      assert.equal(glyph1, 0); // Not found returns 0
+
+      // Test non-default variation
+      const glyph2 = processor.lookupNonDefaultVariation(0x82A6, 0xE0101);
+      assert.equal(glyph2, 2); // Variation glyph ID should be 2 according to CMAP format 14
+
+      // Test non-registered variation
+      const glyph3 = processor.lookupNonDefaultVariation(0x2269, 0xE01EF);
+      assert.equal(glyph3, 0); // Not found returns 0
     });
   });
 
