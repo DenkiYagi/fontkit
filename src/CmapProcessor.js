@@ -63,7 +63,7 @@ export default class CmapProcessor {
 
       // Otherwise, try to get a Unicode variation selector for this codepoint if one is provided.
     } else if (variationSelector) {
-      let gid = this.getVariationSelector(codepoint, variationSelector);
+      let gid = this.lookupNonDefaultUVS(codepoint, variationSelector);
       if (gid) {
         return gid;
       }
@@ -137,32 +137,39 @@ export default class CmapProcessor {
       }
 
       case 14:
-        throw new Error('TODO: cmap format 14');
+        // Format 14 is handled separately via the uvs property
+        throw new Error('Unexpected cmap format 14');
 
       default:
         throw new Error(`Unknown cmap format ${cmap.version}`);
     }
   }
 
-  getVariationSelector(codepoint, variationSelector) {
+  /**
+   * Find the glyph ID for a non-default variation of a character.
+   *
+   * @param {number} codepoint Codepoint for the base character.
+   * @param {number} variationSelector Codepoint for the variation selector.
+   * @returns {number} The glyph ID for the non-default variation, or 0 if not found.
+   */
+  lookupNonDefaultUVS(codepoint, variationSelector) {
     if (!this.uvs) {
       return 0;
     }
 
     let selectors = this.uvs.varSelectors.toArray();
-    let i = binarySearch(selectors, x => variationSelector - x.varSelector);
-    let sel = selectors[i];
-
-    if (i !== -1 && sel.defaultUVS) {
-      i = binarySearch(sel.defaultUVS, x =>
-        codepoint < x.startUnicodeValue ? -1 : codepoint > x.startUnicodeValue + x.additionalCount ? +1 : 0
-      );
+    let selectorIndex = binarySearch(selectors, x => variationSelector - x.varSelector);
+    
+    if (selectorIndex === -1) {
+      return 0;
     }
+    
+    let sel = selectors[selectorIndex];
 
-    if (i !== -1 && sel.nonDefaultUVS) {
-      i = binarySearch(sel.nonDefaultUVS, x => codepoint - x.unicodeValue);
-      if (i !== -1) {
-        return sel.nonDefaultUVS[i].glyphID;
+    if (sel.nonDefaultUVS) {
+      let nonDefaultIndex = binarySearch(sel.nonDefaultUVS, x => codepoint - x.unicodeValue);
+      if (nonDefaultIndex !== -1) {
+        return sel.nonDefaultUVS[nonDefaultIndex].glyphID;
       }
     }
 
@@ -206,11 +213,39 @@ export default class CmapProcessor {
       }
 
       case 14:
-        throw new Error('TODO: cmap format 14');
+        // Format 14 is handled separately via the uvs property
+        throw new Error('Unexpected cmap format 14');
 
       default:
         throw new Error(`Unknown cmap format ${cmap.version}`);
     }
+  }
+
+  /**
+   * @returns {{ baseCharacter: number, variationSelector: number, glyphID: number }[]}
+   */
+  @cache
+  getNonDefaultUVSSet() {
+    const uvs = this.uvs;
+    if (!uvs) {
+      return [];
+    }
+
+    const variations = [];
+    for (const sel of uvs.varSelectors.toArray()) {
+      if (sel.nonDefaultUVS) {
+        const { varSelector } = sel;
+        for (const uvsMapping of sel.nonDefaultUVS) {
+          variations.push({
+            baseCharacter: uvsMapping.unicodeValue,
+            variationSelector: varSelector,
+            glyphID: uvsMapping.glyphID,
+          });
+        }
+      }
+    }
+
+    return variations;
   }
 
   @cache

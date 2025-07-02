@@ -299,12 +299,35 @@ export default class TTFFont {
   }
 
   /**
-   * An array of all of the unicode code points supported by the font.
+   * An array of all of the Unicode code points that the font supports via its main cmap subtable.
+   *
+   * Note: This does not include code points only present in the cmap format 14 subtable, such as variation selectors.
+   * See also `nonDefaultUVSSet` for those.
+   *
    * @type {number[]}
    */
   @cache
   get characterSet() {
     return this._cmapProcessor.getCharacterSet();
+  }
+
+  /**
+   * An array of all of the non-default Unicode Variation Sequences
+   * that the font supports via its cmap format 14 subtable.
+   *
+   * Each entry in the array is an object with the following properties:
+   * - `baseCharacter`: the base character code point
+   * - `variationSelector`: the variation selector code point
+   * - `glyphID`: the glyph ID for the variation
+   *
+   * The array is not guaranteed to be in any particular order.
+   *
+   * @type {{ baseCharacter: number, variationSelector: number, glyphID: number }[]}
+   * @see {@link https://learn.microsoft.com/en-us/typography/opentype/spec/cmap#non-default-uvs-table}
+   */
+  @cache
+  get nonDefaultUVSSet() {
+    return this._cmapProcessor.getNonDefaultUVSSet();
   }
 
   /**

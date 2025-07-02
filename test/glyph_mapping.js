@@ -29,16 +29,61 @@ describe('character to glyph mapping', function () {
       return assert.deepEqual(glyphs.map(g => g.codePoints), [[104], [101], [108], [108], [111]]);
     });
 
-    it('should support unicode variation selectors', function () {
-      let font = fontkit.openSync(new URL('data/fonttest/TestCMAP14.otf', import.meta.url));
-      let glyphs = font.glyphsForString('\u{82a6}\u{82a6}\u{E0100}\u{82a6}\u{E0101}');
-      assert.deepEqual(glyphs.map(g => g.id), [1, 1, 2]);
-    });
-
     it('should support legacy encodings when no unicode cmap is found', function () {
       let font = fontkit.openSync(new URL('data/fonttest/TestCMAPMacTurkish.ttf', import.meta.url));
       let glyphs = font.glyphsForString("“ABÇĞIİÖŞÜ”");
       assert.deepEqual(glyphs.map(g => g.id), [200, 34, 35, 126, 176, 42, 178, 140, 181, 145, 201]);
+    });
+  });
+
+  describe('cmap format 14 handling', function () {
+    let font = fontkit.openSync(new URL('data/fonttest/TestCMAP14.otf', import.meta.url));
+
+    it('should detect format 14 support', function () {
+      assert(font._cmapProcessor);
+      assert(font._cmapProcessor.uvs);
+    });
+
+    it('should get nonDefaultUVSSet', function () {
+      assert.deepEqual(font.nonDefaultUVSSet, [
+        { baseCharacter: 0x2269, variationSelector: 0xFE00, glyphID: 3 }, // ≩ + VS1
+        { baseCharacter: 0x82A6, variationSelector: 0xE0101, glyphID: 2 },  // 芦 + VS18
+      ]);
+    });
+
+    it('should handle default UVS', function () {
+      const baseGlyphs = font.glyphsForString('\u{82a6}'); // 芦
+      const ivsGlyphs = font.glyphsForString('\u{82a6}\u{E0100}'); // 芦 + VS17
+
+      // Should be the same as base glyph IDs
+      assert.deepEqual(ivsGlyphs.map((g) => g.id), baseGlyphs.map((g) => g.id));
+    });
+
+    it('should handle non-default UVS', function () {
+      const svsGlyphs = font.glyphsForString('\u{2269}\u{FE00}'); // ≩ + VS1
+      assert.deepEqual(svsGlyphs.map((g) => g.id), [3]);
+
+      const ivsGlyphs = font.glyphsForString('\u{82a6}\u{E0101}'); // 芦 + VS18
+      assert.deepEqual(ivsGlyphs.map((g) => g.id), [2]);
+    });
+
+    it('should ignore non-registered UVS', function () {
+      const baseGlyphs = font.glyphsForString('\u{82a6}'); // 芦
+      const ivsGlyphs = font.glyphsForString('\u{82a6}\u{E01EF}'); // 芦 + VS256
+
+      // Should be the same as base glyph IDs
+      assert.deepEqual(ivsGlyphs.map((g) => g.id), baseGlyphs.map((g) => g.id));
+    });
+
+    it('should handle mixed UVSes in the same string correctly', function () {
+      const glyphs = font.glyphsForString('\u{82a6}\u{82a6}\u{E0100}\u{82a6}\u{E0101}\u{82a6}\u{E01EF}');
+      assert.deepEqual(glyphs.map(g => g.id), [1, 1, 2, 1]);
+    });
+
+    it('should preserve codePoints in glyphs with variation selectors', function () {
+      const glyphs = font.glyphsForString('\u{82a6}\u{E0101}'); // 芦 + VS18
+      assert.equal(glyphs.length, 1);
+      assert.deepEqual(glyphs[0].codePoints, [0x82A6, 0xE0101]);
     });
   });
 
