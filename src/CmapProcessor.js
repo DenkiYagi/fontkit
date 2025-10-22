@@ -157,14 +157,11 @@ export default class CmapProcessor {
       return 0;
     }
 
-    let selectors = this._variationSelectorRecords;
-    let selectorIndex = binarySearch(selectors, x => variationSelector - x.varSelector);
-    
-    if (selectorIndex === -1) {
+    let sel = this._getVariationSelectorRecord(variationSelector);
+
+    if (!sel) {
       return 0;
     }
-    
-    let sel = selectors[selectorIndex];
 
     if (sel.nonDefaultUVS) {
       let nonDefaultIndex = binarySearch(sel.nonDefaultUVS, x => codepoint - x.unicodeValue);
@@ -257,6 +254,24 @@ export default class CmapProcessor {
     if (!this.uvs) return [];
 
     return this.uvs.varSelectors.toArray();
+  }
+
+  /**
+   * Get a variation selector record by its codepoint.
+   *
+   * @param {number} variationSelector 
+   * @returns The `VarSelectorRecord` instance, or `null` if not found.
+   */
+  @cache
+  _getVariationSelectorRecord(variationSelector) {
+    let selectors = this._variationSelectorRecords;
+    let selectorIndex = binarySearch(selectors, x => variationSelector - x.varSelector);
+
+    if (selectorIndex === -1) {
+      return null;
+    }
+
+    return selectors[selectorIndex];
   }
 
   @cache
