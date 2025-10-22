@@ -228,7 +228,7 @@ export default class CmapProcessor {
     }
 
     const variations = [];
-    for (const sel of this._variationSelectorRecords) {
+    for (const sel of this._variationSelectorRecordArray) {
       if (sel.nonDefaultUVS) {
         const { varSelector } = sel;
         for (const uvsMapping of sel.nonDefaultUVS) {
@@ -250,7 +250,7 @@ export default class CmapProcessor {
    * @see https://learn.microsoft.com/en-us/typography/opentype/spec/cmap
    */
   @cache
-  get _variationSelectorRecords() {
+  get _variationSelectorRecordArray() {
     if (!this.uvs) return [];
 
     return this.uvs.varSelectors.toArray();
@@ -264,7 +264,7 @@ export default class CmapProcessor {
    */
   @cache
   _getVariationSelectorRecord(variationSelector) {
-    let selectors = this._variationSelectorRecords;
+    let selectors = this._variationSelectorRecordArray;
     let selectorIndex = binarySearch(selectors, x => variationSelector - x.varSelector);
 
     if (selectorIndex === -1) {
