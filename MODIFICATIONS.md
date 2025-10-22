@@ -1,5 +1,9 @@
 # Modifications
 
+## [2.0.4-mod.2025.2]
+
+- Improve performance of `CmapProcessor#lookupNonDefaultUVS` by caching variation selector records from `cmap` format 14 subtable
+
 ## [2.0.4-mod.2025.1]
 
 - Fix glyph mapping using the cmap format 14 subtable, improving support for UVS in methods like `TTFFont#glyphsForString`
