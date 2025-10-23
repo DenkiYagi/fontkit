@@ -157,14 +157,11 @@ export default class CmapProcessor {
       return 0;
     }
 
-    let selectors = this.uvs.varSelectors.toArray();
-    let selectorIndex = binarySearch(selectors, x => variationSelector - x.varSelector);
-    
-    if (selectorIndex === -1) {
+    let sel = this._getVariationSelectorRecord(variationSelector);
+
+    if (!sel) {
       return 0;
     }
-    
-    let sel = selectors[selectorIndex];
 
     if (sel.nonDefaultUVS) {
       let nonDefaultIndex = binarySearch(sel.nonDefaultUVS, x => codepoint - x.unicodeValue);
@@ -226,13 +223,12 @@ export default class CmapProcessor {
    */
   @cache
   getNonDefaultUVSSet() {
-    const uvs = this.uvs;
-    if (!uvs) {
+    if (!this.uvs) {
       return [];
     }
 
     const variations = [];
-    for (const sel of uvs.varSelectors.toArray()) {
+    for (const sel of this._variationSelectorRecordArray) {
       if (sel.nonDefaultUVS) {
         const { varSelector } = sel;
         for (const uvsMapping of sel.nonDefaultUVS) {
@@ -246,6 +242,36 @@ export default class CmapProcessor {
     }
 
     return variations;
+  }
+
+  /**
+   * Get and cache the array of the `varSelectors` records from the UVS subtable (format 14).
+   * 
+   * @see https://learn.microsoft.com/en-us/typography/opentype/spec/cmap
+   */
+  @cache
+  get _variationSelectorRecordArray() {
+    if (!this.uvs) return [];
+
+    return this.uvs.varSelectors.toArray();
+  }
+
+  /**
+   * Get a variation selector record by its codepoint.
+   *
+   * @param {number} variationSelector 
+   * @returns The `VarSelectorRecord` instance, or `null` if not found.
+   */
+  @cache
+  _getVariationSelectorRecord(variationSelector) {
+    let selectors = this._variationSelectorRecordArray;
+    let selectorIndex = binarySearch(selectors, x => variationSelector - x.varSelector);
+
+    if (selectorIndex === -1) {
+      return null;
+    }
+
+    return selectors[selectorIndex];
   }
 
   @cache
