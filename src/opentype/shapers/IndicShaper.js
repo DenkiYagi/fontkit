@@ -14,7 +14,7 @@ import {
   HALANT_OR_COENG_FLAGS, INDIC_CONFIGS,
   INDIC_DECOMPOSITIONS
 } from './indic-data';
-import { decodeBase64 } from '../../utils';
+import { decodeBase64 } from '../../utils/decode';
 
 const {decompositions} = useData;
 const trie = new UnicodeTrie(decodeBase64(require('fs').readFileSync(__dirname + '/indic.trie', 'base64')));

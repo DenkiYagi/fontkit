@@ -1,5 +1,5 @@
 import {cache} from '../decorators';
-import {range} from '../utils';
+import {range} from '../utils/arrays';
 
 export default class AATLookupTable {
   constructor(table) {

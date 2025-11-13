@@ -13,7 +13,7 @@ import GlyphVariationProcessor from './glyph/GlyphVariationProcessor';
 import TTFSubset from './subset/TTFSubset';
 import CFFSubset from './subset/CFFSubset';
 import BBox from './glyph/BBox';
-import { asciiDecoder } from './utils';
+import { asciiDecoder } from './utils/decode';
 
 /**
  * This is the base class for all SFNT-based font formats in fontkit.
