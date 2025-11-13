@@ -21,7 +21,7 @@ import { asciiDecoder } from './utils';
  */
 export default class TTFFont {
   /**
-   * @type {'TTF' | 'WOFF2'}
+   * @type {'TTF'}
    */
   type = 'TTF';
 

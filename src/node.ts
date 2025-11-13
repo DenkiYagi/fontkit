@@ -1,12 +1,10 @@
 import { registerFormat } from './base';
 import TTFFont from './TTFFont';
-import WOFF2Font from './WOFF2Font';
 import TrueTypeCollection from './TrueTypeCollection';
 import DFont from './DFont';
 
 // Register font formats
 registerFormat(TTFFont);
-registerFormat(WOFF2Font);
 registerFormat(TrueTypeCollection);
 registerFormat(DFont);
 
