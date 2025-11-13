@@ -1,5 +1,7 @@
 // @ts-check
 
+import { isPrimitive } from './primitive.js';
+
 /**
  * Deeply clones the value.
  *
@@ -40,17 +42,6 @@ function cloneValue(value, seen) {
   }
 
   throw new TypeError('cloneDeep only supports primitives, arrays, and plain objects');
-}
-
-/**
- * Checks if a value is a primitive type
- * (null, string, number, boolean, undefined, bigint, symbol).
- * 
- * @param {unknown} value
- * @returns {boolean}
- */
-function isPrimitive(value) {
-  return value === null || (typeof value !== 'object' && typeof value !== 'function');
 }
 
 /**

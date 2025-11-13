@@ -1,7 +1,9 @@
 // @ts-check
 
+import { isPrimitive } from './primitive.js';
+
 /**
- * @typedef {null | undefined | string | number | boolean | bigint | symbol} Primitive
+ * @typedef {import('./primitive.js').Primitive} Primitive
  */
 
 /**
@@ -45,12 +47,4 @@ export function equalArray(left, right) {
   }
 
   throw new TypeError('equalArray only supports primitives and arrays');
-}
-
-/**
- * @param {unknown} value
- * @returns {value is Primitive}
- */
-function isPrimitive(value) {
-  return value == null || (typeof value !== 'object' && typeof value !== 'function');
 }
