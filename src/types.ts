@@ -1,13 +1,6 @@
 import type TTFFont from './TTFFont.js';
-import type WOFFFont from './WOFFFont.js';
-import type WOFF2Font from './WOFF2Font.js';
-import type TrueTypeCollection from './TrueTypeCollection.js';
-import type DFont from './DFont.js';
 import type GlyphInfo from './opentype/GlyphInfo.js';
 import type ShapingPlan from './opentype/ShapingPlan.js';
-
-export type Font = TTFFont | WOFFFont | WOFF2Font;
-export type FontCollection = TrueTypeCollection | DFont;
 
 export type { GlyphInfo, ShapingPlan };
 

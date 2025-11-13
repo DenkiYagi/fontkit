@@ -24,18 +24,6 @@ describe('fontkit', function () {
 
     font = fontkit.openSync(new URL('data/NotoSans/NotoSans.ttc', import.meta.url), 'NotoSans');
     assert.equal(font.type, 'TTF');
-
-    font = fontkit.openSync(new URL('data/NotoSans/NotoSans.dfont', import.meta.url));
-    assert.equal(font.type, 'DFont');
-
-    font = fontkit.openSync(new URL('data/NotoSans/NotoSans.dfont', import.meta.url), 'NotoSans');
-    assert.equal(font.type, 'TTF');
-
-    font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.woff', import.meta.url));
-    assert.equal(font.type, 'WOFF');
-
-    font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.woff2', import.meta.url));
-    assert.equal(font.type, 'WOFF2');
   });
 
   it('should open fonts lacking PostScript name', function () {
@@ -65,14 +53,4 @@ describe('fontkit', function () {
     return assert.equal(font.postscriptName, 'NotoSans-Italic');
   });
 
-  it('should get collection objects for dfonts', function () {
-    let collection = fontkit.openSync(new URL('data/NotoSans/NotoSans.dfont', import.meta.url));
-    assert.equal(collection.type, 'DFont');
-
-    let names = collection.fonts.map(f => f.postscriptName);
-    assert.deepEqual(names, ['NotoSans', 'NotoSans-Bold', 'NotoSans-Italic', 'NotoSans-BoldItalic']);
-
-    let font = collection.getFont('NotoSans-Italic');
-    return assert.equal(font.postscriptName, 'NotoSans-Italic');
-  });
 });

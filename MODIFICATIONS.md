@@ -1,5 +1,14 @@
 # Modifications
 
+## [Unreleased]
+
+- Remove WOFF format support
+    - Also removing the `tiny-inflate` dependency (the indirect dependency may remain)
+- Remove WOFF2 format support
+    - Also removing the `brotli` dependency
+- Remove DFont format support
+- Simplify the published TypeScript types by inlining the concrete format exports (`TTFFont`/`TrueTypeCollection`) in place of the old aliases (`Font`/`FontCollection`).
+
 ## [2.0.4-mod.2025.2]
 
 - Improve performance of `CmapProcessor#lookupNonDefaultUVS` by caching variation selector records from `cmap` format 14 subtable
