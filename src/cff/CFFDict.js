@@ -1,4 +1,3 @@
-import * as r from 'restructure';
 import CFFOperand from './CFFOperand';
 import { PropertyDescriptor } from 'restructure';
 import { equalArray } from '../utils/deep-equal.js';
