@@ -1,6 +1,6 @@
 import CFFOperand from './CFFOperand';
 import { PropertyDescriptor } from 'restructure';
-import { equalArray } from '../utils/deep-equal.js';
+import { equalArray } from '../utils/deep-equal';
 
 export default class CFFDict {
   constructor(ops = []) {
