@@ -1,4 +1,4 @@
-import cloneDeep from 'clone';
+import { cloneDeep } from '../utils/clone.js';
 import Subset from './Subset';
 import Directory from '../tables/directory';
 import Tables from '../tables';
