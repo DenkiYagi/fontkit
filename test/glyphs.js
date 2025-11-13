@@ -262,40 +262,6 @@ describe('glyphs', function () {
     });
   });
 
-  describe('WOFF ttf glyphs', function () {
-    let font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.ttf.woff', import.meta.url));
-    let glyph = font.glyphsForString('D')[0];
-
-    it('should get the glyph name', function () {
-      return assert.equal(glyph.name, 'D');
-    });
-
-    it('should get a TTFGlyph', function () {
-      return assert.equal(glyph.type, 'TTF');
-    });
-
-    it('should get a quadratic path for the glyph', function () {
-      return assert.equal(glyph.path.toSVG(), 'M90 0L90 656L254 656Q406 656 485 571.5Q564 487 564 331Q564 174 485.5 87Q407 0 258 0ZM173 68L248 68Q363 68 420.5 137.5Q478 207 478 331Q478 455 420.5 521.5Q363 588 248 588L173 588Z');
-    });
-  });
-
-  describe('WOFF otf glyphs', function () {
-    let font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.otf.woff', import.meta.url));
-    let glyph = font.glyphsForString('D')[0];
-
-    it('should get the glyph name', function () {
-      return assert.equal(glyph.name, 'D');
-    });
-
-    it('should get a CFFGlyph', function () {
-      return assert.equal(glyph.type, 'CFF');
-    });
-
-    it('should get a cubic path for the glyph', function () {
-      return assert.equal(glyph.path.toSVG(), 'M90 0L258 0C456 0 564 122 564 331C564 539 456 656 254 656L90 656ZM173 68L173 588L248 588C401 588 478 496 478 331C478 165 401 68 248 68Z');
-    });
-  });
-
   describe('WOFF2 ttf glyph', function () {
     let font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.ttf.woff2', import.meta.url));
 

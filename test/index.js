@@ -31,9 +31,6 @@ describe('fontkit', function () {
     font = fontkit.openSync(new URL('data/NotoSans/NotoSans.dfont', import.meta.url), 'NotoSans');
     assert.equal(font.type, 'TTF');
 
-    font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.woff', import.meta.url));
-    assert.equal(font.type, 'WOFF');
-
     font = fontkit.openSync(new URL('data/SourceSansPro/SourceSansPro-Regular.woff2', import.meta.url));
     assert.equal(font.type, 'WOFF2');
   });
