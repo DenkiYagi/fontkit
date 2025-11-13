@@ -1,11 +1,10 @@
 import type TTFFont from './TTFFont.js';
 import type TrueTypeCollection from './TrueTypeCollection.js';
-import type DFont from './DFont.js';
 import type GlyphInfo from './opentype/GlyphInfo.js';
 import type ShapingPlan from './opentype/ShapingPlan.js';
 
 export type Font = TTFFont;
-export type FontCollection = TrueTypeCollection | DFont;
+export type FontCollection = TrueTypeCollection;
 
 export type { GlyphInfo, ShapingPlan };
 

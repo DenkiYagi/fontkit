@@ -1,12 +1,10 @@
 import { registerFormat } from './base';
 import TTFFont from './TTFFont';
 import TrueTypeCollection from './TrueTypeCollection';
-import DFont from './DFont';
 
 // Register font formats
 registerFormat(TTFFont);
 registerFormat(TrueTypeCollection);
-registerFormat(DFont);
 
 export * from './base';
 export { DefaultShaper } from './base'; // Explicit export for preventing tree-shaking
