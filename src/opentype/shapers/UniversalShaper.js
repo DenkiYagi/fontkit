@@ -3,7 +3,7 @@ import StateMachine from 'dfa';
 import UnicodeTrie from 'unicode-trie';
 import GlyphInfo from '../GlyphInfo';
 import useData from './use.json';
-import { decodeBase64 } from '../../utils';
+import { decodeBase64 } from '../../utils/decode';
 
 const {categories, decompositions} = useData;
 const trie = new UnicodeTrie(decodeBase64(require('fs').readFileSync(__dirname + '/use.trie', 'base64')));

@@ -1,6 +1,6 @@
 // @ts-check
 
-import { binarySearch } from '../utils';
+import { binarySearch } from '../utils/arrays';
 
 export default class KernProcessor {
   /**

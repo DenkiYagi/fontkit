@@ -1,7 +1,7 @@
 import DefaultShaper from './DefaultShaper';
 import {getCategory} from 'unicode-properties';
 import UnicodeTrie from 'unicode-trie';
-import { decodeBase64 } from '../../utils';
+import { decodeBase64 } from '../../utils/decode';
 
 const trie = new UnicodeTrie(decodeBase64(require('fs').readFileSync(__dirname + '/data.trie', 'base64')));
 const FEATURES = ['isol', 'fina', 'fin2', 'fin3', 'medi', 'med2', 'init'];

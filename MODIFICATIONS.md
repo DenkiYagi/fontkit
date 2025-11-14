@@ -8,6 +8,9 @@
     - Also removing the `brotli` dependency
 - Remove DFont format support
 - Simplify the published TypeScript types by inlining the concrete format exports (`TTFFont`/`TrueTypeCollection`) in place of the old aliases (`Font`/`FontCollection`).
+- Remove the dependencies below by replacing them with new internal helpers (no API changes):
+    - `clone` (used by `TTFSubset`)
+    - `fast-deep-equal` (used by `CFFDict`)
 
 ## [2.0.4-mod.2025.2]
 
