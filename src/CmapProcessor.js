@@ -73,6 +73,10 @@ export default class CmapProcessor {
       case 0:
         return cmap.codeMap.get(codepoint) || 0;
 
+      case 2:
+        // Microsoft OpenType spec says "This format is not commonly used today."
+        throw new Error('Unsupported cmap format 2');
+
       case 4: {
         let min = 0;
         let max = cmap.segCount - 1;
@@ -178,6 +182,10 @@ export default class CmapProcessor {
     switch (cmap.version) {
       case 0:
         return range(0, cmap.codeMap.length);
+
+      case 2:
+        // Microsoft OpenType spec says "This format is not commonly used today."
+        throw new Error('Unsupported cmap format 2');
 
       case 4: {
         let res = [];
