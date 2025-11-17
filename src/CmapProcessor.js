@@ -327,6 +327,12 @@ export default class CmapProcessor {
         return res;
       }
 
+      case 2:
+      case 6:
+      case 8:
+      case 10:
+        throw new Error(`Unsupported cmap format ${cmap.version}`);
+
       case 12: {
         let res = [];
         for (let group of cmap.groups.toArray()) {
@@ -348,6 +354,10 @@ export default class CmapProcessor {
 
         return res;
       }
+
+      case 14:
+        // Format 14 is handled separately via the uvs property
+        throw new Error('Unexpected cmap format 14');
 
       default:
         throw new Error(`Unknown cmap format ${cmap.version}`);
