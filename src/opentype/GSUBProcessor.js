@@ -185,8 +185,11 @@ export default class GSUBProcessor extends OTProcessor {
       case 7: // Extension Substitution
         return this.applyLookup(table.lookupType, table.extension);
 
+      case 8: // Reverse Chaining Contextual Single Substitution
+        throw new Error(`GSUB lookupType 8 is not supported`);
+
       default:
-        throw new Error(`GSUB lookupType ${lookupType} is not supported`);
+        throw new Error(`Unknown GSUB lookupType: ${lookupType}`);
     }
   }
 }
