@@ -1,5 +1,8 @@
 // @ts-check
 
+/**
+ * @abstract
+ */
 export default class Subset {
   /**
    * @type {('TTF' | 'CFF' | 'UNKNOWN')}
@@ -47,7 +50,7 @@ export default class Subset {
   }
 
   /**
-   * @returns {Uint8Array}
+   * @abstract
    */
   encode() {
     throw new Error('Not implemented');
