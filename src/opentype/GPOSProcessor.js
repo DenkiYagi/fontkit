@@ -278,7 +278,7 @@ export default class GPOSProcessor extends OTProcessor {
         return this.applyLookup(table.lookupType, table.extension);
 
       default:
-        throw new Error(`Unsupported GPOS table: ${lookupType}`);
+        throw new Error(`Unknown GPOS lookupType: ${lookupType}`);
     }
   }
 
