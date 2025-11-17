@@ -109,7 +109,8 @@ export default class CmapProcessor {
       }
 
       case 8:
-        throw new Error('TODO: cmap format 8');
+        // TODO: support format 8
+        throw new Error('Unsupported cmap format 8');
 
       case 6:
       case 10:
@@ -200,7 +201,8 @@ export default class CmapProcessor {
       }
 
       case 8:
-        throw new Error('TODO: cmap format 8');
+        // TODO: support format 8
+        throw new Error('Unsupported cmap format 8');
 
       case 6:
       case 10:
