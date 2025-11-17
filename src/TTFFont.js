@@ -1,6 +1,6 @@
 import * as r from 'restructure';
 import { cache } from './decorators';
-import { isLoggingErrors, getDefaultLanguage as getGlobalDefaultLanguage } from './base';
+import { isLoggingWarnings, getDefaultLanguage as getGlobalDefaultLanguage } from './base';
 import Directory from './tables/directory';
 import tables from './tables/index';
 import CmapProcessor from './CmapProcessor';
@@ -81,9 +81,9 @@ export default class TTFFont {
       try {
         this._tables[table.tag] = this._decodeTable(table);
       } catch (e) {
-        if (isLoggingErrors()) {
-          console.error(`Error decoding table ${table.tag}`);
-          console.error(e.stack);
+        if (isLoggingWarnings()) {
+          console.warn(`Failed to decode table ${table.tag}`);
+          console.warn(e.stack);
         }
       }
     }

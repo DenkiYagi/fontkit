@@ -11,6 +11,7 @@
 - Remove the dependencies below by replacing them with new internal helpers (no API changes):
     - `clone` (used by `TTFSubset`)
     - `fast-deep-equal` (used by `CFFDict`)
+- Rename table decode logging helpers from `logErrors`/`isLoggingErrors` to `logWarnings`/`isLoggingWarnings` and downgrade emitted messages to warnings
 
 ## [2.0.4-mod.2025.2]
 
