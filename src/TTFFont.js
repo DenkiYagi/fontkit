@@ -14,6 +14,7 @@ import TTFSubset from './subset/TTFSubset';
 import CFFSubset from './subset/CFFSubset';
 import BBox from './glyph/BBox';
 import { asciiDecoder } from './utils/decode';
+import { InvalidCallerInputError } from './errors';
 
 /**
  * This is the base class for all SFNT-based font formats in fontkit.
@@ -102,7 +103,7 @@ export default class TTFFont {
   }
 
   _decodeDirectory() {
-    return this.directory = Directory.decode(this.stream, {_startOffset: 0});
+    return this.directory = Directory.decode(this.stream, { _startOffset: 0 });
   }
 
   _decodeTable(table) {
@@ -125,12 +126,12 @@ export default class TTFFont {
     if (record) {
       // Attempt to retrieve the entry, depending on which translation is available:
       return (
-          record[lang]
-          || record[this.defaultLanguage]
-          || record[getGlobalDefaultLanguage()]
-          || record['en']
-          || record[Object.keys(record)[0]] // Seriously, ANY language would be fine
-          || null
+        record[lang]
+        || record[this.defaultLanguage]
+        || record[getGlobalDefaultLanguage()]
+        || record['en']
+        || record[Object.keys(record)[0]] // Seriously, ANY language would be fine
+        || null
       );
     }
 
@@ -561,7 +562,9 @@ export default class TTFFont {
    */
   getVariation(settings) {
     if (!(this.directory.tables.fvar && ((this.directory.tables.gvar && this.directory.tables.glyf) || this.directory.tables.CFF2))) {
-      throw new Error('Variations require a font with the fvar, gvar and glyf, or CFF2 tables.');
+      throw new InvalidCallerInputError(
+        'Variations require a font with the fvar, gvar and glyf, or CFF2 tables.'
+      );
     }
 
     if (typeof settings === 'string') {
@@ -569,7 +572,9 @@ export default class TTFFont {
     }
 
     if (typeof settings !== 'object') {
-      throw new Error('Variation settings must be either a variation name or settings object.');
+      throw new InvalidCallerInputError(
+        'Variation settings must be either a variation name or settings object.'
+      );
     }
 
     // normalize the coordinates

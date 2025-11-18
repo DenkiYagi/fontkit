@@ -1,5 +1,6 @@
 // @ts-check
 
+import { AssertionError } from '../errors';
 import { isPrimitive } from './primitive.js';
 
 /**
@@ -41,7 +42,8 @@ function cloneValue(value, seen) {
     return cloneObject(value, seen);
   }
 
-  throw new TypeError('cloneDeep only supports primitives, arrays, and plain objects');
+  // Internal misuse if we reach here
+  throw new AssertionError('cloneDeep only supports primitives, arrays, and plain objects');
 }
 
 /**

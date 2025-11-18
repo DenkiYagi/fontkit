@@ -1,5 +1,7 @@
 // @ts-check
 
+import { AssertionError } from '../errors';
+
 /**
  * @abstract
  */
@@ -53,6 +55,6 @@ export default class Subset {
    * @abstract
    */
   encode() {
-    throw new Error('Subset.encode() must be overridden by subclasses');
+    throw new AssertionError('Subset.encode() must be overridden by subclasses');
   }
 }

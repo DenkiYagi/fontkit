@@ -1,5 +1,6 @@
 import OTProcessor from './OTProcessor';
 import GlyphInfo from './GlyphInfo';
+import { InvalidFontDataError, UnsupportedFontDataError } from '../errors';
 
 export default class GSUBProcessor extends OTProcessor {
   applyLookup(lookupType, table) {
@@ -186,10 +187,10 @@ export default class GSUBProcessor extends OTProcessor {
         return this.applyLookup(table.lookupType, table.extension);
 
       case 8: // Reverse Chaining Contextual Single Substitution
-        throw new Error(`GSUB lookupType 8 is not supported`);
+        throw new UnsupportedFontDataError('GSUB lookupType 8 is not supported');
 
       default:
-        throw new Error(`Unknown GSUB lookupType: ${lookupType}`);
+        throw new InvalidFontDataError(`Unknown GSUB lookupType: ${lookupType}`);
     }
   }
 }

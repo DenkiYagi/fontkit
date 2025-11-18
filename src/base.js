@@ -2,6 +2,7 @@
 
 // @ts-ignore
 import { DecodeStream } from 'restructure';
+import { UnsupportedFontFileFormatError } from './errors';
 
 // -----------------------------------------------------------------------------
 
@@ -45,7 +46,9 @@ export function create(buffer, postscriptName) {
     }
   }
 
-  throw new Error('Unsupported font file format: no registered reader recognized the data');
+  throw new UnsupportedFontFileFormatError(
+    'Unsupported font file format: no registered reader recognized the data'
+  );
 }
 
 // -----------------------------------------------------------------------------

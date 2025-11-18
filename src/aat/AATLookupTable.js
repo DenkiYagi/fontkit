@@ -1,5 +1,6 @@
 import {cache} from '../decorators';
 import {range} from '../utils/arrays';
+import { InvalidFontDataError } from '../errors';
 
 export default class AATLookupTable {
   constructor(table) {
@@ -70,7 +71,7 @@ export default class AATLookupTable {
         return this.table.values[glyph - this.table.firstGlyph];
 
       default:
-        throw new Error(`Unknown lookup table format: ${this.table.version}`);
+        throw new InvalidFontDataError(`Unknown lookup table format: ${this.table.version}`);
     }
   }
 
@@ -117,7 +118,7 @@ export default class AATLookupTable {
       }
 
       default:
-        throw new Error(`Unknown lookup table format: ${this.table.version}`);
+        throw new InvalidFontDataError(`Unknown lookup table format: ${this.table.version}`);
     }
 
     return res;

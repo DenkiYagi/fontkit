@@ -1,6 +1,7 @@
 import CFFOperand from './CFFOperand';
 import { PropertyDescriptor } from 'restructure';
 import { equalArray } from '../utils/deep-equal';
+import { InvalidFontDataError } from '../errors';
 
 export default class CFFDict {
   constructor(ops = []) {
@@ -73,7 +74,7 @@ export default class CFFDict {
 
         let field = this.fields[b];
         if (!field) {
-          throw new Error(`Unknown operator ${b}`);
+          throw new InvalidFontDataError(`Unknown operator ${b}`);
         }
 
         let val = this.decodeOperands(field[2], stream, ret, operands);

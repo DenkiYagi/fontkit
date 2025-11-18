@@ -2,6 +2,7 @@ import Glyph from './Glyph';
 import Path from './Path';
 import BBox from './BBox';
 import * as r from 'restructure';
+import { InvalidFontDataError } from '../errors';
 
 // The header for both simple and composite glyphs
 let GlyfHeader = new r.Struct({
@@ -376,7 +377,7 @@ export default class TTFGlyph extends Glyph {
           var curvePt = null;
 
         } else {
-          throw new Error('Inconsistent on/off-curve sequence in glyf contour');
+          throw new InvalidFontDataError('Inconsistent on/off-curve sequence in glyf contour');
         }
       }
 

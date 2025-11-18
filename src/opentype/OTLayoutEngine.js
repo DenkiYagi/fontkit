@@ -5,6 +5,7 @@ import * as Shapers from './shapers/index';
 import GlyphInfo from './GlyphInfo';
 import GSUBProcessor from './GSUBProcessor';
 import GPOSProcessor from './GPOSProcessor';
+import { AssertionError } from '../errors';
 
 export default class OTLayoutEngine {
   /**
@@ -64,7 +65,7 @@ export default class OTLayoutEngine {
   substitute(glyphRun) {
     if (this.glyphInfos == null || this.plan == null) {
       // Internal guard: shapers invoke substitute() only after setup().
-      throw new Error('setup() must be called before substitute()');
+      throw new AssertionError('setup() must be called before substitute()');
     }
 
     if (this.GSUBProcessor) {
@@ -82,7 +83,7 @@ export default class OTLayoutEngine {
   position(glyphRun) {
     if (this.glyphInfos == null || this.plan == null || this.shaper == null) {
       // Internal guard: setup() must run before any positioning work.
-      throw new Error('setup() must be called before position()');
+      throw new AssertionError('setup() must be called before position()');
     }
 
     let appliedFeatures = null;
@@ -119,7 +120,7 @@ export default class OTLayoutEngine {
   zeroMarkAdvances(positions) {
     if (this.glyphInfos == null) {
       // Internal guard: zeroing advances only happens after setup().
-      throw new Error('setup() must be called before zeroMarkAdvances()');
+      throw new AssertionError('setup() must be called before zeroMarkAdvances()');
     }
 
     for (let i = 0; i < this.glyphInfos.length; i++) {

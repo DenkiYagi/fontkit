@@ -1,6 +1,7 @@
 import Subset from './Subset';
 import CFFTop from '../cff/CFFTop';
 import standardStrings from '../cff/CFFStandardStrings';
+import { AssertionError } from '../errors';
 
 export default class CFFSubset extends Subset {
   /**
@@ -14,7 +15,7 @@ export default class CFFSubset extends Subset {
     this.cff = this.font['CFF '];
     if (!this.cff) {
       // Subset constructors are only called after format probing, so this flags an invariant breach.
-      throw new Error('CFFSubset requires a font with a CFF table');
+      throw new AssertionError('CFFSubset requires a font with a CFF table');
     }
   }
 

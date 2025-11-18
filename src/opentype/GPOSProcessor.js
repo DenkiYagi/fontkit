@@ -1,5 +1,6 @@
 import GlyphPosition from '../layout/GlyphPosition';
 import OTProcessor from './OTProcessor';
+import { InvalidFontDataError } from '../errors';
 
 /**
  * Null object for `GlyphPosition`.
@@ -278,7 +279,7 @@ export default class GPOSProcessor extends OTProcessor {
         return this.applyLookup(table.lookupType, table.extension);
 
       default:
-        throw new Error(`Unknown GPOS lookupType: ${lookupType}`);
+        throw new InvalidFontDataError(`Unknown GPOS lookupType: ${lookupType}`);
     }
   }
 
