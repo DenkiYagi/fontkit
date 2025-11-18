@@ -53,6 +53,6 @@ export default class Subset {
    * @abstract
    */
   encode() {
-    throw new Error('Not implemented');
+    throw new Error('Subset.encode() must be overridden by subclasses');
   }
 }

@@ -297,7 +297,7 @@ export default class AATMorxProcessor {
 
     let reverse = !!(subtable.coverage & REVERSE_DIRECTION);
     if (reverse) {
-      throw new Error('Reverse subtable, not supported.');
+      throw new Error('Reverse MORX subtable not supported.');
     }
 
     this.subtable = subtable;

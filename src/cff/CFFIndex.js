@@ -90,7 +90,7 @@ export default class CFFIndex {
     } else if (offset <= 0xffffffff) {
       offsetType = r.uint32;
     } else {
-      throw new Error("Bad offset in CFFIndex");
+      throw new Error('CFFIndex size overflow');
     }
 
     size += 1 + offsetType.size() * (arr.length + 1);
@@ -126,7 +126,7 @@ export default class CFFIndex {
     } else if (offset <= 0xffffffff) {
       offsetType = r.uint32;
     } else {
-      throw new Error("Bad offset in CFFIndex");
+      throw new Error('CFFIndex encode offset overflow');
     }
 
     // write offset size

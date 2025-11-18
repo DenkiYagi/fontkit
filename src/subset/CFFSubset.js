@@ -14,7 +14,7 @@ export default class CFFSubset extends Subset {
 
     this.cff = this.font['CFF '];
     if (!this.cff) {
-      throw new Error('Not a CFF Font');
+      throw new Error('CFFSubset requires a font with a CFF table');
     }
   }
 

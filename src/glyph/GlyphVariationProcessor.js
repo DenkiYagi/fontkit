@@ -105,7 +105,7 @@ export default class GlyphVariationProcessor {
 
       } else {
         if ((tupleIndex & TUPLE_INDEX_MASK) >= gvar.globalCoordCount) {
-          throw new Error('Invalid gvar table');
+        throw new Error('gvar tuple references invalid shared coordinate index');
         }
 
         var tupleCoords = gvar.globalCoords[tupleIndex & TUPLE_INDEX_MASK];

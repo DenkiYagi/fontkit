@@ -376,7 +376,7 @@ export default class TTFGlyph extends Glyph {
           var curvePt = null;
 
         } else {
-          throw new Error("Unknown TTF path state");
+          throw new Error('Inconsistent on/off-curve sequence in glyf contour');
         }
       }
 
