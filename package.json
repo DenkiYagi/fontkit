@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "test": "run-s build mocha",
-    "mocha": "mocha \"test/**/*.js\"",
+    "mocha": "mocha --node-option import=tsx \"test/**/*.js\"",
     "build": "run-s build:*",
     "build:js": "parcel build",
     "build:types": "tsc --project tsconfig-types.json",
@@ -22,7 +22,7 @@
     "trie:use": "node src/opentype/shapers/gen-use.js",
     "trie:indic": "node src/opentype/shapers/gen-indic.js",
     "clean": "shx rm -rf src/opentype/shapers/data.trie src/opentype/shapers/use.trie src/opentype/shapers/use.json src/opentype/shapers/indic.trie src/opentype/shapers/indic.json dist types",
-    "coverage": "c8 mocha \"test/**/*.js\""
+    "coverage": "c8 mocha --node-option import=tsx \"test/**/*.js\""
   },
   "type": "module",
   "main": "dist/main.cjs",
@@ -97,6 +97,7 @@
     "npm-run-all": "^4.1.5",
     "parcel": "2.0.0-canary.1713",
     "shx": "^0.3.4",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
 }
