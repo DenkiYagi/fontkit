@@ -29,6 +29,7 @@ export default class TrueTypeCollection {
   constructor(stream) {
     this.stream = stream;
     if (stream.readString(4) !== 'ttcf') {
+      // Should be unreachable: probe() verifies the TTC tag before construction.
       throw new Error('Not a TrueType collection');
     }
 

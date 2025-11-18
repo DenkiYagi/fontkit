@@ -13,6 +13,7 @@ export default class CFFSubset extends Subset {
 
     this.cff = this.font['CFF '];
     if (!this.cff) {
+      // Subset constructors are only called after format probing, so this flags an invariant breach.
       throw new Error('CFFSubset requires a font with a CFF table');
     }
   }

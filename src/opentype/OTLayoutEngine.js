@@ -63,6 +63,7 @@ export default class OTLayoutEngine {
    */
   substitute(glyphRun) {
     if (this.glyphInfos == null || this.plan == null) {
+      // Internal guard: shapers invoke substitute() only after setup().
       throw new Error('setup() must be called before substitute()');
     }
 
@@ -80,6 +81,7 @@ export default class OTLayoutEngine {
    */
   position(glyphRun) {
     if (this.glyphInfos == null || this.plan == null || this.shaper == null) {
+      // Internal guard: setup() must run before any positioning work.
       throw new Error('setup() must be called before position()');
     }
 
@@ -116,6 +118,7 @@ export default class OTLayoutEngine {
    */
   zeroMarkAdvances(positions) {
     if (this.glyphInfos == null) {
+      // Internal guard: zeroing advances only happens after setup().
       throw new Error('setup() must be called before zeroMarkAdvances()');
     }
 
