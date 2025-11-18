@@ -1,6 +1,5 @@
 import Subset from './Subset';
 import CFFTop from '../cff/CFFTop';
-import CFFPrivateDict from '../cff/CFFPrivateDict';
 import standardStrings from '../cff/CFFStandardStrings';
 
 export default class CFFSubset extends Subset {
