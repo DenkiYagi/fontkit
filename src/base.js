@@ -45,7 +45,7 @@ export function create(buffer, postscriptName) {
     }
   }
 
-  throw new Error('Unknown font format');
+  throw new Error('Unsupported font file format: no registered reader recognized the data');
 }
 
 // -----------------------------------------------------------------------------
