@@ -1,8 +1,7 @@
 import * as r from 'restructure';
 import TTFFont from './TTFFont';
-import Directory from './tables/directory';
-import tables from './tables';
 import { asciiDecoder } from './utils/decode';
+import { AssertionError } from './errors';
 
 let TTCHeader = new r.VersionedStruct(r.uint32, {
   0x00010000: {
@@ -31,7 +30,8 @@ export default class TrueTypeCollection {
   constructor(stream) {
     this.stream = stream;
     if (stream.readString(4) !== 'ttcf') {
-      throw new Error('Not a TrueType collection');
+      // Should be unreachable: probe() verifies the TTC tag before construction.
+      throw new AssertionError('Not a TrueType collection');
     }
 
     this.header = TTCHeader.decode(stream);

@@ -1,5 +1,10 @@
 // @ts-check
 
+import { AssertionError } from '../errors';
+
+/**
+ * @abstract
+ */
 export default class Subset {
   /**
    * @type {('TTF' | 'CFF' | 'UNKNOWN')}
@@ -47,9 +52,9 @@ export default class Subset {
   }
 
   /**
-   * @returns {Uint8Array}
+   * @abstract
    */
   encode() {
-    throw new Error('Not implemented');
+    throw new AssertionError('Subset.encode() must be overridden by subclasses');
   }
 }

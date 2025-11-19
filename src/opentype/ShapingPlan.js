@@ -1,5 +1,7 @@
 // @ts-check
 
+import { AssertionError, InvalidCallerInputError } from '../errors';
+
 /**
  * ShapingPlans are used by the OpenType shapers to store which
  * features should by applied, and in what order to apply them.
@@ -51,7 +53,7 @@ export default class ShapingPlan {
         }
       }
     } else {
-      throw new Error('Invalid data type of stage in ShapingPlan#stages');
+      throw new AssertionError('Invalid data type of stage in ShapingPlan#stages');
     }
   }
 
@@ -76,7 +78,7 @@ export default class ShapingPlan {
       this._addFeatures(arg.global || [], true);
       this._addFeatures(arg.local || [], false);
     } else {
-      throw new Error('Unsupported argument to ShapingPlan#add');
+      throw new InvalidCallerInputError('Unsupported argument to ShapingPlan#add');
     }
   }
 
@@ -112,7 +114,7 @@ export default class ShapingPlan {
             delete this.allFeatures[tag];
             delete this.globalFeatures[tag];
           } else {
-            throw new Error('Invalid data type of stage in ShapingPlan#stages');
+            throw new AssertionError('Invalid data type of stage in ShapingPlan#stages');
           }
         }
       }

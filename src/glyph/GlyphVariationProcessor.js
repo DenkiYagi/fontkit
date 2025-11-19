@@ -1,3 +1,5 @@
+import { InvalidFontDataError } from '../errors';
+
 const TUPLES_SHARE_POINT_NUMBERS = 0x8000;
 const TUPLE_COUNT_MASK           = 0x0fff;
 const EMBEDDED_TUPLE_COORD       = 0x8000;
@@ -105,7 +107,7 @@ export default class GlyphVariationProcessor {
 
       } else {
         if ((tupleIndex & TUPLE_INDEX_MASK) >= gvar.globalCoordCount) {
-          throw new Error('Invalid gvar table');
+          throw new InvalidFontDataError('gvar tuple references invalid shared coordinate index');
         }
 
         var tupleCoords = gvar.globalCoords[tupleIndex & TUPLE_INDEX_MASK];

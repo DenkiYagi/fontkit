@@ -1,8 +1,12 @@
 import GlyphIterator from './GlyphIterator';
 import * as Script from '../layout/Script';
+import { AssertionError } from '../errors';
 
 const DEFAULT_SCRIPTS = ['DFLT', 'dflt', 'latn'];
 
+/**
+ * @abstract
+ */
 export default class OTProcessor {
   constructor(font, table) {
     this.font = font;
@@ -218,8 +222,11 @@ export default class OTProcessor {
     }
   }
 
+  /**
+   * @abstract
+   */
   applyLookup(lookup, table) {
-    throw new Error('applyLookup must be implemented by subclasses');
+    throw new AssertionError('applyLookup must be implemented by subclasses');
   }
 
   applyLookupList(lookupRecords) {

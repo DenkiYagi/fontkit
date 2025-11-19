@@ -1,5 +1,6 @@
 import Glyph from './Glyph';
 import Path from './Path';
+import { InvalidFontDataError } from '../errors';
 
 /**
  * Represents an OpenType PostScript glyph, in the Compact Font Format.
@@ -180,7 +181,7 @@ export default class CFFGlyph extends Glyph {
 
             case 15: { // vsindex
               if (cff.version < 2) {
-                throw new Error('vsindex operator not supported in CFF v1');
+                throw new InvalidFontDataError('vsindex operator not supported in CFF v1');
               }
 
               vsindex = stack.pop();
@@ -189,11 +190,11 @@ export default class CFFGlyph extends Glyph {
 
             case 16: { // blend
               if (cff.version < 2) {
-                throw new Error('blend operator not supported in CFF v1');
+                throw new InvalidFontDataError('blend operator not supported in CFF v1');
               }
 
               if (!variationProcessor) {
-                throw new Error('blend operator in non-variation font');
+                throw new InvalidFontDataError('blend operator in non-variation font');
               }
 
               let blendVector = variationProcessor.getBlendVector(vstore, vsindex);
@@ -571,12 +572,12 @@ export default class CFFGlyph extends Glyph {
                   break;
 
                 default:
-                  throw new Error(`Unknown op: 12 ${op}`);
+                  throw new InvalidFontDataError(`Unknown op: 12 ${op}`);
               }
               break;
 
             default:
-              throw new Error(`Unknown op: ${op}`);
+              throw new InvalidFontDataError(`Unknown op: ${op}`);
           }
 
         } else if (op < 247) {

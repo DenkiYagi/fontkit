@@ -1,4 +1,5 @@
 import * as r from 'restructure';
+import { AssertionError, InvalidFontDataError } from '../errors';
 
 export default class CFFIndex {
   constructor(type) {
@@ -34,7 +35,7 @@ export default class CFFIndex {
     } else if (offSize === 4) {
       offsetType = r.uint32;
     } else {
-      throw new Error(`Bad offset size in CFFIndex: ${offSize} ${stream.pos}`);
+      throw new InvalidFontDataError(`Bad offset size in CFFIndex: ${offSize} ${stream.pos}`);
     }
 
     let ret = [];
@@ -90,7 +91,7 @@ export default class CFFIndex {
     } else if (offset <= 0xffffffff) {
       offsetType = r.uint32;
     } else {
-      throw new Error("Bad offset in CFFIndex");
+      throw new AssertionError('CFFIndex size overflow');
     }
 
     size += 1 + offsetType.size() * (arr.length + 1);
@@ -126,7 +127,7 @@ export default class CFFIndex {
     } else if (offset <= 0xffffffff) {
       offsetType = r.uint32;
     } else {
-      throw new Error("Bad offset in CFFIndex");
+      throw new AssertionError('CFFIndex encode offset overflow');
     }
 
     // write offset size

@@ -1,13 +1,13 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
+    "noEmit": false,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "allowJs": true,
-    "target": "ESNext",
-    "outDir": "types",
+    "outDir": "types"
   },
   "include": [
     "src/index.ts",
-    "src/node.ts",
+    "src/node.ts"
   ]
 }

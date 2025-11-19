@@ -1,5 +1,6 @@
 // @ts-check
 
+import { UnsupportedFontDataError } from '../errors';
 import { binarySearch } from '../utils/arrays';
 
 export default class KernProcessor {
@@ -52,7 +53,7 @@ export default class KernProcessor {
 
           break;
         default:
-          throw new Error(`Unsupported kerning table version ${table.version}`);
+          throw new UnsupportedFontDataError(`Unsupported kerning table version ${table.version}`);
       }
 
       let val = 0;
@@ -94,7 +95,7 @@ export default class KernProcessor {
           break;
 
         default:
-          throw new Error(`Unsupported kerning sub-table format ${table.format}`);
+          throw new UnsupportedFontDataError(`Unsupported kerning sub-table format ${table.format}`);
       }
 
       // Microsoft supports the override flag, which resets the result

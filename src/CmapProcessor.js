@@ -1,6 +1,7 @@
 import { binarySearch, range } from './utils/arrays';
 import { encodingExists, getEncoding, getEncodingMapping } from './encodings';
 import { cache } from './decorators';
+import { AssertionError, InvalidFontDataError, UnsupportedFontDataError } from './errors';
 
 export default class CmapProcessor {
   constructor(cmapTable) {
@@ -33,7 +34,7 @@ export default class CmapProcessor {
     }
 
     if (!this.cmap) {
-      throw new Error("Could not find a supported cmap table");
+      throw new UnsupportedFontDataError('Could not find a supported cmap table');
     }
 
     this.uvs = this.findSubtable(cmapTable, [[0, 5]]);
@@ -73,6 +74,10 @@ export default class CmapProcessor {
       case 0:
         return cmap.codeMap.get(codepoint) || 0;
 
+      case 2:
+        // Microsoft OpenType spec says "This format is not commonly used today."
+        throw new UnsupportedFontDataError('Unsupported cmap format 2');
+
       case 4: {
         let min = 0;
         let max = cmap.segCount - 1;
@@ -105,7 +110,8 @@ export default class CmapProcessor {
       }
 
       case 8:
-        throw new Error('TODO: cmap format 8');
+        // TODO: support format 8
+        throw new UnsupportedFontDataError('Unsupported cmap format 8');
 
       case 6:
       case 10:
@@ -137,10 +143,10 @@ export default class CmapProcessor {
 
       case 14:
         // Format 14 is handled separately via the uvs property
-        throw new Error('Unexpected cmap format 14');
+        throw new AssertionError('Unexpected cmap format 14');
 
       default:
-        throw new Error(`Unknown cmap format ${cmap.version}`);
+        throw new InvalidFontDataError(`Unknown cmap format ${cmap.version}`);
     }
   }
 
@@ -179,6 +185,10 @@ export default class CmapProcessor {
       case 0:
         return range(0, cmap.codeMap.length);
 
+      case 2:
+        // Microsoft OpenType spec says "This format is not commonly used today."
+        throw new UnsupportedFontDataError('Unsupported cmap format 2');
+
       case 4: {
         let res = [];
         let endCodes = cmap.endCode.toArray();
@@ -192,7 +202,8 @@ export default class CmapProcessor {
       }
 
       case 8:
-        throw new Error('TODO: cmap format 8');
+        // TODO: support format 8
+        throw new UnsupportedFontDataError('Unsupported cmap format 8');
 
       case 6:
       case 10:
@@ -210,10 +221,10 @@ export default class CmapProcessor {
 
       case 14:
         // Format 14 is handled separately via the uvs property
-        throw new Error('Unexpected cmap format 14');
+        throw new AssertionError('Unexpected cmap format 14');
 
       default:
-        throw new Error(`Unknown cmap format ${cmap.version}`);
+        throw new InvalidFontDataError(`Unknown cmap format ${cmap.version}`);
     }
   }
 
@@ -317,6 +328,12 @@ export default class CmapProcessor {
         return res;
       }
 
+      case 2:
+      case 6:
+      case 8:
+      case 10:
+        throw new UnsupportedFontDataError(`Unsupported cmap format ${cmap.version}`);
+
       case 12: {
         let res = [];
         for (let group of cmap.groups.toArray()) {
@@ -339,8 +356,12 @@ export default class CmapProcessor {
         return res;
       }
 
+      case 14:
+        // Format 14 is handled separately via the uvs property
+        throw new AssertionError('Unexpected cmap format 14');
+
       default:
-        throw new Error(`Unknown cmap format ${cmap.version}`);
+        throw new InvalidFontDataError(`Unknown cmap format ${cmap.version}`);
     }
   }
 }

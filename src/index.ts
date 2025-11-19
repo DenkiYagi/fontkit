@@ -9,6 +9,8 @@ registerFormat(TrueTypeCollection);
 export * from './base';
 export { DefaultShaper } from './base'; // Explicit export for preventing tree-shaking
 
+export * from './errors';
+
 export type { default as TTFFont } from './TTFFont';
 export type { default as TrueTypeCollection } from './TrueTypeCollection';
 export type { default as Glyph } from './glyph/Glyph';

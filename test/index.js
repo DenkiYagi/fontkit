@@ -32,14 +32,17 @@ describe('fontkit', function () {
   });
 
   it('should error when opening an invalid font asynchronously', async function () {
-    assert.rejects(
+    await assert.rejects(
       fontkit.open(new URL(import.meta.url)),
-      'Unknown font format'
+      fontkit.UnsupportedFontFileFormatError
     );
   });
 
   it('should error when opening an invalid font synchronously', function () {
-    assert.throws(() => fontkit.openSync(new URL(import.meta.url)), /Unknown font format/);
+    assert.throws(
+      () => fontkit.openSync(new URL(import.meta.url)),
+      fontkit.UnsupportedFontFileFormatError
+    );
   });
 
   it('should get collection objects for ttc fonts', function () {

@@ -7,6 +7,7 @@
     - Better Unicode variation selector (UVS) handling
     - Richer shaping controls
     - Vertical metrics accuracy
+    - Better error reporting
     - Predictable type definitions for consumers
 
 ## Repository Orientation
@@ -18,6 +19,9 @@
 
 ## Toolchain & Commands
 - Use Node 20+ and npm (repo ships `package-lock.json`). Install with `npm install`.
+- Two TypeScript configs ship with the repo:
+    - `tsconfig.json` configures editor tooling for the codebase. It enables `allowJs`, `strictNullChecks`, and decorators, but keeps `checkJs` disabled so files opt in via `// @ts-check`.
+    - `tsconfig-types.json` extends the base config and only emits declarations for `src/index.ts` and `src/node.ts` when running `npm run build:types`.
 - Fast feedback loop:
   - `npm run build:js` → Parcel build into `dist/`.
   - `npm run build:types` → `tsc --project tsconfig-types.json` (follows `src/index.ts` & `src/node.ts`, pulls in JS via `allowJs`).

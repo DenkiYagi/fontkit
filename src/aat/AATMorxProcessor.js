@@ -1,6 +1,7 @@
 import AATStateMachine from './AATStateMachine';
 import AATLookupTable from './AATLookupTable';
 import {cache} from '../decorators';
+import { InvalidFontDataError, UnsupportedFontDataError } from '../errors';
 
 // indic replacement flags
 const MARK_FIRST = 0x8000;
@@ -122,7 +123,7 @@ export default class AATMorxProcessor {
       case 5:
         return this.processGlyphInsertion;
       default:
-        throw new Error(`Invalid morx subtable type: ${this.subtable.type}`);
+        throw new InvalidFontDataError(`Invalid morx subtable type: ${this.subtable.type}`);
     }
   }
 
@@ -297,7 +298,7 @@ export default class AATMorxProcessor {
 
     let reverse = !!(subtable.coverage & REVERSE_DIRECTION);
     if (reverse) {
-      throw new Error('Reverse subtable, not supported.');
+      throw new UnsupportedFontDataError('Reverse MORX subtable not supported.');
     }
 
     this.subtable = subtable;
@@ -425,6 +426,6 @@ function reorderGlyphs(glyphs, verb, firstGlyph, lastGlyph) {
       return swap(glyphs, [firstGlyph, 2], [lastGlyph, 2], true, true);
 
     default:
-      throw new Error(`Unknown verb: ${verb}`);
+      throw new InvalidFontDataError(`Unknown verb: ${verb}`);
   }
 }

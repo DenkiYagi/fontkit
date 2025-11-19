@@ -2,20 +2,21 @@
 
 // @ts-ignore
 import { DecodeStream } from 'restructure';
+import { UnsupportedFontFileFormatError } from './errors';
 
 // -----------------------------------------------------------------------------
 
-let loggingErrors = false;
+let loggingWarnings = false;
 
-export function isLoggingErrors() {
-  return loggingErrors;
+export function isLoggingWarnings() {
+  return loggingWarnings;
 }
 
 /**
  * @param {boolean} flag
  */
-export function logErrors(flag) {
-  loggingErrors = flag;
+export function logWarnings(flag) {
+  loggingWarnings = flag;
 }
 
 // -----------------------------------------------------------------------------
@@ -45,7 +46,9 @@ export function create(buffer, postscriptName) {
     }
   }
 
-  throw new Error('Unknown font format');
+  throw new UnsupportedFontFileFormatError(
+    'Unsupported font file format: no registered reader recognized the data'
+  );
 }
 
 // -----------------------------------------------------------------------------

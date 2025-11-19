@@ -1,5 +1,6 @@
 // @ts-check
 
+import { AssertionError } from '../errors';
 import { isPrimitive } from './primitive.js';
 
 /**
@@ -46,5 +47,6 @@ export function equalArray(left, right) {
     }
   }
 
-  throw new TypeError('equalArray only supports primitives and arrays');
+  // Internal misuse if we reach here
+  throw new AssertionError('equalArray only supports primitives and arrays');
 }
