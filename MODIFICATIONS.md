@@ -1,5 +1,10 @@
 # Modifications
 
+## [2.0.4-mod.2025.4]
+
+- Fix type declaration: Fix return type of `Subset#encode` to be `Uint8Array`
+
+
 ## [2.0.4-mod.2025.3]
 
 ### Feature/Dependency Removals
