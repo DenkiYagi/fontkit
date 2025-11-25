@@ -53,6 +53,7 @@ export default class Subset {
 
   /**
    * @abstract
+   * @returns {Uint8Array}
    */
   encode() {
     throw new AssertionError('Subset.encode() must be overridden by subclasses');
