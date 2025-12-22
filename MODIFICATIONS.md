@@ -1,6 +1,6 @@
 # Modifications
 
-## [Unreleased]
+## [2.0.4-mod.2025.5]
 
 - Add `.js` extensions to all relative imports in sources so generated `*.d.ts` are resolvable in native ESM environments
 
