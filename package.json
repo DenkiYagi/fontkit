@@ -73,7 +73,8 @@
   "files": [
     "src",
     "dist",
-    "types"
+    "types",
+    "MODIFICATIONS.md"
   ],
   "author": "DenkiYagi Inc. (modified version author), Devon Govett <devongovett@gmail.com> (orignal version author)",
   "license": "MIT",
