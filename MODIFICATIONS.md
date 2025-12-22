@@ -1,5 +1,10 @@
 # Modifications
 
+## [Unreleased]
+
+- Add `.js` extensions to all relative imports in sources so generated `*.d.ts` are resolvable in native ESM environments
+
+
 ## [2.0.4-mod.2025.4]
 
 - Fix type declaration: Fix return type of `Subset#encode` to be `Uint8Array`
