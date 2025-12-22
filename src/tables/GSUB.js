@@ -1,6 +1,6 @@
 import * as r from 'restructure';
-import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device, Context, ChainingContext} from './opentype';
-import {FeatureVariations} from './variations';
+import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device, Context, ChainingContext} from './opentype.js';
+import {FeatureVariations} from './variations.js';
 
 let Sequence = new r.Array(r.uint16, r.uint16);
 let AlternateSet = Sequence;

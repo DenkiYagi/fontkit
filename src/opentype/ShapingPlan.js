@@ -1,6 +1,6 @@
 // @ts-check
 
-import { AssertionError, InvalidCallerInputError } from '../errors';
+import { AssertionError, InvalidCallerInputError } from '../errors.js';
 
 /**
  * ShapingPlans are used by the OpenType shapers to store which
@@ -13,7 +13,7 @@ import { AssertionError, InvalidCallerInputError } from '../errors';
  */
 export default class ShapingPlan {
   /**
-   * @param {import('../TTFFont').default} font 
+   * @param {import('../TTFFont.js').default} font 
    * @param {string} script 
    * @param {'ltr' | 'rtl'} direction 
    */
@@ -23,7 +23,7 @@ export default class ShapingPlan {
     this.direction = direction;
 
     /**
-     * @type {import('../types').ShapingPlanStage[]}
+     * @type {import('../types.js').ShapingPlanStage[]}
      */
     this.stages = [];
 
@@ -85,7 +85,7 @@ export default class ShapingPlan {
   /**
    * Add a new stage
    * 
-   * @param {import('../types').ShapingPlanStageFunction | string | string[] | {global?: string[], local?: string[]}} arg
+   * @param {import('../types.js').ShapingPlanStageFunction | string | string[] | {global?: string[], local?: string[]}} arg
    * @param {boolean} [global]
    */
   addStage(arg, global) {
@@ -124,7 +124,7 @@ export default class ShapingPlan {
   /**
    * Assigns the global features to the given glyphs
    * 
-   * @param {import('./GlyphInfo').default[]} glyphs
+   * @param {import('./GlyphInfo.js').default[]} glyphs
    */
   assignGlobalFeatures(glyphs) {
     for (let glyph of glyphs) {
@@ -137,9 +137,9 @@ export default class ShapingPlan {
   /**
    * Executes the planned stages using the given OTProcessor
    * 
-   * @param {import('./OTProcessor').default} processor
-   * @param {import('./GlyphInfo').default[]} glyphs
-   * @param {import('../layout/GlyphPosition').default[]} [positions]
+   * @param {import('./OTProcessor.js').default} processor
+   * @param {import('./GlyphInfo.js').default[]} glyphs
+   * @param {import('../layout/GlyphPosition.js').default[]} [positions]
    */
   process(processor, glyphs, positions) {
     for (let stage of this.stages) {

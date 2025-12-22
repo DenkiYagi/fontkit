@@ -2,7 +2,7 @@
 
 // @ts-ignore
 import { DecodeStream } from 'restructure';
-import { UnsupportedFontFileFormatError } from './errors';
+import { UnsupportedFontFileFormatError } from './errors.js';
 
 // -----------------------------------------------------------------------------
 
@@ -63,4 +63,4 @@ export function setDefaultLanguage(lang = 'en') {
 
 // -----------------------------------------------------------------------------
 
-export { default as DefaultShaper } from './opentype/shapers/DefaultShaper';
+export { default as DefaultShaper } from './opentype/shapers/DefaultShaper.js';

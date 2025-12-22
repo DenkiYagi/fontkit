@@ -1,5 +1,5 @@
 import * as r from 'restructure';
-import { UnboundedArray, LookupTable, StateTable } from './aat';
+import { UnboundedArray, LookupTable, StateTable } from './aat.js';
 
 let LigatureData = {
   action: r.uint16

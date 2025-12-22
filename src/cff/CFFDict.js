@@ -1,7 +1,7 @@
-import CFFOperand from './CFFOperand';
+import CFFOperand from './CFFOperand.js';
 import { PropertyDescriptor } from 'restructure';
-import { equalArray } from '../utils/deep-equal';
-import { InvalidFontDataError } from '../errors';
+import { equalArray } from '../utils/deep-equal.js';
+import { InvalidFontDataError } from '../errors.js';
 
 export default class CFFDict {
   constructor(ops = []) {

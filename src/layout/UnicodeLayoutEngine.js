@@ -12,16 +12,16 @@ import { getCombiningClass } from 'unicode-properties';
  */
 export default class UnicodeLayoutEngine {
   /**
-   * @param {import('../TTFFont').default} font
+   * @param {import('../TTFFont.js').default} font
    */
   constructor(font) {
     this.font = font;
   }
 
   /**
-   * @param {import('../glyph/Glyph').default[]} glyphs
-   * @param {import('./GlyphPosition').default[]} positions
-   * @returns {import('./GlyphPosition').default[]}
+   * @param {import('../glyph/Glyph.js').default[]} glyphs
+   * @param {import('./GlyphPosition.js').default[]} positions
+   * @returns {import('./GlyphPosition.js').default[]}
    */
   positionGlyphs(glyphs, positions) {
     // find each base + mark cluster, and position the marks relative to the base
@@ -48,8 +48,8 @@ export default class UnicodeLayoutEngine {
   }
 
   /**
-   * @param {import('../glyph/Glyph').default[]} glyphs
-   * @param {import('./GlyphPosition').default[]} positions
+   * @param {import('../glyph/Glyph.js').default[]} glyphs
+   * @param {import('./GlyphPosition.js').default[]} positions
    * @param {number} clusterStart
    * @param {number} clusterEnd
    */

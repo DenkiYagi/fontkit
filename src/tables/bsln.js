@@ -1,5 +1,5 @@
 import * as r from 'restructure';
-import { LookupTable } from './aat';
+import { LookupTable } from './aat.js';
 
 let BslnSubtable = new r.VersionedStruct('format', {
   0: { // Distance-based, no mapping

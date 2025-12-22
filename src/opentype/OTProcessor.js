@@ -1,6 +1,6 @@
-import GlyphIterator from './GlyphIterator';
-import * as Script from '../layout/Script';
-import { AssertionError } from '../errors';
+import GlyphIterator from './GlyphIterator.js';
+import * as Script from '../layout/Script.js';
+import { AssertionError } from '../errors.js';
 
 const DEFAULT_SCRIPTS = ['DFLT', 'dflt', 'latn'];
 
@@ -30,9 +30,9 @@ export default class OTProcessor {
     this.selectScript();
 
     // current context (set by applyFeatures)
-    /** @type {import('./GlyphInfo').default[]} */
+    /** @type {import('./GlyphInfo.js').default[]} */
     this.glyphs = [];
-    /** @type {(import('../layout/GlyphPosition').default[] | undefined)} */
+    /** @type {(import('../layout/GlyphPosition.js').default[] | undefined)} */
     this.positions = undefined; // only used by GPOS
     this.ligatureID = 1;
     this.currentFeature = null;
@@ -187,8 +187,8 @@ export default class OTProcessor {
 
   /**
    * @param {string[]} userFeatures
-   * @param {import('./GlyphInfo').default[]} glyphs
-   * @param {import('../layout/GlyphPosition').default[]} [advances]
+   * @param {import('./GlyphInfo.js').default[]} glyphs
+   * @param {import('../layout/GlyphPosition.js').default[]} [advances]
    */
   applyFeatures(userFeatures, glyphs, advances) {
     let lookups = this.lookupsForFeatures(userFeatures);

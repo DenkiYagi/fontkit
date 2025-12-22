@@ -1,7 +1,7 @@
-import Subset from './Subset';
-import CFFTop from '../cff/CFFTop';
-import standardStrings from '../cff/CFFStandardStrings';
-import { AssertionError } from '../errors';
+import Subset from './Subset.js';
+import CFFTop from '../cff/CFFTop.js';
+import standardStrings from '../cff/CFFStandardStrings.js';
+import { AssertionError } from '../errors.js';
 
 export default class CFFSubset extends Subset {
   /**

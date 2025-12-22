@@ -1,4 +1,4 @@
-import TTFGlyph from './TTFGlyph';
+import TTFGlyph from './TTFGlyph.js';
 import * as r from 'restructure';
 
 let SBIXImage = new r.Struct({

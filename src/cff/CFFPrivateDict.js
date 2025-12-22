@@ -1,6 +1,6 @@
-import CFFDict from './CFFDict';
-import CFFIndex from './CFFIndex';
-import CFFPointer from './CFFPointer';
+import CFFDict from './CFFDict.js';
+import CFFIndex from './CFFIndex.js';
+import CFFPointer from './CFFPointer.js';
 
 class CFFBlendOp {
   static decode(stream, parent, operands) {

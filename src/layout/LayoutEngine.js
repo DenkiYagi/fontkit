@@ -1,20 +1,20 @@
 // @ts-check
 
-import KernProcessor from './KernProcessor';
-import UnicodeLayoutEngine from './UnicodeLayoutEngine';
-import GlyphRun from './GlyphRun';
-import * as Script from './Script';
-import AATLayoutEngine from '../aat/AATLayoutEngine';
-import OTLayoutEngine from '../opentype/OTLayoutEngine';
-import GlyphPosition from './GlyphPosition';
+import KernProcessor from './KernProcessor.js';
+import UnicodeLayoutEngine from './UnicodeLayoutEngine.js';
+import GlyphRun from './GlyphRun.js';
+import * as Script from './Script.js';
+import AATLayoutEngine from '../aat/AATLayoutEngine.js';
+import OTLayoutEngine from '../opentype/OTLayoutEngine.js';
+import GlyphPosition from './GlyphPosition.js';
 
 export default class LayoutEngine {
   /**
-   * @param {import('../TTFFont').default} font 
+   * @param {import('../TTFFont.js').default} font 
    */
   constructor(font) {
     /**
-     * @type {import('../TTFFont').default}
+     * @type {import('../TTFFont.js').default}
      */
     // @ts-ignore
     this.font = font;
@@ -33,9 +33,9 @@ export default class LayoutEngine {
   }
 
   /**
-   * @param {string | import('../glyph/Glyph').default[]} string 
+   * @param {string | import('../glyph/Glyph.js').default[]} string 
    * @param {string[] | Record<string, boolean>} [features] 
-   * @param {import('../types').LayoutAdvancedParams} [advancedParams]
+   * @param {import('../types.js').LayoutAdvancedParams} [advancedParams]
    * @returns {GlyphRun}
    */
   layout(string, features, advancedParams = {}) {

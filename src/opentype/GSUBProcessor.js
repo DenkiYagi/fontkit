@@ -1,6 +1,6 @@
-import OTProcessor from './OTProcessor';
-import GlyphInfo from './GlyphInfo';
-import { InvalidFontDataError, UnsupportedFontDataError } from '../errors';
+import OTProcessor from './OTProcessor.js';
+import GlyphInfo from './GlyphInfo.js';
+import { InvalidFontDataError, UnsupportedFontDataError } from '../errors.js';
 
 export default class GSUBProcessor extends OTProcessor {
   applyLookup(lookupType, table) {

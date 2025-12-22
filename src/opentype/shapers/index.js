@@ -1,10 +1,10 @@
 // @ts-check
 
-import DefaultShaper from './DefaultShaper';
-import ArabicShaper from './ArabicShaper';
-import HangulShaper from './HangulShaper';
-import IndicShaper from './IndicShaper';
-import UniversalShaper from './UniversalShaper';
+import DefaultShaper from './DefaultShaper.js';
+import ArabicShaper from './ArabicShaper.js';
+import HangulShaper from './HangulShaper.js';
+import IndicShaper from './IndicShaper.js';
+import UniversalShaper from './UniversalShaper.js';
 
 const defaultShaper = new DefaultShaper();
 const arabicShaper = new ArabicShaper();
@@ -96,7 +96,7 @@ const SHAPERS = {
 
 /**
  * @param {string | string[]} script
- * @returns {import('../../types').Shaper}
+ * @returns {import('../../types.js').Shaper}
  */
 export function choose(script) {
   if (!Array.isArray(script)) {

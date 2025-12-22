@@ -1,7 +1,7 @@
-import { binarySearch, range } from './utils/arrays';
-import { encodingExists, getEncoding, getEncodingMapping } from './encodings';
-import { cache } from './decorators';
-import { AssertionError, InvalidFontDataError, UnsupportedFontDataError } from './errors';
+import { binarySearch, range } from './utils/arrays.js';
+import { encodingExists, getEncoding, getEncodingMapping } from './encodings.js';
+import { cache } from './decorators.js';
+import { AssertionError, InvalidFontDataError, UnsupportedFontDataError } from './errors.js';
 
 export default class CmapProcessor {
   constructor(cmapTable) {

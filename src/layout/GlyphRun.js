@@ -1,7 +1,7 @@
 // @ts-check
 
-import BBox from '../glyph/BBox';
-import * as Script from '../layout/Script';
+import BBox from '../glyph/BBox.js';
+import * as Script from '../layout/Script.js';
 
 /**
  * Represents a run of Glyph and GlyphPosition objects.
@@ -9,7 +9,7 @@ import * as Script from '../layout/Script';
  */
 export default class GlyphRun {
   /**
-   * @param {import('../glyph/Glyph').default[]} glyphs
+   * @param {import('../glyph/Glyph.js').default[]} glyphs
    * @param {string[] | Record<string, boolean> | null | undefined} features
    * @param {string} [script]
    * @param {string} [language]
@@ -18,14 +18,14 @@ export default class GlyphRun {
   constructor(glyphs, features, script, language, direction) {
     /**
      * An array of Glyph objects in the run
-     * @type {import('../glyph/Glyph').default[]}
+     * @type {import('../glyph/Glyph.js').default[]}
      */
     this.glyphs = glyphs;
 
     /**
      * An array of GlyphPosition objects for each glyph in the run.
      * Initially `null` and may be assigned in the glyph positioning process.
-     * @type {(import('./GlyphPosition').default[] | null)}
+     * @type {(import('./GlyphPosition.js').default[] | null)}
      */
     this.positions = null;
 

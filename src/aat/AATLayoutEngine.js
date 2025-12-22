@@ -1,6 +1,6 @@
-import * as AATFeatureMap from './AATFeatureMap';
-import * as Script from '../layout/Script';
-import AATMorxProcessor from './AATMorxProcessor';
+import * as AATFeatureMap from './AATFeatureMap.js';
+import * as Script from '../layout/Script.js';
+import AATMorxProcessor from './AATMorxProcessor.js';
 
 export default class AATLayoutEngine {
   constructor(font) {

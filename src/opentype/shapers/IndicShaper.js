@@ -1,9 +1,9 @@
-import DefaultShaper from './DefaultShaper';
+import DefaultShaper from './DefaultShaper.js';
 import StateMachine from 'dfa';
 import UnicodeTrie from 'unicode-trie';
 import {getCategory} from 'unicode-properties';
-import * as Script from '../../layout/Script';
-import GlyphInfo from '../GlyphInfo';
+import * as Script from '../../layout/Script.js';
+import GlyphInfo from '../GlyphInfo.js';
 import indicMachine from './indic.json';
 import useData from './use.json';
 import {
@@ -13,8 +13,8 @@ import {
   JOINER_FLAGS,
   HALANT_OR_COENG_FLAGS, INDIC_CONFIGS,
   INDIC_DECOMPOSITIONS
-} from './indic-data';
-import { decodeBase64 } from '../../utils/decode';
+} from './indic-data.js';
+import { decodeBase64 } from '../../utils/decode.js';
 
 const {decompositions} = useData;
 const trie = new UnicodeTrie(decodeBase64(require('fs').readFileSync(__dirname + '/indic.trie', 'base64')));
@@ -66,8 +66,8 @@ export default class IndicShaper extends DefaultShaper {
   }
 
   /**
-   * @param {import('../ShapingPlan').default} plan
-   * @param {import('../GlyphInfo').default[]} glyphs
+   * @param {import('../ShapingPlan.js').default} plan
+   * @param {import('../GlyphInfo.js').default[]} glyphs
    */
   assignFeatures(plan, glyphs) {
     // Decompose split matras

@@ -1,20 +1,20 @@
 import * as r from 'restructure';
-import { cache } from './decorators';
-import { isLoggingWarnings, getDefaultLanguage as getGlobalDefaultLanguage } from './base';
-import Directory from './tables/directory';
-import tables from './tables/index';
-import CmapProcessor from './CmapProcessor';
-import LayoutEngine from './layout/LayoutEngine';
-import TTFGlyph from './glyph/TTFGlyph';
-import CFFGlyph from './glyph/CFFGlyph';
-import SBIXGlyph from './glyph/SBIXGlyph';
-import COLRGlyph from './glyph/COLRGlyph';
-import GlyphVariationProcessor from './glyph/GlyphVariationProcessor';
-import TTFSubset from './subset/TTFSubset';
-import CFFSubset from './subset/CFFSubset';
-import BBox from './glyph/BBox';
-import { asciiDecoder } from './utils/decode';
-import { InvalidCallerInputError } from './errors';
+import { cache } from './decorators.js';
+import { isLoggingWarnings, getDefaultLanguage as getGlobalDefaultLanguage } from './base.js';
+import Directory from './tables/directory.js';
+import tables from './tables/index.js';
+import CmapProcessor from './CmapProcessor.js';
+import LayoutEngine from './layout/LayoutEngine.js';
+import TTFGlyph from './glyph/TTFGlyph.js';
+import CFFGlyph from './glyph/CFFGlyph.js';
+import SBIXGlyph from './glyph/SBIXGlyph.js';
+import COLRGlyph from './glyph/COLRGlyph.js';
+import GlyphVariationProcessor from './glyph/GlyphVariationProcessor.js';
+import TTFSubset from './subset/TTFSubset.js';
+import CFFSubset from './subset/CFFSubset.js';
+import BBox from './glyph/BBox.js';
+import { asciiDecoder } from './utils/decode.js';
+import { InvalidCallerInputError } from './errors.js';
 
 /**
  * This is the base class for all SFNT-based font formats in fontkit.
@@ -346,7 +346,7 @@ export default class TTFFont {
    * Does not perform any advanced substitutions (there is no context to do so).
    *
    * @param {number} codePoint
-   * @return {import('./glyph/Glyph').default}
+   * @return {import('./glyph/Glyph.js').default}
    */
   glyphForCodePoint(codePoint) {
     return this.getGlyph(this._cmapProcessor.lookup(codePoint), [codePoint]);
@@ -359,7 +359,7 @@ export default class TTFFont {
    * provides a much more advanced mapping supporting AAT and OpenType shaping.
    *
    * @param {string} string
-   * @return {import('./glyph/Glyph').default[]}
+   * @return {import('./glyph/Glyph.js').default[]}
    */
   glyphsForString(string) {
     let glyphs = [];
@@ -414,8 +414,8 @@ export default class TTFFont {
    *
    * @param {string} string
    * @param {string[] | Record<string, boolean>} [userFeatures]
-   * @param {import('./types').LayoutAdvancedParams} [advancedParams]
-   * @return {import('./layout/GlyphRun').default}
+   * @param {import('./types.js').LayoutAdvancedParams} [advancedParams]
+   * @return {import('./layout/GlyphRun.js').default}
    */
   layout(string, userFeatures, advancedParams) {
     return this._layoutEngine.layout(string, userFeatures, advancedParams);
@@ -469,7 +469,7 @@ export default class TTFFont {
    *
    * @param {number} glyph
    * @param {number[]} characters
-   * @return {import('./glyph/Glyph').default}
+   * @return {import('./glyph/Glyph.js').default}
    */
   getGlyph(glyph, characters = []) {
     if (!this._glyphs[glyph]) {

@@ -11,8 +11,8 @@ export default class DefaultShaper {
   zeroMarkWidths = 'AFTER_GPOS';
 
   /**
-   * @param {import('../ShapingPlan').default} plan
-   * @param {import('../GlyphInfo').default[]} glyphs
+   * @param {import('../ShapingPlan.js').default} plan
+   * @param {import('../GlyphInfo.js').default[]} glyphs
    * @param {string[] | Record<string, boolean>} features
    */
   plan(plan, glyphs, features) {
@@ -29,21 +29,21 @@ export default class DefaultShaper {
   }
 
   /**
-   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../ShapingPlan.js').default} plan
    */
   planPreprocessing(plan) {
     plan.add(VARIATION_FEATURES);
   }
 
   /**
-   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../ShapingPlan.js').default} plan
    */
   planFeatures(plan) {
     // Do nothing by default. Let subclasses override this.
   }
 
   /**
-   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../ShapingPlan.js').default} plan
    * @param {string[] | Record<string, boolean>} userFeatures
    */
   planPostprocessing(plan, userFeatures) {
@@ -52,8 +52,8 @@ export default class DefaultShaper {
   }
 
   /**
-   * @param {import('../ShapingPlan').default} plan
-   * @param {import('../GlyphInfo').default[]} glyphs
+   * @param {import('../ShapingPlan.js').default} plan
+   * @param {import('../GlyphInfo.js').default[]} glyphs
    */
   assignFeatures(plan, glyphs) {
     // Do nothing by default. Let subclasses override this.

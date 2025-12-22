@@ -1,5 +1,5 @@
 import {isMark} from 'unicode-properties';
-import OTProcessor from './OTProcessor';
+import OTProcessor from './OTProcessor.js';
 
 export default class GlyphInfo {
   constructor(font, id, codePoints = [], features) {

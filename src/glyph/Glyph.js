@@ -1,7 +1,7 @@
-import { cache } from '../decorators';
-import Path from './Path';
+import { cache } from '../decorators.js';
+import Path from './Path.js';
 import { isMark } from 'unicode-properties';
-import StandardNames from './StandardNames';
+import StandardNames from './StandardNames.js';
 
 /**
  * Glyph objects represent a glyph in the font. They have various properties for accessing metrics and
@@ -99,7 +99,7 @@ export default class Glyph {
    * See [here](http://www.freetype.org/freetype2/docs/glyphs/glyphs-6.html#section-2)
    * for a more detailed description.
    *
-   * @type {import('./BBox').default}
+   * @type {import('./BBox.js').default}
    */
   @cache
   get cbox() {
@@ -109,7 +109,7 @@ export default class Glyph {
   /**
    * The glyph’s bounding box, i.e. the rectangle that encloses the
    * glyph outline as tightly as possible.
-   * @type {import('./BBox').default}
+   * @type {import('./BBox.js').default}
    */
   @cache
   get bbox() {
