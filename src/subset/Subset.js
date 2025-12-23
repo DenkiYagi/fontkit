@@ -1,6 +1,6 @@
 // @ts-check
 
-import { AssertionError } from '../errors';
+import { AssertionError } from '../errors.js';
 
 /**
  * @abstract
@@ -12,11 +12,11 @@ export default class Subset {
   type = 'UNKNOWN';
 
   /**
-   * @param {import('../TTFFont').default} font
+   * @param {import('../TTFFont.js').default} font
    */
   constructor(font) {
     /**
-     * @type {import('../TTFFont').default}
+     * @type {import('../TTFFont.js').default}
      */
     this.font = font;
 
@@ -35,7 +35,7 @@ export default class Subset {
   }
 
   /**
-   * @param {(number | import('../glyph/Glyph').default)} glyph
+   * @param {(number | import('../glyph/Glyph.js').default)} glyph
    * @returns {number}
    */
   includeGlyph(glyph) {

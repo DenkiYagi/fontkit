@@ -1,5 +1,5 @@
-import Glyph from './Glyph';
-import BBox from './BBox';
+import Glyph from './Glyph.js';
+import BBox from './BBox.js';
 
 class COLRLayer {
   constructor(glyph, color) {

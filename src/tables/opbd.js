@@ -1,5 +1,5 @@
 import * as r from 'restructure';
-import { LookupTable } from './aat';
+import { LookupTable } from './aat.js';
 
 let OpticalBounds = new r.Struct({
   left: r.int16,

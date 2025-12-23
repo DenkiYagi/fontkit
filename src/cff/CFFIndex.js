@@ -1,5 +1,5 @@
 import * as r from 'restructure';
-import { AssertionError, InvalidFontDataError } from '../errors';
+import { AssertionError, InvalidFontDataError } from '../errors.js';
 
 export default class CFFIndex {
   constructor(type) {

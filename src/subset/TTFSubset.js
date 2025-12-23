@@ -1,8 +1,8 @@
-import { cloneDeep } from '../utils/clone';
-import Subset from './Subset';
-import Directory from '../tables/directory';
-import Tables from '../tables';
-import TTFGlyphEncoder from '../glyph/TTFGlyphEncoder';
+import { cloneDeep } from '../utils/clone.js';
+import Subset from './Subset.js';
+import Directory from '../tables/directory.js';
+import Tables from '../tables/index.js';
+import TTFGlyphEncoder from '../glyph/TTFGlyphEncoder.js';
 
 export default class TTFSubset extends Subset {
   /**

@@ -1,6 +1,6 @@
-import Glyph from './Glyph';
-import Path from './Path';
-import { InvalidFontDataError } from '../errors';
+import Glyph from './Glyph.js';
+import Path from './Path.js';
+import { InvalidFontDataError } from '../errors.js';
 
 /**
  * Represents an OpenType PostScript glyph, in the Compact Font Format.

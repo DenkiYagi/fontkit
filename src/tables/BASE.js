@@ -1,6 +1,6 @@
 import * as r from 'restructure';
-import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device} from './opentype';
-import {ItemVariationStore} from './variations';
+import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device} from './opentype.js';
+import {ItemVariationStore} from './variations.js';
 
 let BaseCoord = new r.VersionedStruct(r.uint16, {
   1: { // Design units only

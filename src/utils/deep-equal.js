@@ -1,6 +1,6 @@
 // @ts-check
 
-import { AssertionError } from '../errors';
+import { AssertionError } from '../errors.js';
 import { isPrimitive } from './primitive.js';
 
 /**

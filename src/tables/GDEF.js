@@ -1,6 +1,6 @@
 import * as r from 'restructure';
-import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device} from './opentype';
-import {ItemVariationStore} from './variations';
+import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device} from './opentype.js';
+import {ItemVariationStore} from './variations.js';
 
 let AttachPoint = new r.Array(r.uint16, r.uint16);
 let AttachList = new r.Struct({

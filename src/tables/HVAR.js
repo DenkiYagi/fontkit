@@ -1,6 +1,6 @@
 import * as r from 'restructure';
 import { resolveLength } from 'restructure';
-import { ItemVariationStore } from './variations';
+import { ItemVariationStore } from './variations.js';
 
 // TODO: add this to restructure
 class VariableSizeNumber {

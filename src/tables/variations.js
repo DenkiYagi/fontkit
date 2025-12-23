@@ -1,4 +1,4 @@
-import {Feature} from './opentype';
+import {Feature} from './opentype.js';
 import * as r from 'restructure';
 
 /*******************

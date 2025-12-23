@@ -1,13 +1,13 @@
 import * as r from 'restructure';
 import { resolveLength } from 'restructure';
-import CFFDict from './CFFDict';
-import CFFIndex from './CFFIndex';
-import CFFPointer from './CFFPointer';
-import CFFPrivateDict from './CFFPrivateDict';
-import StandardStrings from './CFFStandardStrings';
-import { StandardEncoding, ExpertEncoding } from './CFFEncodings';
-import { ISOAdobeCharset, ExpertCharset, ExpertSubsetCharset } from './CFFCharsets';
-import { ItemVariationStore } from '../tables/variations';
+import CFFDict from './CFFDict.js';
+import CFFIndex from './CFFIndex.js';
+import CFFPointer from './CFFPointer.js';
+import CFFPrivateDict from './CFFPrivateDict.js';
+import StandardStrings from './CFFStandardStrings.js';
+import { StandardEncoding, ExpertEncoding } from './CFFEncodings.js';
+import { ISOAdobeCharset, ExpertCharset, ExpertSubsetCharset } from './CFFCharsets.js';
+import { ItemVariationStore } from '../tables/variations.js';
 
 // Checks if an operand is an index of a predefined value,
 // otherwise delegates to the provided type.

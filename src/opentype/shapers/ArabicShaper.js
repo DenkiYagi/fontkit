@@ -1,7 +1,7 @@
-import DefaultShaper from './DefaultShaper';
+import DefaultShaper from './DefaultShaper.js';
 import {getCategory} from 'unicode-properties';
 import UnicodeTrie from 'unicode-trie';
-import { decodeBase64 } from '../../utils/decode';
+import { decodeBase64 } from '../../utils/decode.js';
 
 const trie = new UnicodeTrie(decodeBase64(require('fs').readFileSync(__dirname + '/data.trie', 'base64')));
 const FEATURES = ['isol', 'fina', 'fin2', 'fin3', 'medi', 'med2', 'init'];
@@ -65,7 +65,7 @@ const STATE_TABLE = [
  */
 export default class ArabicShaper extends DefaultShaper {
   /**
-   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../ShapingPlan.js').default} plan
    */
   planPreprocessing(plan) {
     super.planPreprocessing(plan);
@@ -73,7 +73,7 @@ export default class ArabicShaper extends DefaultShaper {
   }
 
   /**
-   * @param {import('../ShapingPlan').default} plan
+   * @param {import('../ShapingPlan.js').default} plan
    */
   planFeatures(plan) {
     plan.add(['ccmp', 'locl']);
@@ -86,8 +86,8 @@ export default class ArabicShaper extends DefaultShaper {
   }
 
   /**
-   * @param {import('../ShapingPlan').default} plan
-   * @param {import('../GlyphInfo').default[]} glyphs
+   * @param {import('../ShapingPlan.js').default} plan
+   * @param {import('../GlyphInfo.js').default[]} glyphs
    */
   assignFeatures(plan, glyphs) {
     super.assignFeatures(plan, glyphs);

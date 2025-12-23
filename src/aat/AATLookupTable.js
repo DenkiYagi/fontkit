@@ -1,6 +1,6 @@
-import {cache} from '../decorators';
-import {range} from '../utils/arrays';
-import { InvalidFontDataError } from '../errors';
+import {cache} from '../decorators.js';
+import {range} from '../utils/arrays.js';
+import { InvalidFontDataError } from '../errors.js';
 
 export default class AATLookupTable {
   constructor(table) {

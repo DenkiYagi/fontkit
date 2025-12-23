@@ -1,5 +1,5 @@
 import * as r from 'restructure';
-import {BigMetrics} from './EBDT';
+import {BigMetrics} from './EBDT.js';
 
 let SBitLineMetrics = new r.Struct({
   ascender: r.int8,

@@ -1,4 +1,4 @@
-import { InvalidFontDataError } from '../errors';
+import { InvalidFontDataError } from '../errors.js';
 
 const TUPLES_SHARE_POINT_NUMBERS = 0x8000;
 const TUPLE_COUNT_MASK           = 0x0fff;

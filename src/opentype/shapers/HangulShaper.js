@@ -1,5 +1,5 @@
-import DefaultShaper from './DefaultShaper';
-import GlyphInfo from '../GlyphInfo';
+import DefaultShaper from './DefaultShaper.js';
+import GlyphInfo from '../GlyphInfo.js';
 
 /**
  * This is a shaper for the Hangul script, used by the Korean language.

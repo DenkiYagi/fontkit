@@ -1,6 +1,6 @@
-import GlyphPosition from '../layout/GlyphPosition';
-import OTProcessor from './OTProcessor';
-import { InvalidFontDataError } from '../errors';
+import GlyphPosition from '../layout/GlyphPosition.js';
+import OTProcessor from './OTProcessor.js';
+import { InvalidFontDataError } from '../errors.js';
 
 /**
  * Null object for `GlyphPosition`.
@@ -320,8 +320,8 @@ export default class GPOSProcessor extends OTProcessor {
 
   /**
    * @param {string[]} userFeatures
-   * @param {import('./GlyphInfo').default[]} glyphs
-   * @param {import('../layout/GlyphPosition').default[]} [advances]
+   * @param {import('./GlyphInfo.js').default[]} glyphs
+   * @param {import('../layout/GlyphPosition.js').default[]} [advances]
    */
   applyFeatures(userFeatures, glyphs, advances) {
     super.applyFeatures(userFeatures, glyphs, advances);

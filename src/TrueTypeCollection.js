@@ -1,7 +1,7 @@
 import * as r from 'restructure';
-import TTFFont from './TTFFont';
-import { asciiDecoder } from './utils/decode';
-import { AssertionError } from './errors';
+import TTFFont from './TTFFont.js';
+import { asciiDecoder } from './utils/decode.js';
+import { AssertionError } from './errors.js';
 
 let TTCHeader = new r.VersionedStruct(r.uint32, {
   0x00010000: {

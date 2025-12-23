@@ -1,7 +1,7 @@
-import AATStateMachine from './AATStateMachine';
-import AATLookupTable from './AATLookupTable';
-import {cache} from '../decorators';
-import { InvalidFontDataError, UnsupportedFontDataError } from '../errors';
+import AATStateMachine from './AATStateMachine.js';
+import AATLookupTable from './AATLookupTable.js';
+import {cache} from '../decorators.js';
+import { InvalidFontDataError, UnsupportedFontDataError } from '../errors.js';
 
 // indic replacement flags
 const MARK_FIRST = 0x8000;

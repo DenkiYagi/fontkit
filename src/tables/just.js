@@ -1,5 +1,5 @@
 import * as r from 'restructure';
-import { LookupTable, StateTable1 } from './aat';
+import { LookupTable, StateTable1 } from './aat.js';
 
 let ClassTable = new r.Struct({
   length: r.uint16,

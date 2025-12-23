@@ -1,11 +1,11 @@
 // @ts-check
 
-import { UnsupportedFontDataError } from '../errors';
-import { binarySearch } from '../utils/arrays';
+import { UnsupportedFontDataError } from '../errors.js';
+import { binarySearch } from '../utils/arrays.js';
 
 export default class KernProcessor {
   /**
-   * @param {import('../TTFFont').default} font
+   * @param {import('../TTFFont.js').default} font
    */
   constructor(font) {
     /**
@@ -16,8 +16,8 @@ export default class KernProcessor {
   }
 
   /**
-   * @param {import('../glyph/Glyph').default[]} glyphs 
-   * @param {import('./GlyphPosition').default[]} positions 
+   * @param {import('../glyph/Glyph.js').default[]} glyphs 
+   * @param {import('./GlyphPosition.js').default[]} positions 
    */
   process(glyphs, positions) {
     for (let glyphIndex = 0; glyphIndex < glyphs.length - 1; glyphIndex++) {

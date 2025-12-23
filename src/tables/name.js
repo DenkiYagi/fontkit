@@ -1,5 +1,5 @@
 import * as r from 'restructure';
-import {getEncoding, LANGUAGES} from '../encodings';
+import {getEncoding, LANGUAGES} from '../encodings.js';
 
 let NameRecord = new r.Struct({
   platformID: r.uint16,

@@ -1,6 +1,6 @@
 import * as r from 'restructure';
-import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device, Context, ChainingContext} from './opentype';
-import {FeatureVariations} from './variations';
+import {ScriptList, FeatureList, LookupList, Coverage, ClassDef, Device, Context, ChainingContext} from './opentype.js';
+import {FeatureVariations} from './variations.js';
 
 let ValueFormat = new r.Bitfield(r.uint16, [
   'xPlacement', 'yPlacement',

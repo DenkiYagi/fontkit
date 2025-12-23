@@ -1,15 +1,15 @@
 // @ts-check
 
-import ShapingPlan from './ShapingPlan';
-import * as Shapers from './shapers/index';
-import GlyphInfo from './GlyphInfo';
-import GSUBProcessor from './GSUBProcessor';
-import GPOSProcessor from './GPOSProcessor';
-import { AssertionError } from '../errors';
+import ShapingPlan from './ShapingPlan.js';
+import * as Shapers from './shapers/index.js';
+import GlyphInfo from './GlyphInfo.js';
+import GSUBProcessor from './GSUBProcessor.js';
+import GPOSProcessor from './GPOSProcessor.js';
+import { AssertionError } from '../errors.js';
 
 export default class OTLayoutEngine {
   /**
-   * @param {import('../TTFFont').default} font 
+   * @param {import('../TTFFont.js').default} font 
    */
   constructor(font) {
     this.font = font;
@@ -29,8 +29,8 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {import('../layout/GlyphRun').default} glyphRun 
-   * @param {import('../types').Shaper} [shaper]
+   * @param {import('../layout/GlyphRun.js').default} glyphRun 
+   * @param {import('../types.js').Shaper} [shaper]
    */
   setup(glyphRun, shaper) {
     // Map glyphs to GlyphInfo objects so data can be passed between
@@ -60,7 +60,7 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {import('../layout/GlyphRun').default} glyphRun 
+   * @param {import('../layout/GlyphRun.js').default} glyphRun 
    */
   substitute(glyphRun) {
     if (this.glyphInfos == null || this.plan == null) {
@@ -77,7 +77,7 @@ export default class OTLayoutEngine {
   }
 
   /**
-   * @param {import('../layout/GlyphRun').default} glyphRun
+   * @param {import('../layout/GlyphRun.js').default} glyphRun
    * @returns {(Record<string, any> | null)} GPOSProcessor#features
    */
   position(glyphRun) {
@@ -115,7 +115,7 @@ export default class OTLayoutEngine {
 
   /**
    * 
-   * @param {import('../layout/GlyphPosition').default[]} positions 
+   * @param {import('../layout/GlyphPosition.js').default[]} positions 
    */
   zeroMarkAdvances(positions) {
     if (this.glyphInfos == null) {

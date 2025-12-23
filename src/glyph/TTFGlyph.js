@@ -1,8 +1,8 @@
-import Glyph from './Glyph';
-import Path from './Path';
-import BBox from './BBox';
+import Glyph from './Glyph.js';
+import Path from './Path.js';
+import BBox from './BBox.js';
 import * as r from 'restructure';
-import { InvalidFontDataError } from '../errors';
+import { InvalidFontDataError } from '../errors.js';
 
 // The header for both simple and composite glyphs
 let GlyfHeader = new r.Struct({
